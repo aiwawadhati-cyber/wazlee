@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/wz_root"
+    android:layout_width="match_parent" android:layout_height="match_parent" android:background="@drawable/wz_bg_purple" android:padding="8dp">
+  <LinearLayout android:id="@+id/wz_tap" android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical" android:gravity="center">
+    <TextView android:id="@+id/wz_dz" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="#FFFFFFFF" android:textSize="13sp" android:textStyle="bold" android:maxLines="1" android:text="Subhanallah"/>
+    <LinearLayout android:layout_width="96dp" android:layout_height="96dp" android:layout_marginTop="4dp" android:background="@drawable/wz_tasbih_btn" android:orientation="vertical" android:gravity="center">
+      <TextView android:id="@+id/wz_count_tas" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="#FFFFFFFF" android:textSize="32sp" android:textStyle="bold" android:maxLines="1" android:text="0"/>
+      <TextView android:id="@+id/wz_goal" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="#D9FFFFFF" android:textSize="11sp" android:maxLines="1" android:text="/ 33"/>
+    </LinearLayout>
+    <TextView android:id="@+id/wz_total" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_marginTop="4dp" android:textColor="#D9FFFFFF" android:textSize="10sp" android:maxLines="1" android:text="-"/>
+  </LinearLayout>
+  <ImageView android:id="@+id/wz_reset" android:layout_width="30dp" android:layout_height="30dp" android:layout_gravity="top|end" android:padding="6dp" android:background="@drawable/wz_pill" android:src="@drawable/wz_ic_reset"/>
+</FrameLayout>

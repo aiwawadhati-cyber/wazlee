@@ -487,3 +487,6 @@ body.has-player .toast{bottom:calc(160px + var(--safe-bot))}
 .q-seg{grid-template-columns:repeat(3,1fr)}
 .hij span,.hij-big,.hij-forms,.g-opt.arab,.mem .front.arab{text-align:center!important}
 .g-q .hij-big{display:block}
+
+.w-steps{margin:0;padding-left:20px;line-height:1.7}
+.w-size{font-style:normal;font-size:11px;font-weight:800;color:var(--blue);background:var(--soft);border-radius:8px;padding:1px 6px;margin-left:4px}

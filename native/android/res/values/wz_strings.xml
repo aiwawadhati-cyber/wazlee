@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="wz_n_prayer_full">Wazlee · Waktu Solat</string>
+  <string name="wz_d_prayer_full">Waktu solat hari ini dengan kiraan mundur</string>
+  <string name="wz_n_prayer_next">Wazlee · Solat Seterusnya</string>
+  <string name="wz_d_prayer_next">Solat seterusnya &amp; kiraan mundur</string>
+  <string name="wz_n_ayat">Wazlee · Ayat Hari Ini</string>
+  <string name="wz_d_ayat">Satu ayat Al-Quran setiap hari</string>
+  <string name="wz_n_activity">Wazlee · Langkah &amp; Air</string>
+  <string name="wz_d_activity">Langkah hari ini &amp; tambah gelas air</string>
+  <string name="wz_n_tasbih">Wazlee · Tasbih</string>
+  <string name="wz_d_tasbih">Ketik untuk mengira zikir</string>
+  <string name="wz_n_zikir">Wazlee · Zikir Pagi/Petang</string>
+  <string name="wz_d_zikir">Kemajuan zikir pagi &amp; petang</string>
+</resources>

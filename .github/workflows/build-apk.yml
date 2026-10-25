@@ -62,12 +62,11 @@ jobs:
             cp assets/sounds/azan.mp3 android/app/src/main/res/raw/azan.mp3
           fi
 
-      - name: Add permissions
+      - name: Widget (res) & manifest
         run: |
-          M=android/app/src/main/AndroidManifest.xml
-          sed -i 's#<uses-permission android:name="android.permission.INTERNET" />#<uses-permission android:name="android.permission.INTERNET" />\n    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />\n    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />\n    <uses-feature android:name="android.hardware.location.gps" android:required="false" />\n    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />\n    <uses-feature android:name="android.hardware.sensor.stepcounter" android:required="false" />\n    <uses-permission android:name="android.permission.VIBRATE" />\n    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />\n    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />\n    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />#' $M
-          grep -c "ACTIVITY_RECOGNITION" $M
-          sed -i 's#<activity#<activity android:screenOrientation="portrait"#' $M
+          cp -r native/android/res/. android/app/src/main/res/
+          python3 native/android/patch_manifest.py android/app/src/main/AndroidManifest.xml
+          grep -c "WzWidgetReceiver\|ACTIVITY_RECOGNITION\|wz_info_" android/app/src/main/AndroidManifest.xml
 
       - name: Generate icons & splash
         run: npx capacitor-assets generate --android --iconBackgroundColor '#1565D8' --splashBackgroundColor '#1565D8' --splashBackgroundColorDark '#061432'
@@ -79,7 +78,12 @@ jobs:
         working-directory: android
         run: |
           chmod +x gradlew
-          ./gradlew assembleDebug --no-daemon
+          if ! ./gradlew assembleDebug --no-daemon --console=plain > ../build.log 2>&1; then
+            tail -80 ../build.log
+            grep -E "error:|e: |FAILED|AAPT|Error:|ERROR:" ../build.log | head -15 | while read -r l; do echo "::error::$l"; done
+            exit 1
+          fi
+          tail -5 ../build.log
           VER=$(node -p "require('../package.json').version")
           cp app/build/outputs/apk/debug/app-debug.apk ../Wazlee-v${VER}.apk
 

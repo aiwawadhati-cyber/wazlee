@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/wz_root"
+    android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical"
+    android:background="@drawable/wz_bg_teal" android:padding="12dp">
+  <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+    <ImageView android:layout_width="18dp" android:layout_height="18dp" android:src="@drawable/wz_ic_book" android:layout_marginEnd="6dp"/>
+    <TextView android:id="@+id/wz_title" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:textColor="#FFFFFFFF" android:textSize="13sp" android:textStyle="bold" android:maxLines="1" android:text="-"/>
+    <TextView android:id="@+id/wz_ref" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="#FFFFFFFF" android:textSize="12sp" android:maxLines="1" android:background="@drawable/wz_pill" android:paddingStart="8dp" android:paddingEnd="8dp" android:paddingTop="2dp" android:paddingBottom="2dp" android:text="-"/>
+  </LinearLayout>
+  <ImageView android:id="@+id/wz_ar" android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:layout_marginTop="4dp" android:scaleType="fitCenter"/>
+  <TextView android:id="@+id/wz_tr" android:layout_width="match_parent" android:layout_height="wrap_content" android:textColor="#F2FFFFFF" android:textSize="12sp" android:maxLines="3" android:ellipsize="end" android:lineSpacingMultiplier="1.1" android:text="-"/>
+</LinearLayout>

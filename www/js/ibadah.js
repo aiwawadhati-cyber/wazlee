@@ -108,14 +108,14 @@
     const b = e.target.closest('[data-count]'); if (!b) return;
     const i = +b.dataset.count, z = ZIKIR[i], c = (zc[i] || 0);
     if (c >= z.n) return;
-    zc[i] = c + 1; store.set(zKey(), zc);
+    zc[i] = c + 1; store.set(zKey(), zc); WZ.emit('zikir');
     b.textContent = `${zc[i]}/${z.n}`;
     if (zc[i] >= z.n) { vibrate([60, 40, 60]); const card = b.closest('.zk'); card.classList.add('done'); card.querySelector('small').textContent = `${z.n}× · ${t('zk.done')}`; }
     else vibrate(20);
     updateZProgress();
   };
   $$('.zk-seg button').forEach(b => b.onclick = () => { zMode = b.dataset.z; renderZikir(); });
-  $('#zkReset').onclick = () => { store.del(zKey()); renderZikir(); };
+  $('#zkReset').onclick = () => { store.del(zKey()); renderZikir(); WZ.emit('zikir'); };
   on('show:zikir', renderZikir);
 
   /* ---------- Tasbih ---------- */
@@ -127,12 +127,14 @@
     store.set('tasbih', tas);
   }
   $('#tasbihBtn').onclick = () => {
-    tas.count++; tas.total++;
+    tas.count++; tas.total++; tas.t = Date.now(); WZ.emit('tasbih');
     if (tas.count >= tas.goal) { vibrate([120, 60, 120]); toast(t('tasbih.done', { d: tas.dz, n: tas.goal })); tas.count = 0; } else vibrate(25);
     renderTas();
   };
-  $('#tasbihReset').onclick = () => { tas.count = 0; renderTas(); };
-  $('#tasbihGoal').onchange = e => { tas.goal = +e.target.value; tas.count = 0; renderTas(); };
-  $('#dzikirSel').onchange = e => { tas.dz = e.target.value; tas.count = 0; renderTas(); };
+  $('#tasbihReset').onclick = () => { tas.count = 0; tas.t = Date.now(); renderTas(); WZ.emit('tasbih'); };
+  $('#tasbihGoal').onchange = e => { tas.goal = +e.target.value; tas.count = 0; tas.t = Date.now(); renderTas(); WZ.emit('tasbih'); };
+  $('#dzikirSel').onchange = e => { tas.dz = e.target.value; tas.count = 0; tas.t = Date.now(); renderTas(); WZ.emit('tasbih'); };
   renderTas();
+  WZ.tasbih = { reload() { tas = Object.assign({ count: 0, goal: 33, total: 0, dz: 'Subhanallah' }, store.get('tasbih', {})); renderTas(); } };
+  WZ.zikirMode = m => { if (m === 'pagi' || m === 'petang') zMode = m; };
 })();

@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/wz_root"
+    android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="vertical"
+    android:background="@drawable/wz_bg_blue" android:padding="12dp">
+  <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+    <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+      <TextView android:id="@+id/wz_date" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="#FFFFFFFF" android:textSize="15sp" android:textStyle="bold" android:maxLines="1" android:text="-"/>
+      <TextView android:id="@+id/wz_hijri" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="#D9FFFFFF" android:textSize="12sp" android:maxLines="1" android:text="-"/>
+    </LinearLayout>
+    <TextClock android:id="@+id/wz_clock" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="#FFFFFFFF" android:textSize="30sp"
+        android:fontFamily="sans-serif-light" android:format12Hour="h:mm" android:format24Hour="HH:mm" android:maxLines="1"/>
+  </LinearLayout>
+  <LinearLayout android:layout_width="match_parent" android:layout_height="0dp" android:layout_weight="1" android:orientation="horizontal" android:layout_marginTop="6dp" android:layout_marginBottom="6dp">
+      <LinearLayout android:id="@+id/wz_c0" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1"
+          android:orientation="vertical" android:gravity="center" android:background="@drawable/wz_cell" android:layout_marginStart="2dp" android:layout_marginEnd="2dp">
+        <ImageView android:id="@+id/wz_i0" android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/wz_ic_zohor"/>
+        <TextView android:id="@+id/wz_t0" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center"
+            android:textColor="#FFFFFFFF" android:textStyle="bold" android:maxLines="1" android:text="--:--"
+            android:autoSizeTextType="uniform" android:autoSizeMinTextSize="10sp" android:autoSizeMaxTextSize="16sp" android:autoSizeStepGranularity="1sp"/>
+        <TextView android:id="@+id/wz_n0" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center"
+            android:textColor="#E6FFFFFF" android:maxLines="1" android:text="-"
+            android:autoSizeTextType="uniform" android:autoSizeMinTextSize="8sp" android:autoSizeMaxTextSize="12sp" android:autoSizeStepGranularity="1sp"/>
+      </LinearLayout>
+      <LinearLayout android:id="@+id/wz_c1" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1"
+          android:orientation="vertical" android:gravity="center" android:background="@drawable/wz_cell" android:layout_marginStart="2dp" android:layout_marginEnd="2dp">
+        <ImageView android:id="@+id/wz_i1" android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/wz_ic_zohor"/>
+        <TextView android:id="@+id/wz_t1" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center"
+            android:textColor="#FFFFFFFF" android:textStyle="bold" android:maxLines="1" android:text="--:--"
+            android:autoSizeTextType="uniform" android:autoSizeMinTextSize="10sp" android:autoSizeMaxTextSize="16sp" android:autoSizeStepGranularity="1sp"/>
+        <TextView android:id="@+id/wz_n1" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center"
+            android:textColor="#E6FFFFFF" android:maxLines="1" android:text="-"
+            android:autoSizeTextType="uniform" android:autoSizeMinTextSize="8sp" android:autoSizeMaxTextSize="12sp" android:autoSizeStepGranularity="1sp"/>
+      </LinearLayout>
+      <LinearLayout android:id="@+id/wz_c2" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1"
+          android:orientation="vertical" android:gravity="center" android:background="@drawable/wz_cell" android:layout_marginStart="2dp" android:layout_marginEnd="2dp">
+        <ImageView android:id="@+id/wz_i2" android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/wz_ic_zohor"/>
+        <TextView android:id="@+id/wz_t2" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center"
+            android:textColor="#FFFFFFFF" android:textStyle="bold" android:maxLines="1" android:text="--:--"
+            android:autoSizeTextType="uniform" android:autoSizeMinTextSize="10sp" android:autoSizeMaxTextSize="16sp" android:autoSizeStepGranularity="1sp"/>
+        <TextView android:id="@+id/wz_n2" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center"
+            android:textColor="#E6FFFFFF" android:maxLines="1" android:text="-"
+            android:autoSizeTextType="uniform" android:autoSizeMinTextSize="8sp" android:autoSizeMaxTextSize="12sp" android:autoSizeStepGranularity="1sp"/>
+      </LinearLayout>
+      <LinearLayout android:id="@+id/wz_c3" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1"
+          android:orientation="vertical" android:gravity="center" android:background="@drawable/wz_cell" android:layout_marginStart="2dp" android:layout_marginEnd="2dp">
+        <ImageView android:id="@+id/wz_i3" android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/wz_ic_zohor"/>
+        <TextView android:id="@+id/wz_t3" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center"
+            android:textColor="#FFFFFFFF" android:textStyle="bold" android:maxLines="1" android:text="--:--"
+            android:autoSizeTextType="uniform" android:autoSizeMinTextSize="10sp" android:autoSizeMaxTextSize="16sp" android:autoSizeStepGranularity="1sp"/>
+        <TextView android:id="@+id/wz_n3" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center"
+            android:textColor="#E6FFFFFF" android:maxLines="1" android:text="-"
+            android:autoSizeTextType="uniform" android:autoSizeMinTextSize="8sp" android:autoSizeMaxTextSize="12sp" android:autoSizeStepGranularity="1sp"/>
+      </LinearLayout>
+      <LinearLayout android:id="@+id/wz_c4" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1"
+          android:orientation="vertical" android:gravity="center" android:background="@drawable/wz_cell" android:layout_marginStart="2dp" android:layout_marginEnd="2dp">
+        <ImageView android:id="@+id/wz_i4" android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/wz_ic_zohor"/>
+        <TextView android:id="@+id/wz_t4" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center"
+            android:textColor="#FFFFFFFF" android:textStyle="bold" android:maxLines="1" android:text="--:--"
+            android:autoSizeTextType="uniform" android:autoSizeMinTextSize="10sp" android:autoSizeMaxTextSize="16sp" android:autoSizeStepGranularity="1sp"/>
+        <TextView android:id="@+id/wz_n4" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center"
+            android:textColor="#E6FFFFFF" android:maxLines="1" android:text="-"
+            android:autoSizeTextType="uniform" android:autoSizeMinTextSize="8sp" android:autoSizeMaxTextSize="12sp" android:autoSizeStepGranularity="1sp"/>
+      </LinearLayout>
+      <LinearLayout android:id="@+id/wz_c5" android:layout_width="0dp" android:layout_height="match_parent" android:layout_weight="1"
+          android:orientation="vertical" android:gravity="center" android:background="@drawable/wz_cell" android:layout_marginStart="2dp" android:layout_marginEnd="2dp">
+        <ImageView android:id="@+id/wz_i5" android:layout_width="20dp" android:layout_height="20dp" android:src="@drawable/wz_ic_zohor"/>
+        <TextView android:id="@+id/wz_t5" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center"
+            android:textColor="#FFFFFFFF" android:textStyle="bold" android:maxLines="1" android:text="--:--"
+            android:autoSizeTextType="uniform" android:autoSizeMinTextSize="10sp" android:autoSizeMaxTextSize="16sp" android:autoSizeStepGranularity="1sp"/>
+        <TextView android:id="@+id/wz_n5" android:layout_width="match_parent" android:layout_height="wrap_content" android:gravity="center"
+            android:textColor="#E6FFFFFF" android:maxLines="1" android:text="-"
+            android:autoSizeTextType="uniform" android:autoSizeMinTextSize="8sp" android:autoSizeMaxTextSize="12sp" android:autoSizeStepGranularity="1sp"/>
+      </LinearLayout>
+  </LinearLayout>
+  <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical">
+    <ImageView android:layout_width="13dp" android:layout_height="13dp" android:src="@drawable/wz_ic_pin" android:layout_marginEnd="4dp"/>
+    <TextView android:id="@+id/wz_zone" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:textColor="#E6FFFFFF" android:textSize="12sp" android:maxLines="1" android:ellipsize="end" android:text="-"/>
+    <LinearLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:orientation="horizontal" android:gravity="center_vertical" android:background="@drawable/wz_pill" android:paddingStart="10dp" android:paddingEnd="10dp" android:paddingTop="3dp" android:paddingBottom="3dp">
+      <TextView android:id="@+id/wz_next_lbl" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="#FFFFFFFF" android:textSize="12sp" android:maxLines="1" android:text="-"/>
+      <Chronometer android:id="@+id/wz_count" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="#FFFFE066" android:textSize="13sp" android:textStyle="bold" android:layout_marginStart="5dp"/>
+    </LinearLayout>
+  </LinearLayout>
+</LinearLayout>

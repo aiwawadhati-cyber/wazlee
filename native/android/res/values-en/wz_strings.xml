@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="wz_n_prayer_full">Wazlee · Prayer Times</string>
+  <string name="wz_d_prayer_full">Today\'s prayer times with countdown</string>
+  <string name="wz_n_prayer_next">Wazlee · Next Prayer</string>
+  <string name="wz_d_prayer_next">Next prayer &amp; countdown</string>
+  <string name="wz_n_ayat">Wazlee · Today\'s Ayah</string>
+  <string name="wz_d_ayat">One Quran ayah every day</string>
+  <string name="wz_n_activity">Wazlee · Steps &amp; Water</string>
+  <string name="wz_d_activity">Today\'s steps &amp; add a glass of water</string>
+  <string name="wz_n_tasbih">Wazlee · Tasbih</string>
+  <string name="wz_d_tasbih">Tap to count dhikr</string>
+  <string name="wz_n_zikir">Wazlee · Morning/Evening Dhikr</string>
+  <string name="wz_d_zikir">Morning &amp; evening dhikr progress</string>
+</resources>

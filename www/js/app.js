@@ -7,7 +7,7 @@
     solat: { ic: 'clock', g: 'g-blue' }, kiblat: { ic: 'compass', g: 'g-indigo' }, doa: { ic: 'book-heart', g: 'g-purple' },
     zikir: { ic: 'sparkles', g: 'g-orange' }, tasbih: { ic: 'circle-dot', g: 'g-teal' }, langkah: { ic: 'footprints', g: 'g-green' },
     bmi: { ic: 'scale', g: 'g-teal' }, air: { ic: 'glass-water', g: 'g-cyan' }, fx: { ic: 'coins', g: 'g-orange' },
-    map: { ic: 'map', g: 'g-pink' }, quran: { ic: 'book-open', g: 'g-teal' }, ilmu: { ic: 'gamepad-2', g: 'g-purple' }, profil: { ic: 'user', g: 'g-blue' }, masjid: { ic: 'moon-star', g: 'g-green', go: 'map', act: () => setTimeout(() => $('#btnMasjid').click(), 250) }
+    map: { ic: 'map', g: 'g-pink' }, quran: { ic: 'book-open', g: 'g-teal' }, ilmu: { ic: 'gamepad-2', g: 'g-purple' }, profil: { ic: 'user', g: 'g-blue' }, widgets: { ic: 'layout-grid', g: 'g-indigo' }, masjid: { ic: 'moon-star', g: 'g-green', go: 'map', act: () => setTimeout(() => $('#btnMasjid').click(), 250) }
   };
   const ttl = k => t('tile.' + k), sub = k => t('tile.' + k + '.s', { n: DOA.length });
   const HOME = ['quran', 'solat', 'kiblat', 'doa', 'zikir', 'ilmu', 'langkah', 'fx'];
@@ -16,7 +16,7 @@
   $('#ibadahList').innerHTML = lt(['solat', 'quran', 'kiblat', 'doa', 'zikir', 'tasbih']);
   $('#sihatList').innerHTML = lt(['langkah', 'bmi', 'air']);
   $('#alatList').innerHTML = lt(['fx', 'map', 'masjid']);
-  $('#lagiSet').innerHTML = lt(['profil']);
+  $('#lagiSet').innerHTML = lt(['widgets', 'profil']);
   $('#alatList').addEventListener('click', e => { const b = e.target.closest('[data-k]'); if (b && T[b.dataset.k].act) T[b.dataset.k].act(); });
 
   /* ---------- Utama ---------- */
@@ -67,6 +67,9 @@
     toast(t('pf.saved'));
   };
   on('show:profil', fillProfile);
+  const WL = [['prayer_full', 'clock', 'g-blue', '4×2'], ['prayer_next', 'timer', 'g-blue', '2×1'], ['ayat', 'book-open', 'g-teal', '4×2'],
+    ['activity', 'footprints', 'g-green', '2×2'], ['tasbih', 'circle-dot', 'g-purple', '2×2'], ['zikir', 'sparkles', 'g-orange', '4×1']];
+  $('#widgetList').innerHTML = WL.map(([k, ic, g, sz]) => `<div class="lt"><span class="t-ic ${g}">${ico(ic)}</span><span><b>${t('w.n.' + k)} <em class="w-size">${sz}</em></b><small>${t('w.d.' + k)}</small></span></div>`).join('');
 
   /* ---------- Butang atas ---------- */
   $('#btnBack').innerHTML = ico('chevron-left'); $('#btnBack').onclick = () => WZ.back();
@@ -81,9 +84,10 @@
   WZ.refreshLocation(false);
   WZ.sihat.readSteps();
   WZ.hc.check().then(() => WZ.hc.refresh());
+  setTimeout(() => WZ.widget.start(), 600);
   if (P.App) {
     P.App.addListener('backButton', () => { if (!WZ.back()) P.App.exitApp(); });
-    P.App.addListener('resume', () => { WZ.sihat.readSteps(); WZ.hc.refresh(); WZ.solat.tick(); WZ.solat.ensureData(); renderHome(); });
+    P.App.addListener('resume', () => { WZ.widget.sync().then(() => WZ.widget.push(1500)); WZ.sihat.readSteps(); WZ.hc.refresh(); WZ.solat.tick(); WZ.solat.ensureData(); renderHome(); });
   }
   if (P.StatusBar) { try { P.StatusBar.setBackgroundColor({ color: '#0A3A9E' }); } catch {} }
 })();

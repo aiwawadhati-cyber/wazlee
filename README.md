@@ -1,4 +1,4 @@
-# Wazlee v2.2 — App Harian Muslim (Android)
+# Wazlee v2.3 — App Harian Muslim (Android)
 
 **Ibadah · Sihat · Alat** dalam satu app bertema biru yang ceria. **Dwibahasa: Bahasa Melayu & English** (tukar di butang EN/BM atas atau Profil → Bahasa).
 
@@ -19,6 +19,18 @@
 6. **Turutan Wuduk & Solat** — susun langkah dengan betul
 
 > Bank soalan kuiz (`www/data/ilmu.js`) wajar disemak oleh guru/ustaz sebelum edaran luas.
+
+## Widget skrin utama (6)
+| Widget | Saiz | Fungsi |
+|---|---|---|
+| Waktu Solat | 4×2 | Tarikh Masihi & Hijri, jam, 6 waktu (seterusnya diserlah, yang lepas dikelabukan), kiraan mundur, zon. Imsak menggantikan Syuruk pada bulan Ramadan |
+| Solat Seterusnya | 2×1 | Nama, waktu & kiraan mundur besar |
+| Ayat Hari Ini | 4×2 | Teks Arab (fon Amiri) + terjemahan; ketik untuk buka ayat |
+| Langkah & Air | 2×2 | Cincin langkah; butang **+1** air berfungsi terus dari widget |
+| Tasbih | 2×2 | Ketik widget untuk mengira (getaran), butang set semula |
+| Zikir Pagi/Petang | 4×1 | Kemajuan zikir hari ini; bertukar automatik jam 3 petang |
+
+Kod native: `native/android/Wz*Widget*.java`, `native/android/res/`; manifest ditampal oleh `native/android/patch_manifest.py` dalam CI. Widget dikemas kini pada setiap waktu solat, jam 3 petang & tengah malam (AlarmManager), serta setiap kali app dibuka.
 
 ## Dapatkan APK (GitHub Actions — percuma)
 1. Muat naik **semua** kandungan folder ini (termasuk `.github` dan `native`) ke repo GitHub, branch `main`.
@@ -66,7 +78,7 @@ www/                 Kod app (HTML/CSS/JS, tiada build step)
   js/games.js        Sudut Ilmu: 6 permainan, bintang, lencana
   quran/             index.json + s/001–114.json (Arab, BM, EN, transliterasi)
   data/              zones, doa, zikir, quotes, asma (99 nama), ilmu (kuiz, hijaiyah, turutan)  ← edit kandungan di sini
-native/android/      Plugin pengira langkah (Java) + MainActivity
+native/android/      Plugin pengira langkah, widget (Java + res), MainActivity, patch_manifest.py
 brand/               Logo SVG (3 konsep), ikon & splash sumber
 assets/              Ikon/splash PNG untuk penjana Capacitor
 ```

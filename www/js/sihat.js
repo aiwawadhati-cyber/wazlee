@@ -127,7 +127,7 @@
     $('#hWater').textContent = `${n}/${g}`;
     $('#wGoalSel').value = g; $('#waterNotif').checked = !!settings.waterNotif;
   }
-  const wSet = n => { const g = +settings.waterGoal || 8; n = Math.max(0, Math.min(20, n)); const prev = wGet(); store.set(wKey(), n); if (n === g && prev < g) { vibrate([80, 40, 80]); toast(t('water.done')); } renderWater(); };
+  const wSet = n => { const g = +settings.waterGoal || 8; n = Math.max(0, Math.min(20, n)); const prev = wGet(); store.set(wKey(), n); store.set('water_t', Date.now()); emit('water'); if (n === g && prev < g) { vibrate([80, 40, 80]); toast(t('water.done')); } renderWater(); };
   $('#wPlus').onclick = () => { vibrate(20); wSet(wGet() + 1); };
   $('#wMinus').onclick = () => wSet(wGet() - 1);
   $('#glasses').onclick = e => { const b = e.target.closest('[data-g]'); if (b) { const i = +b.dataset.g; wSet(i < wGet() ? i : i + 1); } };

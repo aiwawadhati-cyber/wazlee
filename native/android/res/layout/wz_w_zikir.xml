@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/wz_root"
+    android:layout_width="match_parent" android:layout_height="match_parent" android:orientation="horizontal" android:gravity="center_vertical"
+    android:background="@drawable/wz_bg_orange" android:paddingStart="14dp" android:paddingEnd="14dp">
+  <ImageView android:id="@+id/wz_zk_ic" android:layout_width="30dp" android:layout_height="30dp" android:src="@drawable/wz_ic_subuh" android:layout_marginEnd="10dp"/>
+  <LinearLayout android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:orientation="vertical">
+    <LinearLayout android:layout_width="match_parent" android:layout_height="wrap_content" android:orientation="horizontal">
+      <TextView android:id="@+id/wz_zk_title" android:layout_width="0dp" android:layout_height="wrap_content" android:layout_weight="1" android:textColor="#FFFFFFFF" android:textSize="15sp" android:textStyle="bold" android:maxLines="1" android:text="-"/>
+      <TextView android:id="@+id/wz_zk_count" android:layout_width="wrap_content" android:layout_height="wrap_content" android:textColor="#FFFFFFFF" android:textSize="13sp" android:textStyle="bold" android:maxLines="1" android:text="0/0"/>
+    </LinearLayout>
+    <ProgressBar android:id="@+id/wz_zk_bar" style="?android:attr/progressBarStyleHorizontal" android:layout_width="match_parent" android:layout_height="8dp" android:layout_marginTop="6dp"
+        android:max="100" android:progress="0" android:indeterminate="false" android:progressDrawable="@drawable/wz_bar"/>
+    <TextView android:id="@+id/wz_zk_sub" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginTop="3dp" android:textColor="#E6FFFFFF" android:textSize="11sp" android:maxLines="1" android:ellipsize="end" android:text="-"/>
+  </LinearLayout>
+</LinearLayout>
