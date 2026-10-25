@@ -136,10 +136,41 @@
     'pf.exact': ['Benarkan penggera tepat', 'Allow exact alarms'], 'pf.manualLoc': ['Lokasi manual', 'Manual location'],
     'pf.manualLocHint': ['Guna jika GPS tidak tersedia.', 'Use if GPS is unavailable.'], 'pf.lat': ['Latitud', 'Latitude'], 'pf.lng': ['Longitud', 'Longitude'],
     'pf.save': ['Simpan Tetapan', 'Save Settings'], 'pf.saved': ['Tetapan disimpan ✓', 'Settings saved ✓'], 'pf.about': ['Tentang Wazlee', 'About Wazlee'],
-    'pf.aboutText': ['Versi 2.1 · App harian Muslim — ibadah, kesihatan & alat harian.', 'Version 2.1 · A daily Muslim companion — worship, health & everyday tools.'],
+    'pf.aboutText': ['Versi 2.2 · App harian Muslim — ibadah, kesihatan & alat harian.', 'Version 2.2 · A daily Muslim companion — worship, health & everyday tools.'],
     'pf.credits': ['Waktu solat: e-Solat JAKIM (sandaran kiraan GPS) · Kesihatan: Health Connect · Matawang: open.er-api.com · Peta: © OpenStreetMap, © CARTO · Carian: Nominatim · Ikon: Lucide (ISC) · Fon: Amiri & Nunito (OFL)', 'Prayer times: JAKIM e-Solat (GPS fallback) · Health: Health Connect · Currency: open.er-api.com · Maps: © OpenStreetMap, © CARTO · Search: Nominatim · Icons: Lucide (ISC) · Fonts: Amiri & Nunito (OFL)'],
     'pf.privacy': ['Dasar privasi', 'Privacy policy'], 'pf.defaultName': ['Pengguna Wazlee', 'Wazlee User'], 'pf.complete': ['Lengkapkan profil anda', 'Complete your profile'],
-    'pf.summary': ['{h} cm · {w} kg · sasaran {g} langkah', '{h} cm · {w} kg · goal {g} steps']
+    'pf.summary': ['{h} cm · {w} kg · sasaran {g} langkah', '{h} cm · {w} kg · goal {g} steps'],
+
+    // v2.2: Al-Quran & Sudut Ilmu
+    'tab.quran': ['Al-Quran', 'Quran'], 'tab.lagi': ['Lagi', 'More'], 'lagi.settings': ['Tetapan', 'Settings'],
+    'tile.quran': ['Al-Quran', 'Al-Quran'], 'tile.quran.s': ['114 surah · BM & EN · audio qari', '114 surahs · Malay & English · recitation'], 'tile.quran.short': ['Al-Quran', 'Quran'],
+    'tile.ilmu': ['Sudut Ilmu', 'Learning Corner'], 'tile.ilmu.s': ['6 permainan Islamik untuk semua', '6 Islamic games for everyone'], 'tile.ilmu.short': ['Permainan', 'Games'],
+    'tile.profil': ['Profil & Tetapan', 'Profile & Settings'], 'tile.profil.s': ['Nama, zon solat, bahasa, peringatan', 'Name, prayer zone, language, reminders'],
+    'home.ayatToday': ['Ayat Hari Ini', "Today's Ayah"],
+    'q.sub': ['Baca, dengar & tadabbur', 'Read, listen & reflect'], 'q.searchPh': ['Cari surah, 2:255 atau kata kunci…', 'Search surah, 2:255 or keyword…'],
+    'q.surah': ['Surah', 'Surah'], 'q.juz': ['Juz', 'Juz'], 'q.bookmarks': ['Penanda', 'Bookmarks'], 'q.continue': ['Sambung bacaan', 'Continue reading'],
+    'q.ayah': ['Ayat', 'Ayah'], 'q.ayahs': ['{n} ayat', '{n} ayahs'], 'q.meccan': ['Makkiyah', 'Meccan'], 'q.medinan': ['Madaniyah', 'Medinan'],
+    'q.goto': ['Pergi ke', 'Go to'], 'q.searchText': ['Cari "{q}" dalam terjemahan', 'Search "{q}" in translations'], 'q.searching': ['Mencari…', 'Searching…'],
+    'q.found': ['{n} ayat ditemui', '{n} ayahs found'], 'q.noBm': ['Tiada penanda lagi. Ketik ikon penanda pada mana-mana ayat.', 'No bookmarks yet. Tap the bookmark icon on any ayah.'],
+    'q.bmAdded': ['Penanda ditambah', 'Bookmark added'], 'q.bmRemoved': ['Penanda dibuang', 'Bookmark removed'], 'q.sajda': ['Sajdah', 'Sajdah'],
+    'q.playSurah': ['Main', 'Play'], 'q.download': ['Muat turun', 'Download'], 'q.downloaded': ['Dimuat turun', 'Downloaded'],
+    'q.settings': ['Tetapan Al-Quran', 'Quran Settings'], 'q.display': ['Paparan', 'Display'], 'q.translation': ['Terjemahan', 'Translation'],
+    'q.trAuto': ['Ikut bahasa app', 'Follow app language'], 'q.trBoth': ['BM & English', 'Malay & English'], 'q.trNone': ['Tiada (Arab sahaja)', 'None (Arabic only)'],
+    'q.translit': ['Tunjuk transliterasi (rumi)', 'Show transliteration'], 'q.fontSize': ['Saiz teks Arab', 'Arabic text size'],
+    'q.audio': ['Audio', 'Audio'], 'q.reciter': ['Qari', 'Reciter'],
+    'q.audioNote': ['Audio dimainkan secara streaming (perlu internet). Muat turun surah untuk dengar tanpa internet. Sumber: EveryAyah.com', 'Audio streams online. Download a surah to listen offline. Source: EveryAyah.com'],
+    'q.downloads': ['Muat turun audio', 'Audio downloads'], 'q.dlCount': ['{n} surah dimuat turun', '{n} surahs downloaded'],
+    'q.dlApkOnly': ['Muat turun hanya dalam APK', 'Downloads are available in the APK only'], 'q.dlBusy': ['Muat turun lain sedang berjalan', 'Another download is in progress'],
+    'q.dlStart': ['Memuat turun {s}…', 'Downloading {s}…'], 'q.dlDone': ['{s} sedia didengar tanpa internet ✓', '{s} is ready offline ✓'],
+    'q.dlCancel': ['Muat turun dibatalkan', 'Download cancelled'], 'q.dlFail': ['Muat turun gagal — semak sambungan', 'Download failed — check your connection'],
+    'q.dlRemoved': ['Audio {s} dipadam', '{s} audio deleted'], 'q.recSet': ['Qari ditukar', 'Reciter changed'],
+    'q.offline': ['Tiada internet — muat turun surah untuk dengar luar talian', 'Offline — download the surah to listen offline'],
+    'q.audioErr': ['Audio tidak dapat dimainkan — cuba qari lain di Tetapan Al-Quran', 'Audio unavailable — try another reciter in Quran Settings'],
+    'q.repOff': ['Ulang: tutup', 'Repeat: off'], 'q.repAyah': ['Ulang ayat', 'Repeat ayah'], 'q.repSurah': ['Ulang surah', 'Repeat surah'],
+    'q.sources': ['Teks Uthmani (KFGQPC/QuranEnc, disemak silang) · Terjemahan BM: Abdullah Basmeih · EN: Sahih International · Audio: EveryAyah.com', 'Uthmani text (KFGQPC/QuranEnc, cross-verified) · Malay: Abdullah Basmeih · English: Sahih International · Audio: EveryAyah.com'],
+    'ilmu.title': ['Sudut Ilmu', 'Learning Corner'], 'ilmu.sub': ['6 permainan Islamik untuk seisi keluarga', '6 Islamic games for the whole family'],
+    'ilmu.badges': ['Lencana', 'Badges'], 'g.asmaSearch': ['Cari nama atau maksud…', 'Search name or meaning…'], 'g.asmaList': ['99 Asmaul Husna', '99 Names of Allah'],
+    'ilmu.review': ['Kandungan kuiz disediakan untuk pembelajaran asas. Sila rujuk guru/ustaz untuk penjelasan lanjut.', 'Quiz content is for basic learning. Please consult a teacher for further explanation.']
   };
 
   const pref = (() => { try { return JSON.parse(localStorage.getItem('wz_lang')); } catch { return null; } })();

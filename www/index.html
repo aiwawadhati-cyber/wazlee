@@ -53,6 +53,13 @@
     </button>
   </div>
 
+  <div class="card ayat-day" id="hAyat">
+    <div class="card-head"><span class="chip-ic teal" data-ic="book-open"></span><div class="grow"><div class="card-title" data-i18n="home.ayatToday"></div><small class="muted" id="hAyatRef"></small></div>
+    <button class="icbtn" id="hAyatPlay" aria-label="play"><i data-ic="volume-2"></i></button></div>
+    <p class="arab q-ar" id="hAyatA"></p>
+    <p class="maksud" id="hAyatT"></p>
+  </div>
+
   <div class="card doa-day" id="hDoa" data-go="doa">
     <div class="card-head"><span class="chip-ic indigo" data-ic="book-heart"></span><div><div class="card-title" data-i18n="home.doaToday"></div><small class="muted" id="hDoaT"></small></div></div>
     <p class="arab" id="hDoaA"></p>
@@ -115,16 +122,75 @@
 </section>
 
 <!-- ================= ALAT ================= -->
-<section class="page" id="pg-alat">
-  <div class="hub-hero orange">
-    <div><h2 data-i18n="tab.alat"></h2><p data-i18n="hub.alat"></p></div>
-    <div class="hub-ic" data-ic="layout-grid"></div>
-  </div>
+<section class="page" id="pg-lagi">
+  <button class="ilmu-banner" data-go="ilmu">
+    <div><h2 data-i18n="ilmu.title"></h2><p data-i18n="ilmu.sub"></p><span class="stars-pill" id="lagiStars"></span></div>
+    <div class="hub-ic" data-ic="trophy"></div>
+  </button>
+  <h3 class="sec" data-i18n="tab.alat"></h3>
   <div class="list-tiles" id="alatList"></div>
+  <h3 class="sec" data-i18n="lagi.settings"></h3>
+  <div class="list-tiles" id="lagiSet"></div>
+</section>
+
+<!-- ================= AL-QURAN ================= -->
+<section class="page" id="pg-quran">
+  <div class="hub-hero teal q-hero">
+    <div><h2 data-i18n="tab.quran"></h2><p data-i18n="q.sub"></p></div>
+    <button class="hub-ic" data-go="qset" aria-label="settings" data-ic="settings"></button>
+  </div>
+  <button class="card q-continue hidden" id="qContinue"></button>
+  <div class="search-box"><i data-ic="search"></i><input type="search" id="qSearch" data-i18n-ph="q.searchPh"></div>
+  <div class="seg2 q-seg"><button data-qt="surah" class="active" data-i18n="q.surah"></button><button data-qt="juz" data-i18n="q.juz"></button><button data-qt="bm" data-i18n="q.bookmarks"></button></div>
+  <div id="qList"></div>
+</section>
+
+<section class="page" id="pg-surah" data-title="tab.quran">
+  <div class="card s-head" id="sHead"></div>
+  <div id="sAyat"></div>
+  <div class="s-end" id="sEnd"></div>
+</section>
+
+<section class="page" id="pg-qset" data-title="q.settings">
+  <div class="card">
+    <div class="card-title" data-i18n="q.display"></div>
+    <label class="lbl" data-i18n="q.translation"></label>
+    <select id="qsTr"><option value="auto" data-i18n="q.trAuto"></option><option value="ms">Bahasa Melayu (Basmeih)</option><option value="en">English (Sahih International)</option><option value="both" data-i18n="q.trBoth"></option><option value="none" data-i18n="q.trNone"></option></select>
+    <label class="switch-row"><span data-i18n="q.translit"></span><input type="checkbox" id="qsTl"></label>
+    <label class="lbl"><span data-i18n="q.fontSize"></span> <b id="qsFsV"></b></label>
+    <input type="range" id="qsFs" min="20" max="44" step="2">
+    <p class="arab q-preview" id="qsPrev">بِسۡمِ ٱللَّهِ ٱلرَّحۡمَٰنِ ٱلرَّحِيمِ</p>
+  </div>
+  <div class="card">
+    <div class="card-title" data-i18n="q.audio"></div>
+    <label class="lbl" data-i18n="q.reciter"></label>
+    <select id="qsRec"></select>
+    <p class="note" data-i18n="q.audioNote"></p>
+  </div>
+  <div class="card">
+    <div class="card-head"><div class="grow"><div class="card-title" data-i18n="q.downloads"></div><small class="muted" id="qsDlInfo"></small></div></div>
+    <div id="qsDlList"></div>
+  </div>
+  <p class="note center" data-i18n="q.sources"></p>
+</section>
+
+<!-- ================= SUDUT ILMU ================= -->
+<section class="page" id="pg-ilmu" data-title="ilmu.title">
+  <div class="card ilmu-stats" id="ilmuStats"></div>
+  <div class="game-grid" id="gameGrid"></div>
+  <div class="card"><div class="card-title" data-i18n="ilmu.badges"></div><div class="badges" id="badgeList"></div></div>
+  <p class="note center" data-i18n="ilmu.review"></p>
+</section>
+<section class="page" id="pg-game" data-title="ilmu.title">
+  <div id="gameRoot"></div>
+</section>
+<section class="page" id="pg-asmalist" data-title="g.asmaList">
+  <div class="search-box"><i data-ic="search"></i><input type="search" id="asmaSearch" data-i18n-ph="g.asmaSearch"></div>
+  <div id="asmaList"></div>
 </section>
 
 <!-- ================= PROFIL ================= -->
-<section class="page" id="pg-profil">
+<section class="page" id="pg-profil" data-title="tab.profil">
   <div class="profile-head">
     <img src="img/logo.png" alt="" class="avatar">
     <div><h2 id="pfName"></h2><small class="muted" id="pfSub"></small></div>
@@ -324,12 +390,22 @@
 
 </main>
 
+<div class="qplayer hidden" id="qPlayer">
+  <button class="qp-info" id="qpInfo"><b id="qpTitle"></b><small id="qpSub"></small></button>
+  <button class="qp-btn" id="qpRep" aria-label="repeat"><i data-ic="rotate-ccw"></i></button>
+  <button class="qp-btn" id="qpPrev" aria-label="prev"><i data-ic="chevron-left"></i></button>
+  <button class="qp-btn main" id="qpPlay" aria-label="play"></button>
+  <button class="qp-btn" id="qpNext" aria-label="next"><i data-ic="chevron-right"></i></button>
+  <button class="qp-btn" id="qpClose" aria-label="close"><i data-ic="x"></i></button>
+  <div class="qp-bar"><div id="qpBar"></div></div>
+</div>
+
 <nav class="bottomnav" id="bottomnav">
   <button data-tab="home"><i data-ic="house"></i><span data-i18n="tab.home"></span></button>
+  <button data-tab="quran"><i data-ic="book-open"></i><span data-i18n="tab.quran"></span></button>
   <button data-tab="ibadah"><i data-ic="moon-star"></i><span data-i18n="tab.ibadah"></span></button>
   <button data-tab="sihat"><i data-ic="heart-pulse"></i><span data-i18n="tab.sihat"></span></button>
-  <button data-tab="alat"><i data-ic="layout-grid"></i><span data-i18n="tab.alat"></span></button>
-  <button data-tab="profil"><i data-ic="user"></i><span data-i18n="tab.profil"></span></button>
+  <button data-tab="lagi"><i data-ic="layout-grid"></i><span data-i18n="tab.lagi"></span></button>
 </nav>
 
 <div class="toast" id="toast"></div>
@@ -342,6 +418,8 @@
 <script src="data/doa.js"></script>
 <script src="data/zikir.js"></script>
 <script src="data/quotes.js"></script>
+<script src="data/asma.js"></script>
+<script src="data/ilmu.js"></script>
 <script src="js/prayer.js"></script>
 <script src="js/core.js"></script>
 <script src="js/solat.js"></script>
@@ -349,6 +427,8 @@
 <script src="js/health.js"></script>
 <script src="js/sihat.js"></script>
 <script src="js/alat.js"></script>
+<script src="js/quran.js"></script>
+<script src="js/games.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>

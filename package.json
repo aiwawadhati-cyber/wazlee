@@ -1,7 +1,7 @@
 {
   "name": "wazlee",
-  "version": "2.1.0",
-  "description": "Wazlee \u2014 ibadah, kesihatan & alat harian (BM/EN)",
+  "version": "2.2.0",
+  "description": "Wazlee \u2014 Al-Quran, ibadah, kesihatan, permainan Islamik & alat harian (BM/EN)",
   "author": "Wan Azlee",
   "license": "UNLICENSED",
   "private": true,
@@ -13,9 +13,12 @@
     "android:open": "npx cap open android"
   },
   "dependencies": {
+    "@capacitor-community/text-to-speech": "^8.0.2",
     "@capacitor/android": "^8.0.0",
     "@capacitor/app": "^8.0.0",
     "@capacitor/core": "^8.0.0",
+    "@capacitor/file-transfer": "^2.0.6",
+    "@capacitor/filesystem": "^8.1.5",
     "@capacitor/geolocation": "^8.0.0",
     "@capacitor/local-notifications": "^8.0.0",
     "@capacitor/share": "^8.0.0",

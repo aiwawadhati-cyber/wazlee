@@ -7,15 +7,16 @@
     solat: { ic: 'clock', g: 'g-blue' }, kiblat: { ic: 'compass', g: 'g-indigo' }, doa: { ic: 'book-heart', g: 'g-purple' },
     zikir: { ic: 'sparkles', g: 'g-orange' }, tasbih: { ic: 'circle-dot', g: 'g-teal' }, langkah: { ic: 'footprints', g: 'g-green' },
     bmi: { ic: 'scale', g: 'g-teal' }, air: { ic: 'glass-water', g: 'g-cyan' }, fx: { ic: 'coins', g: 'g-orange' },
-    map: { ic: 'map', g: 'g-pink' }, masjid: { ic: 'moon-star', g: 'g-green', go: 'map', act: () => setTimeout(() => $('#btnMasjid').click(), 250) }
+    map: { ic: 'map', g: 'g-pink' }, quran: { ic: 'book-open', g: 'g-teal' }, ilmu: { ic: 'gamepad-2', g: 'g-purple' }, profil: { ic: 'user', g: 'g-blue' }, masjid: { ic: 'moon-star', g: 'g-green', go: 'map', act: () => setTimeout(() => $('#btnMasjid').click(), 250) }
   };
   const ttl = k => t('tile.' + k), sub = k => t('tile.' + k + '.s', { n: DOA.length });
-  const HOME = ['solat', 'kiblat', 'doa', 'zikir', 'tasbih', 'langkah', 'fx', 'map'];
+  const HOME = ['quran', 'solat', 'kiblat', 'doa', 'zikir', 'ilmu', 'langkah', 'fx'];
   $('#homeTiles').innerHTML = HOME.map(k => `<button class="tile" data-go="${k}"><span class="t-ic ${T[k].g}">${ico(T[k].ic)}</span>${t('tile.' + k + '.short')}</button>`).join('');
   const lt = keys => keys.map(k => `<button class="lt" data-go="${T[k].go || k}" data-k="${k}"><span class="t-ic ${T[k].g}">${ico(T[k].ic)}</span><span><b>${ttl(k)}</b><small>${sub(k)}</small></span>${ico('chevron-right', 'chev')}</button>`).join('');
-  $('#ibadahList').innerHTML = lt(['solat', 'kiblat', 'doa', 'zikir', 'tasbih']);
+  $('#ibadahList').innerHTML = lt(['solat', 'quran', 'kiblat', 'doa', 'zikir', 'tasbih']);
   $('#sihatList').innerHTML = lt(['langkah', 'bmi', 'air']);
   $('#alatList').innerHTML = lt(['fx', 'map', 'masjid']);
+  $('#lagiSet').innerHTML = lt(['profil']);
   $('#alatList').addEventListener('click', e => { const b = e.target.closest('[data-k]'); if (b && T[b.dataset.k].act) T[b.dataset.k].act(); });
 
   /* ---------- Utama ---------- */
@@ -27,6 +28,7 @@
     const d = WZ.doaOfDay(); $('#hDoaT').textContent = d.t; $('#hDoaA').textContent = d.a; $('#hDoaM').textContent = d.m;
     $('#locLabel').innerHTML = `${ico('map-pin')} ${esc(WZ.loc.name)}`;
     WZ.sihat.renderStepsWidgets(); WZ.sihat.renderWater();
+    WZ.quran.ayatHarian();
   }
   const Q = LANG === 'en' && window.QUOTES_EN ? QUOTES_EN : QUOTES;
   const doy = () => { const n = new Date(), s = new Date(n.getFullYear(), 0, 0); return Math.floor((n - s) / 864e5); };

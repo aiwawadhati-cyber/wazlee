@@ -1,0 +1,7 @@
+Teks Arab: Uthmani (Hafs) — The Noble Qur'an Encyclopedia (quranenc.com), via pakej npm quran-json 3.1.2.
+  Disemak silang 6236/6236 ayat sepadan huruf demi huruf dengan teks King Fahd Complex (qurancomplex.gov.sa) v13.
+Terjemahan BM: Abdullah Muhammad Basmeih (Tanzil.net), via fawazahmed0/quran-api.
+Terjemahan EN: Saheeh International / Umm Muhammad (Tanzil.net), via fawazahmed0/quran-api.
+Transliterasi: Tanzil.net (en.transliteration), via quran-json.
+Metadata surah/juz/sajdah & nama surah BM/EN: quran-meta 7.0.0.
+Terjemahan untuk kegunaan bukan komersial; teks Arab tidak boleh diubah.

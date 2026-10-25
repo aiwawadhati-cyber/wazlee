@@ -70,14 +70,16 @@
   }
 
   /* ---------- Router ---------- */
-  const ROOTS = ['home', 'ibadah', 'sihat', 'alat', 'profil'];
-  const PARENT = { solat: 'ibadah', zon: 'ibadah', kiblat: 'ibadah', doa: 'ibadah', zikir: 'ibadah', tasbih: 'ibadah', langkah: 'sihat', bmi: 'sihat', air: 'sihat', fx: 'alat', map: 'alat' };
+  const ROOTS = ['home', 'quran', 'ibadah', 'sihat', 'lagi'];
+  const PARENT = { solat: 'ibadah', zon: 'ibadah', kiblat: 'ibadah', doa: 'ibadah', zikir: 'ibadah', tasbih: 'ibadah', langkah: 'sihat', bmi: 'sihat', air: 'sihat',
+    fx: 'lagi', map: 'lagi', profil: 'lagi', ilmu: 'lagi', game: 'lagi', asmalist: 'lagi', surah: 'quran', qset: 'quran' };
   let stack = ['home'];
   const show = id => {
     $$('.page').forEach(p => p.classList.toggle('active', p.id === 'pg-' + id));
     const pg = $('#pg-' + id), isRoot = ROOTS.includes(id);
     document.body.classList.toggle('sub', !isRoot);
-    $('#tbTitle').textContent = pg && pg.dataset.title ? t(pg.dataset.title) : '';
+    $('#tbTitle').textContent = pg ? (pg.dataset.titleRaw || (pg.dataset.title ? t(pg.dataset.title) : '')) : '';
+    document.body.dataset.page = id;
     const tab = isRoot ? id : (PARENT[id] || 'home');
     $$('.bottomnav button').forEach(b => b.classList.toggle('active', b.dataset.tab === tab));
     window.scrollTo(0, 0);
