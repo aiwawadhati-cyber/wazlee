@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<meta name="theme-color" content="#1565D8">
+<title>Wazlee</title>
+<link rel="icon" href="img/logo.png">
+<link rel="stylesheet" href="lib/leaflet.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header class="topbar">
+  <button class="tb-back" id="btnBack" aria-label="Back"></button>
+  <div class="tb-brand" id="tbBrand">
+    <img src="img/logo.png" alt="" class="tb-logo">
+    <div><h1>Wazlee</h1><small id="locLabel" data-i18n="loc.detecting"></small></div>
+  </div>
+  <h2 class="tb-title" id="tbTitle"></h2>
+  <button class="tb-lang" id="btnLang" aria-label="Language"></button>
+  <button class="tb-act" id="btnRefreshLoc" aria-label="Location"></button>
+</header>
+
+<main id="main">
+
+<!-- ================= UTAMA ================= -->
+<section class="page" id="pg-home">
+  <div class="hero">
+    <div class="hero-top">
+      <div>
+        <div class="hero-greet" id="hGreet"></div>
+        <div class="hero-date" id="hDate">—</div>
+        <div class="hero-hijri" id="hHijri">—</div>
+      </div>
+      <button class="zone-chip" data-go="zon" id="hZone">—</button>
+    </div>
+    <div class="hero-next">
+      <span data-i18n="home.next"></span>
+      <div class="hero-next-row"><strong id="hNextName">—</strong><em id="hNextAt"></em></div>
+      <div class="countdown" id="hCountdown">--:--:--</div>
+    </div>
+    <div class="pchips" id="hChips" data-go="solat"></div>
+  </div>
+
+  <div class="duo">
+    <button class="mini-card green" data-go="langkah">
+      <div class="ring-sm" id="hStepRing"></div>
+      <div><small data-i18n="home.steps"></small><b id="hSteps">—</b><span id="hStepGoal" class="muted"></span></div>
+    </button>
+    <button class="mini-card cyan" data-go="air">
+      <div class="mini-ic" data-ic="glass-water"></div>
+      <div><small data-i18n="home.water"></small><b id="hWater">0/8</b><span class="muted" data-i18n="water.glasses"></span></div>
+    </button>
+  </div>
+
+  <div class="card doa-day" id="hDoa" data-go="doa">
+    <div class="card-head"><span class="chip-ic indigo" data-ic="book-heart"></span><div><div class="card-title" data-i18n="home.doaToday"></div><small class="muted" id="hDoaT"></small></div></div>
+    <p class="arab" id="hDoaA"></p>
+    <p class="maksud" id="hDoaM"></p>
+  </div>
+
+  <div class="card quote-card">
+    <div class="card-head"><span class="chip-ic orange" data-ic="quote"></span><div class="card-title" data-i18n="home.quote"></div></div>
+    <p id="quoteText" class="quote">—</p>
+    <div class="row-btns end">
+      <button class="btn soft sm" id="btnNextQuote"><i data-ic="refresh-cw"></i><span data-i18n="btn.another"></span></button>
+      <button class="btn soft sm" id="btnShareQuote"><i data-ic="share-2"></i><span data-i18n="btn.share"></span></button>
+    </div>
+  </div>
+
+  <h3 class="sec" data-i18n="home.shortcuts"></h3>
+  <div class="tiles" id="homeTiles"></div>
+</section>
+
+<!-- ================= IBADAH ================= -->
+<section class="page" id="pg-ibadah">
+  <div class="hub-hero indigo">
+    <div><h2 data-i18n="tab.ibadah"></h2><p data-i18n="hub.ibadah"></p></div>
+    <div class="hub-ic" data-ic="moon-star"></div>
+  </div>
+  <div class="list-tiles" id="ibadahList"></div>
+</section>
+
+<!-- ================= SIHAT ================= -->
+<section class="page" id="pg-sihat">
+  <div class="hub-hero green">
+    <div><h2 data-i18n="tab.sihat"></h2><p data-i18n="hub.sihat"></p></div>
+    <div class="hub-ic" data-ic="heart-pulse"></div>
+  </div>
+  <div class="card step-summary" data-go="langkah">
+    <div class="ring-lg" id="sStepRing"></div>
+    <div class="ss-stats">
+      <div><b id="sSteps">—</b><small data-i18n="steps.today"></small></div>
+      <div class="ss-row"><span><i data-ic="route"></i><b id="sKm">0</b> km</span><span><i data-ic="flame"></i><b id="sKcal">0</b> kcal</span></div>
+      <small class="src-tag" id="sSrc"></small>
+    </div>
+  </div>
+
+  <div class="card hc-card" id="hcCard">
+    <div class="card-head">
+      <span class="chip-ic pink" data-ic="activity"></span>
+      <div class="grow"><div class="card-title">Health Connect</div><small class="muted" id="hcStatus"></small></div>
+      <button class="icbtn hidden" id="hcRefresh" aria-label="Refresh"><i data-ic="refresh-cw"></i></button>
+    </div>
+    <div class="hc-grid hidden" id="hcGrid"></div>
+    <div class="row-btns">
+      <button class="btn hidden" id="hcConnect"><i data-ic="heart-pulse"></i><span data-i18n="hc.connect"></span></button>
+      <button class="btn hidden" id="hcInstall"><i data-ic="arrow-left-right"></i><span data-i18n="hc.install"></span></button>
+      <button class="btn soft sm hidden" id="hcManage"><i data-ic="settings"></i><span data-i18n="hc.manage"></span></button>
+    </div>
+    <p class="note" data-i18n="hc.privacy"></p>
+  </div>
+
+  <div class="list-tiles" id="sihatList"></div>
+</section>
+
+<!-- ================= ALAT ================= -->
+<section class="page" id="pg-alat">
+  <div class="hub-hero orange">
+    <div><h2 data-i18n="tab.alat"></h2><p data-i18n="hub.alat"></p></div>
+    <div class="hub-ic" data-ic="layout-grid"></div>
+  </div>
+  <div class="list-tiles" id="alatList"></div>
+</section>
+
+<!-- ================= PROFIL ================= -->
+<section class="page" id="pg-profil">
+  <div class="profile-head">
+    <img src="img/logo.png" alt="" class="avatar">
+    <div><h2 id="pfName"></h2><small class="muted" id="pfSub"></small></div>
+  </div>
+  <div class="card">
+    <div class="card-title" data-i18n="pf.language"></div>
+    <div class="seg2 lang-seg"><button data-lang="ms">🇲🇾 Bahasa Melayu</button><button data-lang="en">🇬🇧 English</button></div>
+  </div>
+  <div class="card">
+    <div class="card-title" data-i18n="pf.profile"></div>
+    <label class="lbl" data-i18n="pf.name"></label><input type="text" id="setName" data-i18n-ph="pf.namePh">
+    <div class="two">
+      <div><label class="lbl" data-i18n="pf.height"></label><input type="number" inputmode="decimal" id="setH" placeholder="170"></div>
+      <div><label class="lbl" data-i18n="pf.weight"></label><input type="number" inputmode="decimal" id="setW" placeholder="70"></div>
+    </div>
+    <label class="lbl" data-i18n="pf.goal"></label><input type="number" inputmode="numeric" id="setGoal" placeholder="8000">
+  </div>
+  <div class="card">
+    <div class="card-title" data-i18n="ib.solat"></div>
+    <button class="row-link" data-go="zon"><span><i data-ic="map-pin"></i><span data-i18n="pf.zone"></span></span><b id="pfZone">—</b></button>
+    <label class="lbl" data-i18n="pf.timefmt"></label>
+    <select id="setFmt"><option value="12" data-i18n="pf.fmt12"></option><option value="24" data-i18n="pf.fmt24"></option></select>
+    <label class="switch-row"><span data-i18n="pf.notif"></span><input type="checkbox" id="notifToggle"></label>
+    <label class="switch-row"><span data-i18n="pf.notifPre"></span><input type="checkbox" id="notifPre"></label>
+    <small class="muted" id="notifStatus"></small>
+    <button class="btn soft sm hidden" id="btnExact"><i data-ic="bell"></i><span data-i18n="pf.exact"></span></button>
+  </div>
+  <div class="card">
+    <div class="card-title" data-i18n="pf.manualLoc"></div>
+    <small class="muted" data-i18n="pf.manualLocHint"></small>
+    <div class="two"><input type="number" step="any" id="setLat" data-i18n-ph="pf.lat"><input type="number" step="any" id="setLng" data-i18n-ph="pf.lng"></div>
+  </div>
+  <button class="btn block" id="btnSaveSet"><i data-ic="check"></i><span data-i18n="pf.save"></span></button>
+  <div class="card about">
+    <div class="card-title" data-i18n="pf.about"></div>
+    <p data-i18n="pf.aboutText"></p>
+    <p class="muted small" data-i18n="pf.credits"></p>
+    <a class="muted small" href="privacypolicy.html" data-i18n="pf.privacy"></a>
+  </div>
+</section>
+
+<!-- ================= SUB: SOLAT ================= -->
+<section class="page" id="pg-solat" data-title="ib.solat">
+  <div class="card solat-card">
+    <button class="zone-row" data-go="zon"><span><i data-ic="map-pin"></i><b id="sZoneCode">—</b> <span id="sZoneName" class="muted"></span></span><i data-ic="chevron-right"></i></button>
+    <div class="day-nav"><button class="icbtn" id="dayPrev"><i data-ic="chevron-left"></i></button><div class="day-lbl"><b id="dayLabel"></b><small id="dayHijri"></small></div><button class="icbtn" id="dayNext"><i data-ic="chevron-right"></i></button></div>
+    <ul class="prayer-list" id="prayerList"></ul>
+    <p class="note" id="srcNote"></p>
+  </div>
+  <button class="btn soft block" id="btnRefreshTimes"><i data-ic="refresh-cw"></i><span data-i18n="solat.reload"></span></button>
+</section>
+
+<!-- ================= SUB: ZON ================= -->
+<section class="page" id="pg-zon" data-title="zon.title">
+  <div class="card">
+    <button class="zone-opt" id="zoneAuto"><span><i data-ic="locate-fixed"></i><b data-i18n="zon.auto"></b><small class="muted" id="zoneAutoInfo"></small></span><i data-ic="check" class="tick"></i></button>
+    <button class="zone-opt" id="zoneGps"><span><i data-ic="navigation"></i><b data-i18n="zon.gps"></b><small class="muted" data-i18n="zon.gpsHint"></small></span><i data-ic="check" class="tick"></i></button>
+  </div>
+  <label class="lbl" data-i18n="zon.state"></label>
+  <select id="zoneState"></select>
+  <div class="card zone-list" id="zoneList"></div>
+</section>
+
+<!-- ================= SUB: KIBLAT ================= -->
+<section class="page" id="pg-kiblat" data-title="ib.kiblat">
+  <div class="card center">
+    <div class="compass" id="compass">
+      <div class="dial" id="dial">
+        <span class="n" data-i18n="dir.N"></span><span class="e" data-i18n="dir.E"></span><span class="s" data-i18n="dir.S"></span><span class="w" data-i18n="dir.W"></span>
+        <div class="ticks"></div>
+        <div class="qibla-needle" id="qiblaNeedle"><div class="kaaba"></div></div>
+      </div>
+      <div class="pointer"></div>
+    </div>
+    <div class="big" id="qiblaDeg">—°</div>
+    <div class="muted" id="qiblaInfo"></div>
+    <div class="pill" id="compassStatus" data-i18n="qibla.hold"></div>
+    <button class="btn" id="btnCompass"><i data-ic="compass"></i><span data-i18n="qibla.start"></span></button>
+  </div>
+</section>
+
+<!-- ================= SUB: DOA ================= -->
+<section class="page" id="pg-doa" data-title="ib.doa">
+  <div class="search-box"><i data-ic="search"></i><input type="search" id="doaSearch" data-i18n-ph="doa.search"></div>
+  <div class="chips" id="doaCats"></div>
+  <div id="doaList"></div>
+</section>
+
+<!-- ================= SUB: ZIKIR ================= -->
+<section class="page" id="pg-zikir" data-title="ib.zikir">
+  <div class="seg2 zk-seg"><button data-z="pagi" class="active"><i data-ic="sunrise"></i><span data-i18n="zk.pagi"></span></button><button data-z="petang"><i data-ic="sunset"></i><span data-i18n="zk.petang"></span></button></div>
+  <div class="card zk-progress"><div class="bar"><div id="zkBar"></div></div><small id="zkProg" class="muted"></small><button class="btn soft sm" id="zkReset"><i data-ic="rotate-ccw"></i><span data-i18n="btn.reset"></span></button></div>
+  <div id="zikirList"></div>
+</section>
+
+<!-- ================= SUB: TASBIH ================= -->
+<section class="page" id="pg-tasbih" data-title="ib.tasbih">
+  <div class="card center">
+    <select id="dzikirSel">
+      <option>Subhanallah</option><option>Alhamdulillah</option><option>Allahu Akbar</option>
+      <option>La ilaha illallah</option><option>Astaghfirullah</option><option>Selawat</option>
+    </select>
+    <button class="tasbih-btn" id="tasbihBtn"><span id="tasbihCount">0</span><small id="tasbihTarget">/ 33</small></button>
+    <div class="row-btns">
+      <select id="tasbihGoal" class="auto"><option value="33">33</option><option value="99">99</option><option value="100">100</option><option value="1000">1000</option></select>
+      <button class="btn soft" id="tasbihReset"><i data-ic="rotate-ccw"></i><span data-i18n="btn.reset"></span></button>
+    </div>
+    <small class="muted" id="tasbihTotal"></small>
+  </div>
+</section>
+
+<!-- ================= SUB: LANGKAH ================= -->
+<section class="page" id="pg-langkah" data-title="sh.langkah">
+  <div class="card center step-main">
+    <div class="ring-xl" id="lRing"></div>
+    <div class="step-stats">
+      <div><i data-ic="route"></i><b id="lKm">0</b><small>km</small></div>
+      <div><i data-ic="flame"></i><b id="lKcal">0</b><small>kcal</small></div>
+      <div><i data-ic="timer"></i><b id="lMin">0</b><small data-i18n="steps.activeMin"></small></div>
+    </div>
+    <p class="note center" id="lNote"></p>
+    <button class="btn hidden" id="btnStepPerm"><i data-ic="footprints"></i><span data-i18n="steps.allow"></span></button>
+  </div>
+  <div class="card">
+    <div class="card-title" data-i18n="steps.week"></div>
+    <div class="week-chart" id="lWeek"></div>
+    <div class="week-sum" id="lWeekSum"></div>
+  </div>
+</section>
+
+<!-- ================= SUB: BMI ================= -->
+<section class="page" id="pg-bmi" data-title="sh.bmi">
+  <div class="card">
+    <div class="two">
+      <div><label class="lbl" data-i18n="pf.height"></label><input type="number" inputmode="decimal" id="bmiH"></div>
+      <div><label class="lbl" data-i18n="pf.weight"></label><input type="number" inputmode="decimal" id="bmiW"></div>
+    </div>
+    <div class="bmi-out"><div class="bmi-num" id="bmiNum">—</div><div class="bmi-cat" id="bmiCat"></div></div>
+    <div class="bmi-scale"><div class="seg-u"></div><div class="seg-n"></div><div class="seg-o"></div><div class="seg-b"></div><div class="bmi-mark" id="bmiMark"></div></div>
+    <div class="bmi-legend"><span data-i18n="bmi.l1"></span><span data-i18n="bmi.l2"></span><span data-i18n="bmi.l3"></span><span data-i18n="bmi.l4"></span></div>
+    <p class="note" id="bmiTip"></p>
+    <p class="note" data-i18n="bmi.note"></p>
+  </div>
+</section>
+
+<!-- ================= SUB: AIR ================= -->
+<section class="page" id="pg-air" data-title="sh.air">
+  <div class="card center">
+    <div class="water-big"><b id="wCount">0</b><span>/ <span id="wGoal">8</span> <span data-i18n="water.glasses"></span></span></div>
+    <small class="muted" id="wMl"></small>
+    <div class="glasses" id="glasses"></div>
+    <div class="row-btns"><button class="btn soft" id="wMinus"><i data-ic="minus"></i></button><button class="btn" id="wPlus"><i data-ic="plus"></i><span data-i18n="water.add"></span></button></div>
+  </div>
+  <div class="card">
+    <label class="switch-row"><span data-i18n="water.notif"></span><input type="checkbox" id="waterNotif"></label>
+    <label class="lbl" data-i18n="water.goal"></label>
+    <select id="wGoalSel"><option>6</option><option selected>8</option><option>10</option><option>12</option></select>
+  </div>
+</section>
+
+<!-- ================= SUB: MATAWANG ================= -->
+<section class="page" id="pg-fx" data-title="al.fxTitle">
+  <div class="card fx-card">
+    <label class="lbl" data-i18n="fx.amount"></label>
+    <input type="number" inputmode="decimal" id="fxAmount" value="100" class="big-input">
+    <div class="fx-row">
+      <select id="fxFrom"></select>
+      <button class="icbtn solid" id="fxSwap" aria-label="Swap"><i data-ic="arrow-left-right"></i></button>
+      <select id="fxTo"></select>
+    </div>
+    <div class="fx-result" id="fxResult">—</div>
+    <small class="muted" id="fxUpdated"></small>
+  </div>
+  <div class="card"><div class="card-title" data-i18n="fx.popular"></div><ul class="rate-list" id="fxPopular"></ul></div>
+</section>
+
+<!-- ================= SUB: PETA ================= -->
+<section class="page" id="pg-map" data-title="al.map">
+  <div class="map-tools">
+    <div class="search-box grow"><i data-ic="search"></i><input type="search" id="mapSearch" data-i18n-ph="map.search"></div>
+    <button class="btn" id="btnSearch" data-i18n="map.go"></button>
+  </div>
+  <button class="btn soft block sm" id="btnMasjid"><i data-ic="moon-star"></i><span data-i18n="map.mosque"></span></button>
+  <div id="map"></div>
+  <div class="card dist-card">
+    <div class="seg">
+      <button class="seg-btn active" data-mode="A" data-i18n="map.ptA"></button>
+      <button class="seg-btn" data-mode="B" data-i18n="map.ptB"></button>
+      <button class="seg-btn" id="btnMeA" data-i18n="map.aMe"></button>
+      <button class="seg-btn" id="btnClear" data-i18n="map.clear"></button>
+    </div>
+    <div class="dist-out"><div><small data-i18n="map.dist"></small><strong id="distKm">—</strong></div><div><small data-i18n="map.bearing"></small><strong id="distBearing">—</strong></div></div>
+    <div class="row-btns"><button class="btn soft" id="btnDirections"><i data-ic="navigation"></i><span data-i18n="map.directions"></span></button></div>
+    <small class="muted center-txt" data-i18n="map.hint"></small>
+  </div>
+</section>
+
+</main>
+
+<nav class="bottomnav" id="bottomnav">
+  <button data-tab="home"><i data-ic="house"></i><span data-i18n="tab.home"></span></button>
+  <button data-tab="ibadah"><i data-ic="moon-star"></i><span data-i18n="tab.ibadah"></span></button>
+  <button data-tab="sihat"><i data-ic="heart-pulse"></i><span data-i18n="tab.sihat"></span></button>
+  <button data-tab="alat"><i data-ic="layout-grid"></i><span data-i18n="tab.alat"></span></button>
+  <button data-tab="profil"><i data-ic="user"></i><span data-i18n="tab.profil"></span></button>
+</nav>
+
+<div class="toast" id="toast"></div>
+
+<script src="build-flags.js"></script>
+<script src="js/i18n.js"></script>
+<script src="lib/leaflet.js"></script>
+<script src="icons.js"></script>
+<script src="data/zones.js"></script>
+<script src="data/doa.js"></script>
+<script src="data/zikir.js"></script>
+<script src="data/quotes.js"></script>
+<script src="js/prayer.js"></script>
+<script src="js/core.js"></script>
+<script src="js/solat.js"></script>
+<script src="js/ibadah.js"></script>
+<script src="js/health.js"></script>
+<script src="js/sihat.js"></script>
+<script src="js/alat.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>

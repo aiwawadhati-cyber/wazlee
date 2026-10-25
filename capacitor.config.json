@@ -1,0 +1,21 @@
+{
+  "appId": "my.digitalsys.wazlee",
+  "appName": "Wazlee",
+  "webDir": "www",
+  "android": {
+    "backgroundColor": "#1565D8"
+  },
+  "plugins": {
+    "StatusBar": {
+      "backgroundColor": "#0A3A9E",
+      "style": "DARK",
+      "overlaysWebView": false
+    },
+    "LocalNotifications": {
+      "iconColor": "#1565D8"
+    },
+    "CapacitorHttp": {
+      "enabled": true
+    }
+  }
+}

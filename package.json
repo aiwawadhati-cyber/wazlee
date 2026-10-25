@@ -1,0 +1,31 @@
+{
+  "name": "wazlee",
+  "version": "2.1.0",
+  "description": "Wazlee \u2014 ibadah, kesihatan & alat harian (BM/EN)",
+  "author": "Wan Azlee",
+  "license": "UNLICENSED",
+  "private": true,
+  "scripts": {
+    "serve": "npx http-server www -p 8080 -c-1",
+    "android:add": "npx cap add android",
+    "android:assets": "npx capacitor-assets generate --android",
+    "android:sync": "npx cap sync android",
+    "android:open": "npx cap open android"
+  },
+  "dependencies": {
+    "@capacitor/android": "^8.0.0",
+    "@capacitor/app": "^8.0.0",
+    "@capacitor/core": "^8.0.0",
+    "@capacitor/geolocation": "^8.0.0",
+    "@capacitor/local-notifications": "^8.0.0",
+    "@capacitor/share": "^8.0.0",
+    "@capacitor/status-bar": "^8.0.0",
+    "@capgo/capacitor-health": "^8.11.12",
+    "leaflet": "1.9.4"
+  },
+  "devDependencies": {
+    "@capacitor/assets": "^3.0.5",
+    "@capacitor/cli": "^8.0.0",
+    "lucide-static": "^1.61.0"
+  }
+}

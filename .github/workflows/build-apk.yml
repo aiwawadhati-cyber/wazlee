@@ -1,0 +1,82 @@
+name: Build Wazlee APK
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - uses: android-actions/setup-android@v3
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Azan (pilihan) — aktif jika assets/sounds/azan.mp3 wujud
+        run: |
+          if [ -f assets/sounds/azan.mp3 ]; then
+            echo 'window.WZ_FLAGS = { azan: true };' > www/build-flags.js
+            echo "Azan: ON"
+          else
+            echo 'window.WZ_FLAGS = { azan: false };' > www/build-flags.js
+            echo "Azan: OFF (bunyi notifikasi lalai)"
+          fi
+
+      - name: Add Android platform
+        run: |
+          rm -rf android
+          npx cap add android
+
+      - name: Native plugin (pengira langkah) & versi
+        run: |
+          PKG=android/app/src/main/java/my/digitalsys/wazlee
+          cp native/android/*.java $PKG/
+          VER=$(node -p "require('./package.json').version")
+          sed -i "s/versionCode 1/versionCode ${GITHUB_RUN_NUMBER}/; s/versionName \"1.0\"/versionName \"${VER}\"/" android/app/build.gradle
+          grep -n "versionCode\|versionName" android/app/build.gradle
+          # Health Connect memerlukan Android 8.0+ (minSdk 26)
+          sed -i 's/minSdkVersion = [0-9]*/minSdkVersion = 26/' android/variables.gradle
+          grep -n "minSdkVersion" android/variables.gradle
+          if [ -f assets/sounds/azan.mp3 ]; then
+            mkdir -p android/app/src/main/res/raw
+            cp assets/sounds/azan.mp3 android/app/src/main/res/raw/azan.mp3
+          fi
+
+      - name: Add permissions
+        run: |
+          M=android/app/src/main/AndroidManifest.xml
+          sed -i 's#<uses-permission android:name="android.permission.INTERNET" />#<uses-permission android:name="android.permission.INTERNET" />\n    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />\n    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />\n    <uses-feature android:name="android.hardware.location.gps" android:required="false" />\n    <uses-permission android:name="android.permission.ACTIVITY_RECOGNITION" />\n    <uses-feature android:name="android.hardware.sensor.stepcounter" android:required="false" />\n    <uses-permission android:name="android.permission.VIBRATE" />\n    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />\n    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM" />\n    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />#' $M
+          grep -c "ACTIVITY_RECOGNITION" $M
+          sed -i 's#<activity#<activity android:screenOrientation="portrait"#' $M
+
+      - name: Generate icons & splash
+        run: npx capacitor-assets generate --android --iconBackgroundColor '#1565D8' --splashBackgroundColor '#1565D8' --splashBackgroundColorDark '#061432'
+
+      - name: Sync
+        run: npx cap sync android
+
+      - name: Build debug APK
+        working-directory: android
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug --no-daemon
+          VER=$(node -p "require('../package.json').version")
+          cp app/build/outputs/apk/debug/app-debug.apk ../Wazlee-v${VER}.apk
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: Wazlee-APK
+          path: Wazlee-v*.apk
