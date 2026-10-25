@@ -5,6 +5,9 @@ on:
     branches: [main]
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     runs-on: ubuntu-24.04
@@ -84,3 +87,15 @@ jobs:
         with:
           name: Wazlee-APK
           path: Wazlee-v*.apk
+
+      - name: Terbit sebagai GitHub Release (pautan muat turun tetap)
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          VER=$(node -p "require('./package.json').version")
+          TAG="v${VER}-build${GITHUB_RUN_NUMBER}"
+          cp Wazlee-v${VER}.apk Wazlee.apk
+          gh release create "$TAG" Wazlee-v${VER}.apk Wazlee.apk \
+            --title "Wazlee ${VER} (build ${GITHUB_RUN_NUMBER})" \
+            --notes "APK Wazlee ${VER}. Muat turun Wazlee.apk dan pasang (benarkan Install unknown apps)." \
+            --latest
