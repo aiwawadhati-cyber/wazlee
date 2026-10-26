@@ -8,6 +8,9 @@ PERMS = ['ACCESS_COARSE_LOCATION', 'ACCESS_FINE_LOCATION', 'ACTIVITY_RECOGNITION
 add = ''.join(f'    <uses-permission android:name="android.permission.{x}" />\n' for x in PERMS if f'android.permission.{x}"' not in s)
 add += '    <uses-feature android:name="android.hardware.location.gps" android:required="false" />\n'
 add += '    <uses-feature android:name="android.hardware.sensor.stepcounter" android:required="false" />\n'
+if 'SET_ALARM' not in s:
+    add += '    <uses-permission android:name="com.android.alarm.permission.SET_ALARM" />\n'
+    add += '    <queries><intent><action android:name="android.intent.action.SET_ALARM" /></intent><intent><action android:name="android.intent.action.SHOW_ALARMS" /></intent><intent><action android:name="android.intent.action.SET_TIMER" /></intent></queries>\n'
 s = s.replace('</manifest>', add + '</manifest>', 1)
 
 if 'android:screenOrientation' not in s:

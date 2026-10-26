@@ -11,6 +11,7 @@
     if (!r) return;
     const [k, a, b] = String(r).split(':');
     if (k === 'surah') return WZ.quran.openSurah(+a || 1, +b || 1);
+    if (k === 'nota' && a && WZ.nota) return WZ.nota.open(+a);
     if (k === 'zikir' && WZ.zikirMode) WZ.zikirMode(a);
     WZ.go(k);
   }

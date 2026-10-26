@@ -6,7 +6,9 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
+import android.provider.AlarmClock;
 import android.provider.OpenableColumns;
+import java.util.ArrayList;
 import androidx.activity.result.ActivityResult;
 import com.getcapacitor.JSObject;
 import com.getcapacitor.Plugin;
@@ -133,5 +135,55 @@ public class WzAzanPlugin extends Plugin {
         s.setAction(WzAzanService.ACT_STOP);
         try { getContext().startService(s); } catch (Exception ignored) {}
         call.resolve();
+    }
+
+    /** Tetapkan penggera dalam app Jam sistem (berbunyi walaupun telefon tidur). */
+    @PluginMethod
+    public void setAlarm(PluginCall call) {
+        try {
+            Intent i = new Intent(AlarmClock.ACTION_SET_ALARM);
+            i.putExtra(AlarmClock.EXTRA_HOUR, call.getInt("hour", 5));
+            i.putExtra(AlarmClock.EXTRA_MINUTES, call.getInt("minute", 0));
+            i.putExtra(AlarmClock.EXTRA_MESSAGE, call.getString("label", "Wazlee"));
+            JSONArray days = call.getArray("days");
+            if (days != null && days.length() > 0) {
+                ArrayList<Integer> d = new ArrayList<>();
+                for (int k = 0; k < days.length(); k++) d.add(days.getInt(k) + 1); // 0=Ahad -> Calendar.SUNDAY=1
+                i.putExtra(AlarmClock.EXTRA_DAYS, d);
+            }
+            i.putExtra(AlarmClock.EXTRA_SKIP_UI, false);
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            getActivity().startActivity(i);
+            call.resolve();
+        } catch (Exception e) {
+            call.reject("noclock");
+        }
+    }
+
+    @PluginMethod
+    public void setTimer(PluginCall call) {
+        try {
+            Intent i = new Intent(AlarmClock.ACTION_SET_TIMER);
+            i.putExtra(AlarmClock.EXTRA_LENGTH, call.getInt("seconds", 300));
+            i.putExtra(AlarmClock.EXTRA_MESSAGE, call.getString("label", "Wazlee"));
+            i.putExtra(AlarmClock.EXTRA_SKIP_UI, true);
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            getActivity().startActivity(i);
+            call.resolve();
+        } catch (Exception e) {
+            call.reject("noclock");
+        }
+    }
+
+    @PluginMethod
+    public void showAlarms(PluginCall call) {
+        try {
+            Intent i = new Intent(AlarmClock.ACTION_SHOW_ALARMS);
+            i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            getActivity().startActivity(i);
+            call.resolve();
+        } catch (Exception e) {
+            call.reject("noclock");
+        }
     }
 }

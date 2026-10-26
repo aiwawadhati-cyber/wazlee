@@ -1,4 +1,4 @@
-# Wazlee v2.4 — App Harian Muslim (Android)
+# Wazlee v2.5 — App Harian Muslim (Android)
 
 **Ibadah · Sihat · Alat** dalam satu app bertema biru yang ceria. **Dwibahasa: Bahasa Melayu & English** (tukar di butang EN/BM atas atau Profil → Bahasa).
 
@@ -8,7 +8,7 @@
 | **Al-Quran** | 114 surah (teks Uthmani disahkan), terjemahan BM Basmeih & EN Sahih International, transliterasi, carian surah/ayat/kata kunci, juz, penanda, sambung bacaan, 6 qari, audio streaming + **muat turun per surah** (luar talian), ulang ayat/surah |
 | **Ibadah** | Waktu Solat (zon JAKIM), Arah Kiblat (kompas), Doa Harian (20), Zikir Pagi & Petang (dengan pengira), Tasbih |
 | **Sihat** | Langkah harian (sensor pedometer **+ Health Connect**) + km/kalori + carta 7 hari, **Health Connect**: degup jantung, degup rehat, tidur, kalori aktif, berat; Kalkulator BMI (Asia/KKM), Minum Air + peringatan |
-| **Lagi** | **Sudut Ilmu** (6 permainan), Matawang, Peta & Jarak, Masjid berdekatan, Profil & Tetapan |
+| **Lagi** | **Sudut Ilmu** (6 permainan), **Nota**, **Penggera**, Peringatan, Matawang, Peta & Jarak, Masjid berdekatan, Profil & Tetapan |
 
 ### Sudut Ilmu — 6 permainan (bintang & 7 lencana)
 1. **Kuiz Islamik** — 60 soalan BM/EN (akidah, ibadah, Al-Quran, sirah, adab), pemasa 20s
@@ -64,6 +64,15 @@ Profil → Waktu Solat → **Bunyi azan**: pilih fail MP3/M4A azan dari telefon 
 ## Peringatan (v2.4)
 Lagi/Sihat → **Peringatan**: tidur, rehat setiap 2 jam (waktu kerja), tahajjud, Dhuha, Al-Kahfi (Jumaat), puasa sunat Isnin/Khamis, zikir pagi/petang, senaman + sehingga 10 peringatan tersuai. Ketik notifikasi untuk terus ke halaman berkaitan.
 
+## Nota (v2.5)
+Lagi → **Nota**: tajuk, isi, kategori (Umum/Kerja/Peribadi/Ibadah/Belanja/Idea), 7 warna, sematkan, carian, senarai semak (`- [ ]` / `- [x]`), dan peringatan pada tarikh & masa tertentu (ketik notifikasi untuk buka nota). Disimpan dalam telefon sahaja.
+
+## Penggera (v2.5)
+Lagi → **Penggera**: Bangun Subuh (X minit sebelum Subuh ikut zon), Tahajjud, Sahur, Dhuha, Solat Jumaat, penggera tersuai (label + hari) dan pemasa. Dipasang terus ke **app Jam telefon** (`AlarmClock` intent) supaya berbunyi walaupun telefon senyap/tidur, dengan Tunda & Matikan.
+
+## Peta (v2.4.1)
+Peta vektor **OpenFreeMap** (tanpa kunci API) melalui MapLibre GL; sandaran automatik ke jubin OpenStreetMap jika gagal.
+
 ## Pengesanan zon (v2.4)
 Zon JAKIM dikesan dengan **poligon sempadan daerah** (termasuk enklaf Putrajaya/KL), bukan titik tengah terdekat — membetulkan kes sempadan seperti Nilai (NGS03).
 
@@ -102,4 +111,4 @@ Keperluan: Node 22+, JDK 21.
 - Langkah dikira oleh sensor perkakasan walaupun app ditutup; buka app sekali sehari untuk rekod harian tepat.
 - Teks Arab doa/zikir untuk rujukan harian — semak dengan mushaf/guru untuk bacaan.
 - APK ialah *debug build* (sesuai edaran sendiri). Untuk Play Store perlukan keystore & `bundleRelease`.
-- Kredit: Ikon Lucide (ISC), fon Amiri & Nunito (OFL), Leaflet (BSD), peta © OpenStreetMap/CARTO, zon daerah dirujuk silang dengan projek waktusolat.app.
+- Kredit: Ikon Lucide (ISC), fon Amiri & Nunito (OFL), Leaflet (BSD), MapLibre GL (BSD), peta © OpenFreeMap/OpenMapTiles/OpenStreetMap, zon daerah dirujuk silang dengan projek waktusolat.app.

@@ -37,10 +37,35 @@
   let map, mA, mB, line, meMarker, resultLayer, mode = 'A';
   const pin = (txt, col) => L.divIcon({ className: '', html: `<div style="background:${col};color:#fff;width:32px;height:32px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);display:grid;place-items:center;box-shadow:0 3px 8px #0005;border:2.5px solid #fff"><b style="transform:rotate(45deg);font-family:Nunito,sans-serif">${txt}</b></div>`, iconSize: [32, 32], iconAnchor: [16, 32], popupAnchor: [0, -30] });
   const mosque = () => L.divIcon({ className: '', html: `<div style="background:linear-gradient(135deg,#34D399,#0E9F5A);color:#fff;width:30px;height:30px;border-radius:10px;display:grid;place-items:center;box-shadow:0 3px 8px #0005;border:2px solid #fff">${ico('moon-star')}</div>`, iconSize: [30, 30], iconAnchor: [15, 15] });
+  /* Peta asas: OpenFreeMap (vektor, percuma tanpa API key) → sandaran jubin OpenStreetMap */
+  const loadScript = src => new Promise((res, rej) => { const el = document.createElement('script'); el.src = src; el.onload = res; el.onerror = rej; document.head.appendChild(el); });
+  let baseDone = false;
+  function osmBase() {
+    if (baseDone) return; baseDone = true;
+    L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 19, attribution: '© <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>' }).addTo(map);
+  }
+  async function addBase() {
+    try {
+      const cv = document.createElement('canvas');
+      if (!(cv.getContext('webgl2') || cv.getContext('webgl'))) throw new Error('no webgl');
+      if (!window.maplibregl) {
+        const css = document.createElement('link'); css.rel = 'stylesheet'; css.href = 'lib/maplibre-gl.css'; document.head.appendChild(css);
+        await loadScript('lib/maplibre-gl.js');
+        await loadScript('lib/leaflet-maplibre-gl.js');
+      }
+      const gl = L.maplibreGL({ style: 'https://tiles.openfreemap.org/styles/liberty', attribution: '<a href="https://openfreemap.org" target="_blank">OpenFreeMap</a> © OpenMapTiles · © OpenStreetMap' }).addTo(map);
+      const m = gl.getMaplibreMap();
+      let loaded = false;
+      const fail = () => { if (loaded || baseDone) return; try { map.removeLayer(gl); } catch {} osmBase(); };
+      m.once('load', () => { loaded = true; baseDone = true; });
+      m.on('error', fail);
+      setTimeout(fail, 12000);
+    } catch { osmBase(); }
+  }
   function initMap() {
     if (map) { setTimeout(() => map.invalidateSize(), 80); return; }
     map = L.map('map').setView([WZ.loc.lat, WZ.loc.lng], 13);
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', { maxZoom: 19, subdomains: 'abcd', attribution: '© OpenStreetMap · © CARTO' }).addTo(map);
+    addBase();
     meMarker = L.circleMarker([WZ.loc.lat, WZ.loc.lng], { radius: 9, color: '#fff', weight: 3, fillColor: '#1565D8', fillOpacity: 1 }).addTo(map).bindPopup(t('map.you'));
     resultLayer = L.layerGroup().addTo(map);
     map.on('click', e => setPoint(mode, e.latlng));

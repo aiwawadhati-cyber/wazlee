@@ -510,3 +510,45 @@ body.has-player .toast{bottom:calc(160px + var(--safe-bot))}
 .ing-days button{border:1.5px solid var(--line);background:var(--card);border-radius:12px;padding:6px 10px;font-weight:800;font-size:12.5px}
 .ing-days button.active{background:linear-gradient(135deg,#7C7CFF,#4B3FE0);color:#fff;border-color:transparent}
 input[type=time]{width:100%;padding:11px 12px;border-radius:14px;border:1.5px solid var(--line);background:var(--soft2);font-weight:800}
+
+/* v2.5 Nota & Penggera */
+.row-flex{display:flex;gap:10px;align-items:center;margin-bottom:12px}
+.row-flex .search-box{margin:0}
+.nt-filter,.nt-cats{display:flex;gap:6px;overflow-x:auto;padding-bottom:4px;margin-bottom:10px;scrollbar-width:none}
+.nt-filter button,.nt-cats button{flex:0 0 auto;border:1.5px solid var(--line);background:var(--card);border-radius:12px;padding:6px 12px;font-weight:800;font-size:12.5px}
+.nt-filter button.active,.nt-cats button.active{background:linear-gradient(135deg,#FFE066,#FFAA00);color:#3A2A00;border-color:transparent}
+.nt-grid{columns:2;column-gap:10px}
+.nt-card{display:block;width:100%;break-inside:avoid;margin:0 0 10px;text-align:left;border:1.5px solid var(--line);border-radius:18px;padding:12px;background:var(--nc,var(--card));position:relative;box-shadow:var(--shadow)}
+.nt-card b{display:block;font-size:15px;margin-bottom:4px;padding-right:18px;word-break:break-word}
+.nt-card small{display:flex;align-items:center;gap:4px;color:var(--muted);font-size:11.5px;margin-top:8px}
+.nt-card small .ic{width:13px;height:13px}
+.nt-body{font-size:13.5px;line-height:1.45;color:var(--ink);opacity:.85;word-break:break-word}
+.nt-body span{display:block;white-space:pre-wrap}
+.nt-ck{display:flex!important;gap:5px;align-items:flex-start}
+.nt-ck .ic{width:14px;height:14px;margin-top:2px;flex:0 0 auto;color:#C88A00}
+.nt-ck.done{text-decoration:line-through;opacity:.6}
+.nt-pin{position:absolute;top:10px;right:10px;color:#C88A00}.nt-pin .ic{width:15px;height:15px}
+.nt-empty{column-span:all;padding:30px 0}
+.nt-ed{background:var(--nc,var(--card))}
+.nt-title{font-size:18px;font-weight:900}
+.nt-ed textarea{width:100%;margin-top:10px;padding:12px 13px;border-radius:14px;border:1.5px solid var(--line);background:var(--soft2);outline:none;font:inherit;color:inherit;line-height:1.5;resize:vertical;min-height:200px}
+.nt-ed textarea:focus{border-color:var(--sky)}
+.nt-row{margin-top:12px}.nt-row>span{display:block;margin-bottom:6px}
+.nt-row .ic{width:15px;height:15px;vertical-align:-3px}
+.nt-colors{display:flex;gap:8px;flex-wrap:wrap}
+.nt-sw{width:32px;height:32px;border-radius:50%;border:2px solid var(--line)}
+.nt-sw.active{border-color:var(--blue);box-shadow:0 0 0 3px #1565D833}
+.nt-ed .switch-row .ic{width:16px;height:16px;vertical-align:-3px}
+.nt-ed .two{margin-top:10px}
+input[type=datetime-local]{flex:1;min-width:0;padding:11px 12px;border-radius:14px;border:1.5px solid var(--line);background:var(--soft2);font-weight:700}
+.nt-row .row-flex{margin:0}
+.al-quick{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+.al-q{border:1.5px solid var(--line);background:var(--card);border-radius:16px;padding:10px 4px;display:flex;flex-direction:column;align-items:center;gap:4px}
+.al-q .chip-ic{width:34px;height:34px}.al-q b{font-size:12.5px;text-align:center}.al-q small{color:var(--muted);font-weight:800;font-size:12px}
+.al-t{border:1.5px solid var(--line);background:var(--soft2);border-radius:14px;padding:10px 0;font-weight:900;font-size:13.5px}
+.al-t:active,.al-q:active{transform:scale(.96)}
+.al-h{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:8px 0;border-bottom:1px solid var(--line)}
+.al-h:last-child{border:0}.al-h b{font-size:17px;font-weight:900}.al-h small{color:var(--muted);font-size:12px}
+#alDays{margin-bottom:6px}
+#alDays button.active{background:linear-gradient(135deg,#FF8DB0,#F0457A)}
+@media (prefers-color-scheme:dark){.nt-card[style*="--nc"],.nt-ed.tinted{--ink:#1C2433;--muted:#4A5568;color:#1C2433}.nt-ed.tinted input,.nt-ed.tinted textarea{background:#ffffff99;color:#1C2433}}

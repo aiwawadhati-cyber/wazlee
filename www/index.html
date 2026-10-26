@@ -189,6 +189,57 @@
   <p class="note" id="ingStatus"></p>
 </section>
 
+<!-- ================= NOTA ================= -->
+<section class="page" id="pg-nota" data-title="tile.nota">
+  <div class="hub-hero yellow"><div><h2 data-i18n="tile.nota"></h2><p data-i18n="nt.sub"></p></div><div class="hub-ic" data-ic="notebook-pen"></div></div>
+  <div class="row-flex"><div class="search-box grow"><i data-ic="search"></i><input type="search" id="ntSearch" data-i18n-ph="nt.search"></div>
+    <button class="icbtn solid" id="ntNew" aria-label="new"><i data-ic="plus"></i></button></div>
+  <div class="nt-filter" id="ntFilter"></div>
+  <div class="nt-grid" id="ntList"></div>
+</section>
+
+<section class="page" id="pg-notaed" data-title="nt.edit">
+  <div class="card nt-ed" id="ntEd">
+    <input type="text" id="ntTitle" class="nt-title" data-i18n-ph="nt.titlePh">
+    <textarea id="ntBody" rows="10" data-i18n-ph="nt.bodyPh"></textarea>
+    <div class="nt-row"><span class="muted small" data-i18n="nt.cat"></span><div class="nt-cats" id="ntCats"></div></div>
+    <div class="nt-row"><span class="muted small" data-i18n="nt.color"></span><div class="nt-colors" id="ntColors"></div></div>
+    <label class="switch-row"><span><i data-ic="pin"></i> <span data-i18n="nt.pin"></span></span><input type="checkbox" id="ntPin"></label>
+    <div class="nt-row col"><span class="muted small"><i data-ic="bell-ring"></i> <span data-i18n="nt.remind"></span></span>
+      <div class="row-flex"><input type="datetime-local" id="ntRemind"><button class="icbtn" id="ntRemClr" aria-label="clear"><i data-ic="x"></i></button></div></div>
+    <p class="muted small" id="ntMeta"></p>
+    <div class="two"><button class="btn soft" id="ntDel"><i data-ic="trash-2"></i><span data-i18n="nt.del"></span></button><button class="btn" id="ntSave"><i data-ic="check"></i><span data-i18n="nt.save"></span></button></div>
+  </div>
+</section>
+
+<!-- ================= PENGGERA ================= -->
+<section class="page" id="pg-alarm" data-title="tile.alarm">
+  <div class="hub-hero pink"><div><h2 data-i18n="tile.alarm"></h2><p data-i18n="al.sub"></p></div><div class="hub-ic" data-ic="alarm-clock"></div></div>
+  <div class="card">
+    <div class="card-title"><i data-ic="sunrise"></i> <span data-i18n="al.subuh"></span></div>
+    <p class="muted small" id="alSubuhInfo"></p>
+    <div class="two"><select id="alSubuhOff"></select><button class="btn" id="alSubuhBtn"><i data-ic="alarm-clock"></i><span data-i18n="al.set"></span></button></div>
+  </div>
+  <div class="card">
+    <div class="card-title"><i data-ic="moon-star"></i> <span data-i18n="al.quick"></span></div>
+    <div class="al-quick" id="alQuick"></div>
+  </div>
+  <div class="card">
+    <div class="card-title"><i data-ic="clock-plus"></i> <span data-i18n="al.custom"></span></div>
+    <input type="text" id="alLabel" data-i18n-ph="al.labelPh">
+    <div class="two" style="margin-top:10px"><input type="time" id="alTime" value="06:00"><button class="btn" id="alAddBtn"><i data-ic="alarm-clock"></i><span data-i18n="al.set"></span></button></div>
+    <div class="ing-days" id="alDays"></div>
+    <p class="muted small" data-i18n="al.daysNote"></p>
+  </div>
+  <div class="card">
+    <div class="card-title"><i data-ic="timer"></i> <span data-i18n="al.timer"></span></div>
+    <div class="al-quick" id="alTimers"></div>
+  </div>
+  <div class="card" id="alHistCard"><div class="card-title"><i data-ic="list"></i> <span data-i18n="al.hist"></span></div><div id="alHist"></div></div>
+  <button class="btn soft block" id="alShow"><i data-ic="alarm-clock"></i><span data-i18n="al.showAll"></span></button>
+  <p class="note" data-i18n="al.note"></p>
+</section>
+
 <!-- ================= WIDGET ================= -->
 <section class="page" id="pg-widgets" data-title="tile.widgets">
   <div class="card">
@@ -470,6 +521,7 @@
 <script src="js/games.js"></script>
 <script src="js/widget.js"></script>
 <script src="js/ingat.js"></script>
+<script src="js/nota.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>
