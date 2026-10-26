@@ -42,6 +42,8 @@
     <div class="pchips" id="hChips" data-go="solat"></div>
   </div>
 
+  <button class="mus-banner hidden" id="musBanner" data-go="musafir"><span class="chip-ic g-teal" data-ic="car"></span><span class="grow"><b data-i18n="mu.bannerT"></b><small id="musBannerS"></small></span><i data-ic="chevron-right"></i></button>
+
   <div class="duo">
     <button class="mini-card green" data-go="langkah">
       <div class="ring-sm" id="hStepRing"></div>
@@ -187,6 +189,39 @@
     <div class="ing-days" id="ingDays"></div>
   </div>
   <p class="note" id="ingStatus"></p>
+</section>
+
+<!-- ================= MUSAFIR ================= -->
+<section class="page" id="pg-musafir" data-title="tile.musafir">
+  <div class="hub-hero teal"><div><h2 data-i18n="tile.musafir"></h2><p data-i18n="mu.sub"></p></div><div class="hub-ic" data-ic="car"></div></div>
+  <div class="card mus-status" id="muStatus"></div>
+  <div class="card">
+    <div class="card-title"><i data-ic="house"></i> <span data-i18n="mu.home"></span></div>
+    <p class="muted small" id="muHomeTxt"></p>
+    <button class="btn soft block" id="muSetHome"><i data-ic="locate-fixed"></i><span data-i18n="mu.setHome"></span></button>
+  </div>
+  <div class="card">
+    <div class="card-title"><i data-ic="route"></i> <span data-i18n="mu.dest"></span></div>
+    <div class="row-flex"><div class="search-box grow"><i data-ic="search"></i><input type="search" id="muQ" data-i18n-ph="mu.destPh"></div><button class="icbtn solid" id="muGo" aria-label="search"><i data-ic="search"></i></button></div>
+    <div id="muRes"></div>
+    <div id="muDestTxt"></div>
+  </div>
+  <div class="card">
+    <div class="card-title"><i data-ic="calendar"></i> <span data-i18n="mu.trip"></span></div>
+    <div id="muTrip"></div>
+  </div>
+  <div class="card">
+    <div class="card-title"><i data-ic="clock"></i> <span data-i18n="mu.windows"></span></div>
+    <div id="muWin"></div>
+  </div>
+  <div class="card">
+    <div class="card-title"><i data-ic="settings"></i> <span data-i18n="mu.thr"></span></div>
+    <select id="muThr"></select>
+    <p class="muted small" data-i18n="mu.thrNote" style="margin-top:8px"></p>
+  </div>
+  <h3 class="sec" data-i18n="mu.guide"></h3>
+  <div id="muGuide"></div>
+  <p class="note" data-i18n="mu.disclaimer"></p>
 </section>
 
 <!-- ================= NOTA ================= -->
@@ -522,6 +557,7 @@
 <script src="js/widget.js"></script>
 <script src="js/ingat.js"></script>
 <script src="js/nota.js"></script>
+<script src="js/musafir.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>

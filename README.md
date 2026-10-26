@@ -1,4 +1,4 @@
-# Wazlee v2.5 — App Harian Muslim (Android)
+# Wazlee v2.6 — App Harian Muslim (Android)
 
 **Ibadah · Sihat · Alat** dalam satu app bertema biru yang ceria. **Dwibahasa: Bahasa Melayu & English** (tukar di butang EN/BM atas atau Profil → Bahasa).
 
@@ -63,6 +63,12 @@ Profil → Waktu Solat → **Bunyi azan**: pilih fail MP3/M4A azan dari telefon 
 
 ## Peringatan (v2.4)
 Lagi/Sihat → **Peringatan**: tidur, rehat setiap 2 jam (waktu kerja), tahajjud, Dhuha, Al-Kahfi (Jumaat), puasa sunat Isnin/Khamis, zikir pagi/petang, senaman + sehingga 10 peringatan tersuai. Ketik notifikasi untuk terus ke halaman berkaitan.
+
+## Musafir (v2.6)
+Ibadah → **Musafir**: tetapkan lokasi rumah, cari destinasi (jarak jalan raya OSRM + garis lurus), status jamak/qasar, kiraan hari perjalanan, waktu jamak taqdim/takhir hari ini, panduan syarat & lafaz niat (mazhab Syafi'i). Had dua marhalah: **91 km (lalai, paling berhati-hati)**, 89 km atau 81 km (Muzakarah Fatwa Kebangsaan 2021). Banner di Utama apabila anda musafir.
+
+## Tandatangan APK (v2.6)
+APK ditandatangani dengan kunci tetap `native/android/wazlee-debug.keystore` (atau rahsia repo `WZ_KEYSTORE_B64` jika ditetapkan) supaya versi baharu boleh dipasang terus atas versi lama. Untuk Play Store, guna kunci upload berasingan dalam rahsia repo.
 
 ## Nota (v2.5)
 Lagi → **Nota**: tajuk, isi, kategori (Umum/Kerja/Peribadi/Ibadah/Belanja/Idea), 7 warna, sematkan, carian, senarai semak (`- [ ]` / `- [x]`), dan peringatan pada tarikh & masa tertentu (ketik notifikasi untuk buka nota). Disimpan dalam telefon sahaja.
