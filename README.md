@@ -1,4 +1,4 @@
-# Wazlee v2.3 — App Harian Muslim (Android)
+# Wazlee v2.4 — App Harian Muslim (Android)
 
 **Ibadah · Sihat · Alat** dalam satu app bertema biru yang ceria. **Dwibahasa: Bahasa Melayu & English** (tukar di butang EN/BM atas atau Profil → Bahasa).
 
@@ -58,8 +58,14 @@ Lihat `www/quran/SOURCES.txt`. Teks Arab disemak silang 6236/6236 ayat dengan te
 ## Bahasa
 Semua teks UI dalam `www/js/i18n.js` (format `kunci: ['BM', 'EN']`). Kandungan: `te`/`me` dalam `data/doa.js` & `data/zikir.js`, `QUOTES_EN` dalam `data/quotes.js`. Bahasa lalai: BM.
 
-## Bunyi azan (pilihan)
-Letak fail anda di `assets/sounds/azan.mp3` (huruf kecil, < 1 MB disyorkan, pastikan anda ada hak guna rakaman itu) dan push. CI akan menjadikannya bunyi notifikasi waktu solat. Tanpa fail, bunyi notifikasi lalai digunakan.
+## Azan penuh (v2.4)
+Profil → Waktu Solat → **Bunyi azan**: pilih fail MP3/M4A azan dari telefon (fail utama + pilihan fail Subuh), uji, dan tetapkan mod setiap solat (Azan penuh / Notifikasi / Senyap). Azan dimainkan oleh servis latar depan native (`WzAzanService`) melalui strim penggera, dengan butang **Henti**, walaupun app ditutup. Wazlee tidak membundel rakaman azan atas sebab hak cipta.
+
+## Peringatan (v2.4)
+Lagi/Sihat → **Peringatan**: tidur, rehat setiap 2 jam (waktu kerja), tahajjud, Dhuha, Al-Kahfi (Jumaat), puasa sunat Isnin/Khamis, zikir pagi/petang, senaman + sehingga 10 peringatan tersuai. Ketik notifikasi untuk terus ke halaman berkaitan.
+
+## Pengesanan zon (v2.4)
+Zon JAKIM dikesan dengan **poligon sempadan daerah** (termasuk enklaf Putrajaya/KL), bukan titik tengah terdekat — membetulkan kes sempadan seperti Nilai (NGS03).
 
 ## Kebenaran Android yang diminta
 Lokasi (zon/kiblat/peta), Aktiviti fizikal (langkah), Health Connect (baca sahaja), Notifikasi & penggera tepat (peringatan solat/air), Getaran (tasbih/zikir).

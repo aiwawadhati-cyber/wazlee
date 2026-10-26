@@ -8,6 +8,7 @@ public class MainActivity extends BridgeActivity {
     public void onCreate(Bundle savedInstanceState) {
         registerPlugin(WzStepsPlugin.class);
         registerPlugin(WzWidgetPlugin.class);
+        registerPlugin(WzAzanPlugin.class);
         super.onCreate(savedInstanceState);
     }
 }

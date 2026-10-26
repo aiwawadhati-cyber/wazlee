@@ -13,11 +13,15 @@
 
   /* ---------- Zon ---------- */
   const zoneInfo = c => ZONES.find(z => z.c === c);
+  const inRing = (x, y, r) => { let ins = false; for (let i = 0, j = r.length - 1; i < r.length; j = i++) { const [xi, yi] = r[i], [xj, yj] = r[j]; if (((yi > y) !== (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi)) ins = !ins; } return ins; };
   function detectZone(lat, lng) {
     if (lat < 0.6 || lat > 7.6 || lng < 99.4 || lng > 119.6) return null;
+    // 1) dalam sempadan poligon zon
+    for (const [z, polys] of (window.ZONEPOLY || [])) if (polys.some(([outer, ...holes]) => inRing(lng, lat, outer) && !holes.some(h => inRing(lng, lat, h)))) return z;
+    // 2) sandaran (pesisir pantai/pulau kecil): titik tengah daerah terdekat ≤ 12 km
     let best = null, bd = 1e9;
     for (const [la, lo, z] of DISTRICTS) { const d = Prayer.haversine(lat, lng, la, lo); if (d < bd) { bd = d; best = z; } }
-    return bd < 90 ? best : null;
+    return bd < 12 ? best : null;
   }
   function activeZone() {
     if (settings.zoneMode === 'gps') return null;
@@ -187,6 +191,9 @@
   }
 
   /* ---------- Notifikasi ---------- */
+  const AZ = P.WzAzan;
+  const azMode = n => (settings.azanMode || {})[n] || 'azan';   // 'azan' | 'notif' | 'silent'
+  const zoneText = () => { const z = activeZone(); if (!z) return WZ.loc.name; const zi = zoneInfo(z); return zi ? `${z} · ${zi.n.split(',').slice(0, 2).join(',')}` : z; };
   async function scheduleNotifs() {
     const LN = P.LocalNotifications;
     if (!LN) { $('#notifStatus').textContent = settings.notif ? t('notif.apkOnly') : ''; return; }
@@ -194,22 +201,27 @@
       const pend = await LN.getPending();
       const mine = pend.notifications.filter(n => n.id >= 1000 && n.id < 2000).map(n => ({ id: n.id }));
       if (mine.length) await LN.cancel({ notifications: mine });
-      if (!settings.notif && !settings.notifPre) { $('#notifStatus').textContent = ''; return; }
+      if (!settings.notif && !settings.notifPre) { $('#notifStatus').textContent = ''; if (AZ) AZ.schedule({ items: [], stopLabel: t('az.stop') }).catch(() => {}); return; }
       const perm = await LN.requestPermissions();
       if (perm.display !== 'granted') { settings.notif = settings.notifPre = false; saveSettings(); $('#notifToggle').checked = $('#notifPre').checked = false; $('#notifStatus').textContent = t('notif.denied'); return; }
-      const list = [], now = new Date(), zl = zoneLabel(), sound = window.WZ_FLAGS && WZ_FLAGS.azan ? 'azan.mp3' : undefined;
+      const list = [], items = [], now = new Date(), zt = zoneText();
       for (let k = 0; k < 7; k++) {
         const d = new Date(); d.setDate(d.getDate() + k);
         const day = getDay(d);
         MAIN.forEach((n, i) => {
           const at = hToDate(d, day.t[n]);
-          if (settings.notif && at > now) list.push({ id: 1000 + k * 10 + i, title: t('notif.in', { p: META[n].n }), body: `${fmtH(day.t[n])} · ${zl.code === 'GPS' ? WZ.loc.name : zl.code}`, schedule: { at, allowWhileIdle: true }, sound });
+          const title = t('notif.in', { p: META[n].n }), body = `${fmtH(day.t[n])} · ${zt}`;
+          if (settings.notif && at > now) {
+            if (AZ) items.push({ at: at.getTime(), title, body, kind: azMode(n) === 'azan' ? (n === 'subuh' ? 'subuh' : 'azan') : azMode(n) });
+            else list.push({ id: 1000 + k * 10 + i, title, body, schedule: { at, allowWhileIdle: true } });
+          }
           const pre = new Date(at.getTime() - 10 * 60000);
-          if (settings.notifPre && pre > now) list.push({ id: 1500 + k * 10 + i, title: t('notif.pre', { p: META[n].n }), body: t('notif.preBody', { p: META[n].n, t: fmtH(day.t[n]) }), schedule: { at: pre, allowWhileIdle: true } });
+          if (settings.notifPre && pre > now) list.push({ id: 1500 + k * 10 + i, title: t('notif.pre', { p: META[n].n }), body: t('notif.preBody', { p: META[n].n, t: fmtH(day.t[n]) }) + ` · ${zt}`, schedule: { at: pre, allowWhileIdle: true }, extra: { route: 'solat' } });
         });
       }
-      await LN.schedule({ notifications: list });
-      $('#notifStatus').textContent = t('notif.scheduled', { n: list.length });
+      if (list.length) await LN.schedule({ notifications: list });
+      if (AZ) await AZ.schedule({ items, stopLabel: t('az.stop') });
+      $('#notifStatus').textContent = t('notif.scheduled', { n: list.length + items.length }) + ` (${zt})`;
       try {
         const ex = await LN.checkExactNotificationSetting();
         $('#btnExact').classList.toggle('hidden', ex.exact_alarm === 'granted');
@@ -223,5 +235,5 @@
   on('loc', () => { emit('times'); ensureData().then(scheduleNotifs); });
   on('times', () => { renderHeroStatic(); tick(); if ($('#pg-solat').classList.contains('active')) renderSolat(); });
 
-  WZ.solat = { getDay, nextPrayer, currentPrayer, activeZone, detectZone, ensureData, scheduleNotifs, tick, META, MAIN, start() { setInterval(tick, 1000); renderHeroStatic(); tick(); } };
+  WZ.solat = { zoneText, azMode, getDay, nextPrayer, currentPrayer, activeZone, detectZone, ensureData, scheduleNotifs, tick, META, MAIN, start() { setInterval(tick, 1000); renderHeroStatic(); tick(); } };
 })();

@@ -12,6 +12,7 @@
       "overlaysWebView": false
     },
     "LocalNotifications": {
+      "smallIcon": "ic_stat_wazlee",
       "iconColor": "#1565D8"
     },
     "CapacitorHttp": {

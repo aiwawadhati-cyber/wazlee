@@ -174,6 +174,21 @@
   <p class="note center" data-i18n="q.sources"></p>
 </section>
 
+<!-- ================= PERINGATAN ================= -->
+<section class="page" id="pg-ingat" data-title="tile.ingat">
+  <div class="hub-hero indigo"><div><h2 data-i18n="tile.ingat"></h2><p data-i18n="ing.sub"></p></div><div class="hub-ic" data-ic="bell"></div></div>
+  <div id="ingList"></div>
+  <h3 class="sec" data-i18n="ing.custom"></h3>
+  <div id="ingCustom"></div>
+  <div class="card">
+    <div class="card-title" data-i18n="ing.add"></div>
+    <input type="text" id="ingTitle" data-i18n-ph="ing.titlePh">
+    <div class="two"><input type="time" id="ingTime" value="08:00"><button class="btn" id="ingAddBtn"><i data-ic="plus"></i><span data-i18n="ing.addBtn"></span></button></div>
+    <div class="ing-days" id="ingDays"></div>
+  </div>
+  <p class="note" id="ingStatus"></p>
+</section>
+
 <!-- ================= WIDGET ================= -->
 <section class="page" id="pg-widgets" data-title="tile.widgets">
   <div class="card">
@@ -227,6 +242,20 @@
     <label class="switch-row"><span data-i18n="pf.notifPre"></span><input type="checkbox" id="notifPre"></label>
     <small class="muted" id="notifStatus"></small>
     <button class="btn soft sm hidden" id="btnExact"><i data-ic="bell"></i><span data-i18n="pf.exact"></span></button>
+    <div class="az-box" id="azBox">
+      <div class="card-sub" data-i18n="az.title"></div>
+      <div class="az-file"><span class="grow"><b data-i18n="az.main"></b><small id="azNameMain"></small></span>
+        <button class="btn soft sm" data-az-pick="azan"><i data-ic="plus"></i><span data-i18n="az.pick"></span></button>
+        <button class="icbtn" data-az-test="azan" aria-label="test"><i data-ic="play"></i></button>
+        <button class="icbtn" data-az-clear="azan" aria-label="clear"><i data-ic="trash-2"></i></button></div>
+      <div class="az-file"><span class="grow"><b data-i18n="az.subuh"></b><small id="azNameSubuh"></small></span>
+        <button class="btn soft sm" data-az-pick="subuh"><i data-ic="plus"></i><span data-i18n="az.pick"></span></button>
+        <button class="icbtn" data-az-test="subuh" aria-label="test"><i data-ic="play"></i></button>
+        <button class="icbtn" data-az-clear="subuh" aria-label="clear"><i data-ic="trash-2"></i></button></div>
+      <div class="az-modes" id="azModes"></div>
+      <label class="switch-row"><span data-i18n="az.followSilent"></span><input type="checkbox" id="azFollow"></label>
+      <p class="note" data-i18n="az.note"></p>
+    </div>
   </div>
   <div class="card">
     <div class="card-title" data-i18n="pf.manualLoc"></div>
@@ -440,6 +469,7 @@
 <script src="js/quran.js"></script>
 <script src="js/games.js"></script>
 <script src="js/widget.js"></script>
+<script src="js/ingat.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>

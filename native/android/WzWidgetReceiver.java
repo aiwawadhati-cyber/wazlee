@@ -53,6 +53,7 @@ public class WzWidgetReceiver extends BroadcastReceiver {
             } else {
                 // WZ_TICK, BOOT_COMPLETED, TIME_SET, TIMEZONE_CHANGED, DATE_CHANGED, MY_PACKAGE_REPLACED
                 WzWidgets.updateAll(c);
+                if (!WzWidgets.ACT_TICK.equals(a)) WzAzan.scheduleNext(c);
             }
         } catch (Exception ignored) {}
     }
