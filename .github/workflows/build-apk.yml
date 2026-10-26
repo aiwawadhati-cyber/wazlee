@@ -67,6 +67,8 @@ jobs:
           if [ -f assets/sounds/azan.mp3 ]; then
             mkdir -p android/app/src/main/res/raw
             cp assets/sounds/azan.mp3 android/app/src/main/res/raw/azan.mp3
+            [ -f assets/sounds/azan_subuh.mp3 ] && cp assets/sounds/azan_subuh.mp3 android/app/src/main/res/raw/azan_subuh.mp3
+            ls -l android/app/src/main/res/raw/
           fi
 
       - name: Widget (res) & manifest

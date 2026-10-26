@@ -34,6 +34,8 @@ public class WzAzanPlugin extends Plugin {
         o.put("nameSubuh", WzAzan.prefs(getContext()).getString("name_subuh", ""));
         o.put("hasAzan", WzAzan.file(getContext(), "azan").exists());
         o.put("hasSubuh", WzAzan.file(getContext(), "subuh").exists());
+        o.put("builtIn", WzAzan.builtinId(getContext(), "azan") != 0);
+        o.put("builtInSubuh", WzAzan.builtinId(getContext(), "subuh") != WzAzan.builtinId(getContext(), "azan"));
         o.put("followSilent", WzAzan.prefs(getContext()).getBoolean("followSilent", false));
         AlarmManager am = getContext().getSystemService(AlarmManager.class);
         o.put("exact", Build.VERSION.SDK_INT < 31 || (am != null && am.canScheduleExactAlarms()));

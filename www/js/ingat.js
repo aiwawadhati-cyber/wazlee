@@ -105,8 +105,8 @@
     if (!AZ) { $('#azBox').innerHTML = `<div class="card-sub">${t('az.title')}</div><p class="note">${t('az.apkOnly')}</p>`; return; }
     try {
       const c = await AZ.getConfig();
-      $('#azNameMain').textContent = c.hasAzan ? c.nameAzan : t('az.none');
-      $('#azNameSubuh').textContent = c.hasSubuh ? c.nameSubuh : t('az.subuhNone');
+      $('#azNameMain').textContent = c.hasAzan ? c.nameAzan : c.builtIn ? t('az.builtin') : t('az.none');
+      $('#azNameSubuh').textContent = c.hasSubuh ? c.nameSubuh : c.builtInSubuh ? t('az.builtinSubuh') : t('az.subuhNone');
       $('#azFollow').checked = !!c.followSilent;
       if (!c.exact) $('#btnExact').classList.remove('hidden');
     } catch {}

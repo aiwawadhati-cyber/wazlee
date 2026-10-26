@@ -38,7 +38,34 @@ public final class WzAzan {
         File f = file(c, kind);
         if (f.exists() && f.length() > 0) return f;
         File m = file(c, "azan");
-        return m.exists() && m.length() > 0 ? m : null;
+        if (m.exists() && m.length() > 0) return m;
+        return builtin(c, kind);
+    }
+
+    /** Azan terbina dalam APK (res/raw/azan, res/raw/azan_subuh) — disalin ke storan dalaman sekali. */
+    static int builtinId(Context c, String kind) {
+        int id = 0;
+        if ("subuh".equals(kind)) id = c.getResources().getIdentifier("azan_subuh", "raw", c.getPackageName());
+        if (id == 0) id = c.getResources().getIdentifier("azan", "raw", c.getPackageName());
+        return id;
+    }
+
+    static File builtin(Context c, String kind) {
+        int id = builtinId(c, kind);
+        if (id == 0) return null;
+        File out = new File(c.getFilesDir(), "builtin_" + c.getResources().getResourceEntryName(id) + ".audio");
+        try {
+            long len;
+            try (android.content.res.AssetFileDescriptor fd = c.getResources().openRawResourceFd(id)) { len = fd.getLength(); }
+            if (out.exists() && out.length() == len) return out;
+            try (java.io.InputStream in = c.getResources().openRawResource(id); java.io.FileOutputStream os = new java.io.FileOutputStream(out)) {
+                byte[] b = new byte[16384]; int n;
+                while ((n = in.read(b)) > 0) os.write(b, 0, n);
+            }
+            return out;
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     static void ensureChannels(Context c) {
