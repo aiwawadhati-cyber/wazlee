@@ -112,7 +112,7 @@
     $('#sAyat').innerHTML = d.a.map((ar, i) => `
       <div class="card ayah ${isBm(n, i + 1) ? 'bm' : ''}" id="ay-${i + 1}" data-a="${i + 1}">
         <div class="ay-top"><span class="ay-ref">${n}:${i + 1}${sajda.has(`${n}:${i + 1}`) ? ` · <em>${t('q.sajda')}</em>` : ''}</span>
-          <span class="ay-act"><button data-act="play" aria-label="play">${ico('play')}</button><button data-act="bm" aria-label="bookmark">${ico(isBm(n, i + 1) ? 'bookmark-check' : 'bookmark')}</button><button data-act="share" aria-label="share">${ico('share-2')}</button></span></div>
+          <span class="ay-act"><button data-act="play" aria-label="play">${ico('play')}</button><button data-act="bm" aria-label="bookmark">${ico(isBm(n, i + 1) ? 'bookmark-check' : 'bookmark')}</button><button data-act="share" aria-label="share">${ico('share-2')}</button><button data-act="img" aria-label="image">${ico('image')}</button></span></div>
         <p class="arab q-ar">${ar} <span class="ay-end">﴿${arNum(i + 1)}﴾</span></p>
         ${qs.tl ? `<p class="q-tl">${esc(d.tl[i])}</p>` : ''}
         ${trText(d, i)}
@@ -134,6 +134,9 @@
     const a = +b.closest('.ayah').dataset.a, n = cur.n;
     if (b.dataset.act === 'play') Player.playSurah(n, a);
     else if (b.dataset.act === 'bm') { toggleBm(n, a); b.innerHTML = ico(isBm(n, a) ? 'bookmark-check' : 'bookmark'); b.closest('.ayah').classList.toggle('bm', isBm(n, a)); }
+    else if (b.dataset.act === 'img') {
+      const d = cur.d; WZ.shareImage({ arab: d.a[a - 1], text: trMode() === 'none' ? '' : (trMode() === 'en' ? d.en : d.ms)[a - 1], ref: `${sName(cur.s)} ${n}:${a}` });
+    }
     else if (b.dataset.act === 'share') {
       const d = cur.d, tr = trMode() === 'none' ? '' : `\n\n${trMode() === 'en' ? d.en[a - 1] : d.ms[a - 1]}`;
       WZ.shareText(`${d.a[a - 1]}${tr}\n\n— ${sName(cur.s)} ${n}:${a} · via Wazlee`);
@@ -294,7 +297,8 @@
       $('#hAyatRef').textContent = `${sName(I.sur[s - 1])} ${s}:${a}`;
       $('#hAyatA').innerHTML = `${d.a[a - 1]} <span class="ay-end">﴿${arNum(a)}﴾</span>`;
       $('#hAyatT').textContent = (trMode() === 'en' ? d.en : d.ms)[a - 1];
-      $('#hAyat').onclick = e => { if (e.target.closest('#hAyatPlay')) return; openSurah(s, a); };
+      $('#hAyat').onclick = e => { if (e.target.closest('#hAyatPlay,#hAyatImg')) return; openSurah(s, a); };
+      $('#hAyatImg').onclick = () => WZ.shareImage({ title: t('home.ayatToday'), arab: d.a[a - 1], text: (trMode() === 'en' ? d.en : d.ms)[a - 1], ref: `${sName(I.sur[s - 1])} ${s}:${a}` });
       $('#hAyatPlay').onclick = () => Player.playOne(s, a);
     } catch {}
   }

@@ -1,4 +1,4 @@
-# Wazlee v2.9 — App Harian Muslim (Android)
+# Wazlee v3.0 — App Harian Muslim (Android)
 
 **Ibadah · Sihat · Alat** dalam satu app bertema biru yang ceria. **Dwibahasa: Bahasa Melayu & English** (tukar di butang EN/BM atas atau Profil → Bahasa).
 
@@ -64,12 +64,16 @@ Profil → Waktu Solat → **Bunyi azan**: pilih fail MP3/M4A azan dari telefon 
 ## Peringatan (v2.4)
 Lagi/Sihat → **Peringatan**: tidur, rehat setiap 2 jam (waktu kerja), tahajjud, Dhuha, Al-Kahfi (Jumaat), puasa sunat Isnin/Khamis, zikir pagi/petang, senaman + sehingga 10 peringatan tersuai. Ketik notifikasi untuk terus ke halaman berkaitan.
 
-## Penerbangan (v2.9)
-Lagi → **Penerbangan**: cari no. penerbangan (cth: MH1401, AK6205) → laluan asal–destinasi, kedudukan langsung, ketinggian/kelajuan, baki jarak & **anggaran tiba** (adsb.lol, percuma), butang *Jejak di peta*. Pilihan: kunci percuma **AeroDataBox** (RapidAPI, disimpan dalam telefon) untuk jadual rasmi berlepas/tiba, status lewat/batal, terminal, pintu & bagasi. Popup radar kini menunjukkan laluan & anggaran tiba.
+## Baharu dalam v3.0
+- **Kalendar Hijri** (Ibadah): grid bulanan Hijri/Masihi, tarikh penting Islam dengan kiraan hari, penanda puasa sunat & hari haram berpuasa (takwim JAKIM / Umm al-Qura).
+- **Mod Ramadan** (Ibadah, kad Utama automatik semasa Ramadan): kiraan mundur imsak/berbuka, penjejak puasa & tarawih, puasa ganti (qada), niat & doa, jadual imsak-berbuka, peringatan sahur.
+- **Perancang Khatam** (Al-Quran): pilih tempoh → sasaran ayat harian dikira dari ayat terakhir dibaca, kemajuan %, peringatan harian, kiraan khatam.
+- **Jumaat** (Ibadah, kad Utama pada malam & hari Jumaat): kiraan mundur solat Jumaat, senarai amalan sunat, pengira selawat, masjid terdekat + kegemaran + arah, peringatan 1 jam sebelum.
+- **Kongsi sebagai gambar**: kad 1080×1350 untuk ayat (Utama & pembaca Al-Quran), doa harian & semua doa.
+- Radar Pesawat & Penerbangan dibuang.
 
-## Cuaca & Radar Pesawat (v2.8)
+## Cuaca (v2.8)
 - **Cuaca** (Lagi → Cuaca, kad di Utama): ramalan 7 hari, amaran cuaca aktif (notifikasi jika kawasan anda terlibat) & gempa bumi terkini — MET Malaysia melalui `api.data.gov.my/weather`.
-- **Radar Pesawat** (Peta → butang ✈️ atau Lagi → Radar Pesawat): pesawat langsung (ADS-B) dikemas kini setiap 10 saat — adsb.lol (ODbL), sandaran airplanes.live & adsb.fi (bukan komersial).
 
 ## Versi web / iPhone (PWA, v2.7)
 Workflow `pages.yml` membina `www/` dengan `scripts/build-web.sh` (manifest, service worker luar talian, bunyi azan) dan menerbitkannya ke GitHub Pages. iPhone: buka dalam Safari → Kongsi → **Tambah ke Skrin Utama**. Had versi web: tiada notifikasi berjadual, widget, penggera atau pengira langkah; azan berbunyi semasa app dibuka.

@@ -51,6 +51,8 @@
 
   <button class="mus-banner hidden" id="musBanner" data-go="musafir"><span class="chip-ic g-teal" data-ic="car"></span><span class="grow"><b data-i18n="mu.bannerT"></b><small id="musBannerS"></small></span><i data-ic="chevron-right"></i></button>
 
+  <button class="ram-home hidden" id="ramHome" data-go="ramadan"></button>
+  <button class="jum-home hidden" id="jumHome" data-go="jumaat"></button>
   <button class="wx-home hidden" id="wxHome" data-go="cuaca"></button>
 
   <div class="duo">
@@ -66,13 +68,13 @@
 
   <div class="card ayat-day" id="hAyat">
     <div class="card-head"><span class="chip-ic teal" data-ic="book-open"></span><div class="grow"><div class="card-title" data-i18n="home.ayatToday"></div><small class="muted" id="hAyatRef"></small></div>
-    <button class="icbtn" id="hAyatPlay" aria-label="play"><i data-ic="volume-2"></i></button></div>
+    <button class="icbtn" id="hAyatImg" aria-label="image"><i data-ic="image"></i></button><button class="icbtn" id="hAyatPlay" aria-label="play"><i data-ic="volume-2"></i></button></div>
     <p class="arab q-ar" id="hAyatA"></p>
     <p class="maksud" id="hAyatT"></p>
   </div>
 
   <div class="card doa-day" id="hDoa" data-go="doa">
-    <div class="card-head"><span class="chip-ic indigo" data-ic="book-heart"></span><div><div class="card-title" data-i18n="home.doaToday"></div><small class="muted" id="hDoaT"></small></div></div>
+    <div class="card-head"><span class="chip-ic indigo" data-ic="book-heart"></span><div class="grow"><div class="card-title" data-i18n="home.doaToday"></div><small class="muted" id="hDoaT"></small></div><button class="icbtn" id="hDoaImg" aria-label="image"><i data-ic="image"></i></button></div>
     <p class="arab" id="hDoaA"></p>
     <p class="maksud" id="hDoaM"></p>
   </div>
@@ -151,6 +153,7 @@
     <button class="hub-ic" data-go="qset" aria-label="settings" data-ic="settings"></button>
   </div>
   <button class="card q-continue hidden" id="qContinue"></button>
+  <button class="card kh-entry" data-go="khatam"><span class="chip-ic g-teal" data-ic="target"></span><span class="grow"><b data-i18n="tile.khatam"></b><small data-i18n="tile.khatam.s"></small></span><i data-ic="chevron-right" class="chev"></i></button>
   <div class="search-box"><i data-ic="search"></i><input type="search" id="qSearch" data-i18n-ph="q.searchPh"></div>
   <div class="seg2 q-seg"><button data-qt="surah" class="active" data-i18n="q.surah"></button><button data-qt="juz" data-i18n="q.juz"></button><button data-qt="bm" data-i18n="q.bookmarks"></button></div>
   <div id="qList"></div>
@@ -233,6 +236,66 @@
   <p class="note" data-i18n="mu.disclaimer"></p>
 </section>
 
+<!-- ================= KALENDAR HIJRI ================= -->
+<section class="page" id="pg-hijri" data-title="tile.hijri">
+  <div class="hj-today" id="hjToday"></div>
+  <div class="card">
+    <div class="hj-nav"><button class="icbtn" id="hjPrev" aria-label="prev"><i data-ic="chevron-left"></i></button><div class="hj-title" id="hjTitle"></div><button class="icbtn" id="hjNext" aria-label="next"><i data-ic="chevron-right"></i></button></div>
+    <div class="hj-grid" id="hjGrid"></div>
+    <div class="hj-legend"><span><em class="d-ev"></em><span data-i18n="hj.lEv"></span></span><span><em class="d-sn"></em><span data-i18n="hj.lSn"></span></span><span><em class="d-hr"></em><span data-i18n="hj.lHr"></span></span></div>
+    <div class="hj-detail" id="hjDetail"></div>
+    <button class="btn soft sm" id="hjNow" data-i18n="hj.back"></button>
+  </div>
+  <h3 class="sec" data-i18n="hj.events"></h3>
+  <div class="card" id="hjEvents"></div>
+  <p class="note" data-i18n="hj.note"></p>
+</section>
+
+<!-- ================= RAMADAN ================= -->
+<section class="page" id="pg-ramadan" data-title="tile.ramadan">
+  <div class="rm-hero" id="rmHero"></div>
+  <div class="card" id="rmTrack">
+    <div class="card-title" data-i18n="rm.track"></div>
+    <small class="muted" data-i18n="rm.trackHint"></small>
+    <div class="rm-lbl" data-i18n="rm.fast"></div><div class="rm-grid" id="rmFast"></div>
+    <div class="rm-lbl" data-i18n="rm.tarawih"></div><div class="rm-grid" id="rmTar"></div>
+    <div class="rm-sum" id="rmSum"></div>
+  </div>
+  <div class="card"><div class="card-title" data-i18n="rm.qada"></div><div id="rmQada"></div></div>
+  <div class="card" id="rmSahurBox"><label class="switch-row"><span data-i18n="rm.sahur"></span><input type="checkbox" id="rmSahur"></label><small class="muted" data-i18n="rm.sahurNote"></small></div>
+  <h3 class="sec" data-i18n="rm.doa"></h3>
+  <div id="rmDoa"></div>
+  <h3 class="sec" data-i18n="rm.table"></h3>
+  <div class="card rm-table" id="rmTable"></div>
+  <p class="note" data-i18n="rm.note"></p>
+</section>
+
+<!-- ================= KHATAM ================= -->
+<section class="page" id="pg-khatam" data-title="tile.khatam">
+  <p class="kh-count" id="khCount"></p>
+  <div id="khSetup" class="card">
+    <div class="card-title" data-i18n="kh.setT"></div>
+    <p class="muted small" data-i18n="kh.setS"></p>
+    <div class="rm-lbl" data-i18n="kh.period"></div>
+    <div class="nt-filter kh-days" id="khDays"></div>
+    <input type="number" inputmode="numeric" id="khCustom" data-i18n-ph="kh.customPh">
+    <div class="rm-lbl" data-i18n="kh.startFrom"></div>
+    <select id="khFrom"></select>
+    <button class="btn block" id="khStart" style="margin-top:14px"><i data-ic="target"></i><span data-i18n="kh.start"></span></button>
+  </div>
+  <div id="khPlan" class="hidden"></div>
+</section>
+
+<!-- ================= JUMAAT ================= -->
+<section class="page" id="pg-jumaat" data-title="tile.jumaat">
+  <div class="rm-hero jm-hero" id="jmHero"></div>
+  <div class="card"><div class="card-title" data-i18n="jm.sunnah"></div><div id="jmList"></div></div>
+  <div class="card jm-sel"><div><div class="card-title" data-i18n="jm.selawat"></div><small class="muted" data-i18n="jm.selawatS"></small></div><button class="jm-selbtn" id="jmSel"><b id="jmSelN">0</b><small>صلوات</small></button></div>
+  <h3 class="sec" data-i18n="jm.masjid"></h3>
+  <div class="card"><div id="jmFav"></div><div id="jmMasjid"></div></div>
+  <div class="card" id="jmRemBox"><label class="switch-row"><span data-i18n="jm.remind"></span><input type="checkbox" id="jmRem"></label><small class="muted" data-i18n="jm.remindS"></small></div>
+</section>
+
 <!-- ================= CUACA ================= -->
 <section class="page" id="pg-cuaca" data-title="tile.cuaca">
   <div class="wx-hero" id="wxHero"></div>
@@ -244,21 +307,6 @@
   <h3 class="sec" data-i18n="wx.quake"></h3>
   <div class="card" id="wxQuake"></div>
   <p class="note" data-i18n="wx.src"></p>
-</section>
-
-<!-- ================= PENERBANGAN ================= -->
-<section class="page" id="pg-flight" data-title="tile.flight">
-  <div class="hub-hero indigo"><div><h2 data-i18n="tile.flight"></h2><p data-i18n="fl.sub"></p></div><div class="hub-ic" data-ic="plane"></div></div>
-  <div class="row-flex"><div class="search-box grow"><i data-ic="search"></i><input type="search" id="flQ" autocapitalize="characters" data-i18n-ph="fl.ph"></div>
-    <button class="icbtn solid" id="flGo" aria-label="search"><i data-ic="search"></i></button></div>
-  <div class="nt-filter" id="flRecent"></div>
-  <div id="flRes"></div>
-  <details class="card fl-key"><summary><i data-ic="settings"></i> <span data-i18n="fl.keyT"></span></summary>
-    <p class="muted small" data-i18n="fl.keyNote"></p>
-    <div class="row-flex"><input type="text" id="flKey" autocomplete="off" spellcheck="false" placeholder="x-rapidapi-key"><button class="btn" id="flKeySave" data-i18n="pwa.save"></button></div>
-    <a class="btn soft block sm" href="https://rapidapi.com/aedbx-aedbx/api/aerodatabox/pricing" target="_blank" rel="noopener" data-i18n="fl.keyGet"></a>
-  </details>
-  <p class="note" data-i18n="fl.src"></p>
 </section>
 
 <!-- ================= NOTA ================= -->
@@ -597,8 +645,11 @@
 <script src="js/nota.js"></script>
 <script src="js/musafir.js"></script>
 <script src="js/cuaca.js"></script>
-<script src="js/radar.js"></script>
-<script src="js/flight.js"></script>
+<script src="js/kongsi.js"></script>
+<script src="js/hijri.js"></script>
+<script src="js/ramadan.js"></script>
+<script src="js/khatam.js"></script>
+<script src="js/jumaat.js"></script>
 <script src="js/app.js"></script>
 <script src="js/pwa.js"></script>
 </body>

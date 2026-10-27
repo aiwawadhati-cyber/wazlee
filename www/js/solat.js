@@ -235,5 +235,15 @@
   on('loc', () => { emit('times'); ensureData().then(scheduleNotifs); });
   on('times', () => { renderHeroStatic(); tick(); if ($('#pg-solat').classList.contains('active')) renderSolat(); });
 
-  WZ.solat = { zoneText, azMode, getDay, nextPrayer, currentPrayer, activeZone, detectZone, ensureData, scheduleNotifs, tick, META, MAIN, start() { setInterval(tick, 1000); renderHeroStatic(); tick(); } };
+  /* Tarikh Hijri berstruktur: data JAKIM jika ada, jika tidak kiraan Umm al-Qura */
+  function hijriParts(date) {
+    const z = activeZone();
+    if (z) { const r = cacheOf(z).d[dkey(date)]; const m = r && /^(\d{4})-(\d{1,2})-(\d{1,2})$/.exec(r[8] || ''); if (m) return { y: +m[1], m: +m[2], d: +m[3], src: 'jakim' }; }
+    try {
+      const parts = new Intl.DateTimeFormat('en-u-ca-islamic-umalqura-nu-latn', { day: 'numeric', month: 'numeric', year: 'numeric' }).formatToParts(date);
+      const g = k => +(parts.find(p => p.type === k) || {}).value;
+      return { y: g('year'), m: g('month'), d: g('day'), src: 'calc' };
+    } catch { return null; }
+  }
+  WZ.solat = { hijriParts, zoneText, azMode, getDay, nextPrayer, currentPrayer, activeZone, detectZone, ensureData, scheduleNotifs, tick, META, MAIN, start() { setInterval(tick, 1000); renderHeroStatic(); tick(); } };
 })();

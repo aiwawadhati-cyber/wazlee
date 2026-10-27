@@ -64,12 +64,14 @@
       <div class="card doa-item" data-i="${d.i}">
         <button class="doa-toggle"><span class="chip-ic g-indigo">${ico(d.ic)}</span><b>${esc(T_(d))}</b>${ico('chevron-right', 'chev')}</button>
         <div class="doa-body"><p class="arab">${d.a}</p><p class="rumi">${esc(d.r)}</p><p class="maksud">${esc(M_(d))}</p>
-        <div class="row-btns end"><button class="btn soft sm" data-share="${d.i}">${ico('share-2')}${t('btn.share')}</button></div></div>
+        <div class="row-btns end"><button class="btn soft sm" data-img="${d.i}">${ico('image')}${t('img.share')}</button><button class="btn soft sm" data-share="${d.i}">${ico('share-2')}${t('btn.share')}</button></div></div>
       </div>`).join('') || `<p class="muted center">${t('doa.none')}</p>`;
   }
   $('#doaCats').onclick = e => { const b = e.target.closest('[data-c]'); if (!b) return; doaCat = b.dataset.c; $$('#doaCats button').forEach(x => x.classList.toggle('active', x === b)); renderDoa(); };
   $('#doaSearch').oninput = renderDoa;
   $('#doaList').onclick = e => {
+    const im = e.target.closest('[data-img]');
+    if (im) { const d = DOA[+im.dataset.img]; WZ.shareImage({ title: T_(d), arab: d.a, rumi: d.r, text: M_(d) }); return; }
     const s = e.target.closest('[data-share]');
     if (s) { const d = DOA[+s.dataset.share]; shareText(`${T_(d)}\n\n${d.a}\n\n${d.r}\n\n${t('doa.meaning')}: ${M_(d)}\n\n— via Wazlee`); return; }
     const tg = e.target.closest('.doa-toggle'); if (tg) tg.parentElement.classList.toggle('open');
