@@ -6,8 +6,8 @@
   const S = window.I18N_KEYS;
   Object.assign(S, {
     'pwa.installT': ['Pasang Wazlee', 'Install Wazlee'],
-    'pwa.ios': ['Tekan {s} <b>Kongsi</b> di Safari, kemudian <b>Tambah ke Skrin Utama</b>.', 'Tap {s} <b>Share</b> in Safari, then <b>Add to Home Screen</b>.'],
-    'pwa.iosOther': ['Buka laman ini dalam <b>Safari</b> untuk memasang Wazlee ke skrin utama.', 'Open this page in <b>Safari</b> to install Wazlee on your home screen.'],
+    'pwa.ios': ['Di Safari: tekan <b>⋯</b> atau {s} <b>Kongsi</b> → skrol bawah → <b>Tambah ke Skrin Utama</b> → <b>Tambah</b>.<br><small>Dibuka dari WhatsApp? Tekan ikon Safari 🧭 dahulu.</small>', 'In Safari: tap <b>⋯</b> or {s} <b>Share</b> → scroll down → <b>Add to Home Screen</b> → <b>Add</b>.<br><small>Opened from WhatsApp? Tap the Safari 🧭 icon first.</small>'],
+    'pwa.iosOther': ['Salin pautan ini & buka dalam <b>Safari</b>, kemudian tekan <b>⋯</b>/Kongsi → <b>Tambah ke Skrin Utama</b>.', 'Copy this link & open it in <b>Safari</b>, then tap <b>⋯</b>/Share → <b>Add to Home Screen</b>.'],
     'pwa.android': ['Pasang sebagai app di skrin utama — pantas & boleh guna luar talian.', 'Install as an app on your home screen — fast & works offline.'],
     'pwa.installBtn': ['Pasang', 'Install'], 'pwa.later': ['Nanti', 'Later'],
     'pwa.azT': ['Azan (versi web)', 'Adhan (web version)'],
@@ -20,7 +20,7 @@
     'pwa.updated': ['Wazlee dikemas kini ✓', 'Wazlee updated ✓']
   });
   const ua = navigator.userAgent, isIOS = /iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
-  const isSafari = isIOS && !/CriOS|FxiOS|EdgiOS|GSA\//.test(ua);
+  const isSafari = isIOS && !/CriOS|FxiOS|EdgiOS|GSA\/|FBAN|FBAV|Instagram|Line\/|Telegram/.test(ua);
   const standalone = matchMedia('(display-mode: standalone)').matches || navigator.standalone === true;
   if (standalone) document.documentElement.classList.add('pwa-standalone');
 
