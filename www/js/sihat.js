@@ -125,25 +125,43 @@
     $('#wCount').textContent = n; $('#wGoal').textContent = g; $('#wMl').textContent = t('water.ml', { a: num(n * 250), b: num(g * 250) });
     $('#glasses').innerHTML = Array.from({ length: Math.max(g, n) }, (_, i) => `<button class="glass ${i < n ? 'full' : ''}" data-g="${i}" aria-label="${i + 1}"></button>`).join('');
     $('#hWater').textContent = `${n}/${g}`;
-    $('#wGoalSel').value = g; $('#waterNotif').checked = !!settings.waterNotif;
+    $('#wGoalSel').value = g; $('#waterNotif').checked = !!settings.waterNotif; $('#wEvery').value = String(+settings.waterEvery || 2); $('#wEvery').closest('.w-every').classList.toggle('hidden', !settings.waterNotif);
   }
   const wSet = n => { const g = +settings.waterGoal || 8; n = Math.max(0, Math.min(20, n)); const prev = wGet(); store.set(wKey(), n); store.set('water_t', Date.now()); emit('water'); if (n === g && prev < g) { vibrate([80, 40, 80]); toast(t('water.done')); } renderWater(); };
   $('#wPlus').onclick = () => { vibrate(20); wSet(wGet() + 1); };
   $('#wMinus').onclick = () => wSet(wGet() - 1);
   $('#glasses').onclick = e => { const b = e.target.closest('[data-g]'); if (b) { const i = +b.dataset.g; wSet(i < wGet() ? i : i + 1); } };
   $('#wGoalSel').onchange = e => { settings.waterGoal = +e.target.value; saveSettings(); renderWater(); };
-  async function waterNotifs() {
-    const LN = P.LocalNotifications; if (!LN) { if (settings.waterNotif) toast(t('notif.apkOnly')); return; }
+  /* Peringatan air: dijadual 7 hari ke depan (masa tepat), dijadual semula setiap kali app dibuka/kembali
+     — tahan update APK & but semula. Hari ini dilangkau jika sasaran sudah dicapai. */
+  let wTimer = null;
+  async function waterNotifs(fromToggle) {
+    const LN = P.LocalNotifications; if (!LN) { if (settings.waterNotif && fromToggle) toast(t('notif.apkOnly')); return; }
     try {
-      const ids = [8, 10, 12, 14, 16, 18, 20, 22].map((h, i) => ({ id: 3000 + i, h }));
-      await LN.cancel({ notifications: ids.map(x => ({ id: x.id })) });
+      const pend = await LN.getPending();
+      const old = pend.notifications.filter(n => n.id >= 3000 && n.id < 3200).map(n => ({ id: n.id }));
+      if (old.length) await LN.cancel({ notifications: old });
       if (!settings.waterNotif) return;
-      const perm = await LN.requestPermissions(); if (perm.display !== 'granted') { settings.waterNotif = false; saveSettings(); renderWater(); return; }
-      await LN.schedule({ notifications: ids.map(x => ({ id: x.id, title: t('water.nTitle'), body: t('water.nBody'), schedule: { on: { hour: x.h, minute: 0 }, allowWhileIdle: true } })) });
-      toast(t('water.nOn'));
-    } catch (e) { toast(t('err.generic') + ' ' + (e.message || e)); }
+      if (fromToggle) { const perm = await LN.requestPermissions(); if (perm.display !== 'granted') { settings.waterNotif = false; saveSettings(); renderWater(); toast(t('notif.denied')); return; } }
+      const every = +settings.waterEvery || 2, from = 8, to = 22, now = new Date(), done = wGet() >= (+settings.waterGoal || 8), list = [];
+      let id = 3000;
+      for (let d = 0; d < 7; d++) {
+        if (d === 0 && done) continue;
+        for (let h = from; h <= to; h += every) {
+          const at = new Date(now); at.setDate(now.getDate() + d); at.setHours(h, 0, 0, 0);
+          if (at > now && id < 3200) list.push({ id: id++, title: t('water.nTitle'), body: t('water.nBody'), schedule: { at, allowWhileIdle: true }, extra: { route: 'air' } });
+        }
+      }
+      if (list.length) await LN.schedule({ notifications: list });
+      if (fromToggle) toast(t('water.nOn'));
+    } catch (e) { if (fromToggle) toast(t('err.generic') + ' ' + (e.message || e)); }
   }
-  $('#waterNotif').onchange = e => { settings.waterNotif = e.target.checked; saveSettings(); waterNotifs(); };
+  const waterLater = () => { clearTimeout(wTimer); wTimer = setTimeout(() => waterNotifs(false), 1500); };
+  setTimeout(() => waterNotifs(false), 3500);
+  on('water', () => { if (wGet() >= (+settings.waterGoal || 8)) waterLater(); });
+  document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') waterLater(); });
+  $('#wEvery').onchange = e => { settings.waterEvery = +e.target.value; saveSettings(); waterNotifs(true); };
+  $('#waterNotif').onchange = e => { settings.waterNotif = e.target.checked; saveSettings(); waterNotifs(true); };
   on('show:air', renderWater);
 
   /* Langkah manual (versi web/iPhone: salin dari app Health) */

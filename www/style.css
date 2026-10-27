@@ -657,3 +657,4 @@ a.btn{text-decoration:none}
 .fl-key input{flex:1;min-width:0;padding:11px 12px;border-radius:14px;border:1.5px solid var(--line);background:var(--soft2);font-family:monospace}
 .rd-route{border-bottom:1px solid #E2EAF6;padding-bottom:6px;margin-bottom:6px}.rd-route b{font-size:15px;display:block}.rd-route small{display:block;color:#64748B}
 #flRecent button.active,#flRecent button{font-family:inherit}
+.w-every{align-items:center;margin-top:6px}

@@ -110,7 +110,8 @@
 
     // air
     'water.glasses': ['gelas', 'glasses'], 'water.add': ['Tambah gelas', 'Add glass'], 'water.ml': ['{a} ml daripada {b} ml', '{a} ml of {b} ml'],
-    'water.notif': ['Peringatan minum air (setiap 2 jam, 8pg–10mlm)', 'Water reminders (every 2 hours, 8am–10pm)'],
+    'water.notif': ['Peringatan minum air (8pg–10mlm)', 'Water reminders (8am–10pm)'],
+    'water.every': ['Kekerapan', 'Frequency'], 'water.e1': ['Setiap 1 jam', 'Every hour'], 'water.e2': ['Setiap 2 jam', 'Every 2 hours'], 'water.e3': ['Setiap 3 jam', 'Every 3 hours'],
     'water.goal': ['Sasaran gelas sehari (250ml)', 'Daily glasses goal (250ml)'], 'water.done': ['💧 Sasaran air hari ini tercapai!', "💧 Today's water goal reached!"],
     'water.nTitle': ['💧 Masa minum air', '💧 Time to drink water'], 'water.nBody': ['Segelas air untuk tubuh yang segar. Tandakan dalam Wazlee!', 'A glass of water keeps you fresh. Log it in Wazlee!'],
     'water.nOn': ['Peringatan minum air diaktifkan', 'Water reminders enabled'],
@@ -136,7 +137,7 @@
     'pf.exact': ['Benarkan penggera tepat', 'Allow exact alarms'], 'pf.manualLoc': ['Lokasi manual', 'Manual location'],
     'pf.manualLocHint': ['Guna jika GPS tidak tersedia.', 'Use if GPS is unavailable.'], 'pf.lat': ['Latitud', 'Latitude'], 'pf.lng': ['Longitud', 'Longitude'],
     'pf.save': ['Simpan Tetapan', 'Save Settings'], 'pf.saved': ['Tetapan disimpan ✓', 'Settings saved ✓'], 'pf.about': ['Tentang Wazlee', 'About Wazlee'],
-    'pf.aboutText': ['Versi 2.9 · App harian Muslim — ibadah, kesihatan & alat harian.', 'Version 2.9 · A daily Muslim companion — worship, health & everyday tools.'],
+    'pf.aboutText': ['Versi 2.9.1 · App harian Muslim — ibadah, kesihatan & alat harian.', 'Version 2.9.1 · A daily Muslim companion — worship, health & everyday tools.'],
     'pf.credits': ['Waktu solat: e-Solat JAKIM (sandaran kiraan GPS) · Kesihatan: Health Connect · Matawang: open.er-api.com · Peta: © OpenStreetMap, © CARTO · Carian: Nominatim · Ikon: Lucide (ISC) · Fon: Amiri & Nunito (OFL)', 'Prayer times: JAKIM e-Solat (GPS fallback) · Health: Health Connect · Currency: open.er-api.com · Maps: © OpenStreetMap, © CARTO · Search: Nominatim · Icons: Lucide (ISC) · Fonts: Amiri & Nunito (OFL)'],
     'pf.privacy': ['Dasar privasi', 'Privacy policy'], 'pf.defaultName': ['Pengguna Wazlee', 'Wazlee User'], 'pf.complete': ['Lengkapkan profil anda', 'Complete your profile'],
     'pf.summary': ['{h} cm · {w} kg · sasaran {g} langkah', '{h} cm · {w} kg · goal {g} steps'],
