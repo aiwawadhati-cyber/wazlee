@@ -70,7 +70,7 @@
     }
     // penjejak
     const tr = trk(s.ry), nd = s.days.length || 30;
-    const cell = (kind, i) => { const v = tr[kind][i]; return `<button class="rm-d ${kind === 'f' ? (v === 1 ? 'ok' : v === 2 ? 'no' : '') : (v ? 'ok' : '')} ${s.inR && i === s.day ? 'now' : ''}" data-k="${kind}" data-d="${i}" ${s.inR && i > s.day ? 'disabled' : ''}>${i}</button>`; };
+    const cell = (kind, i) => { const v = tr[kind][i]; return `<button class="rm-d ${kind === 'f' ? (v === 1 ? 'ok' : v === 2 ? 'no' : '') : (v ? 'ok' : '')} ${s.inR && i === s.day ? 'now' : ''}" data-k="${kind}" data-d="${i}" ${!s.inR || i > s.day ? 'disabled' : ''}>${i}</button>`; };
     $('#rmFast').innerHTML = Array.from({ length: nd }, (_, i) => cell('f', i + 1)).join('');
     $('#rmTar').innerHTML = Array.from({ length: nd }, (_, i) => cell('t', i + 1)).join('');
     const fOk = Object.values(tr.f).filter(v => v === 1).length, fNo = Object.values(tr.f).filter(v => v === 2).length, tOk = Object.values(tr.t).filter(Boolean).length;
@@ -89,8 +89,14 @@
       const tt = WZ.solat.getDay(x.date).t;
       return `<div class="rm-tr ${s.inR && x.h.d === s.day ? 'now' : ''}"><span>${x.h.d}</span><span>${x.date.toLocaleDateString(L ? 'en-GB' : 'ms-MY', { day: 'numeric', month: 'short' })}</span><span>${fmtH(tt.imsak)}</span><span>${fmtH(tt.maghrib)}</span></div>`;
     }).join('');
-    $('#rmSahur').checked = !!settings.sahurNotif;
-    $('#rmSahurBox').classList.toggle('hidden', !LN);
+    if (LN) $('#rmSahur').checked = !!settings.sahurNotif;
+    else if (WZ.ics && !$('#rmIcs')) {
+      $('#rmSahurBox').innerHTML = `<div class="card-title">${ico('bell')} ${t('rm.sahur')}</div><button class="btn soft block" id="rmIcs" style="margin-top:6px">${ico('calendar')}<span>${t('ics.add')}</span></button><small class="muted">${t('ics.webNote')}</small>`;
+      $('#rmIcs').onclick = () => { const st0 = state(), now = new Date(), ev = [];
+        st0.days.forEach(x => { const im = hToDate(x.date, WZ.solat.getDay(x.date).t.imsak), at = new Date(im.getTime() - 60 * 60e3);
+          if (at > now) ev.push({ title: t('rm.nSahurT'), desc: t('rm.nSahurB', { t: fmtH(WZ.solat.getDay(x.date).t.imsak) }), start: at, dur: 15, alarms: [0] }); });
+        WZ.ics.download(ev, 'wazlee-sahur.ics'); };
+    }
   }
   $('#rmTrack').addEventListener('click', e => {
     const b = e.target.closest('[data-k]'); if (!b) return;
@@ -106,7 +112,7 @@
     const im = e.target.closest('[data-img]'); if (im) { const d = DOAS[+im.dataset.img]; WZ.shareImage && WZ.shareImage({ title: d.t[L], arab: d.a, rumi: d.r, text: d.m[L] }); return; }
     const tg = e.target.closest('.doa-toggle'); if (tg) tg.parentElement.classList.toggle('open');
   });
-  $('#rmSahur').onchange = e => { settings.sahurNotif = e.target.checked; saveSettings(); sahur(true); };
+  if ($('#rmSahur')) $('#rmSahur').onchange = e => { settings.sahurNotif = e.target.checked; saveSettings(); sahur(true); };
 
   /* ---------- Peringatan sahur (Android) ---------- */
   async function sahur(fromToggle) {

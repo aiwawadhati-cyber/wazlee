@@ -50,7 +50,12 @@
     $('#jmList').innerHTML = SUNNAH.map(s => `<label class="jm-i ${c[s.k] ? 'on' : ''}"><input type="checkbox" data-k="${s.k}" ${c[s.k] ? 'checked' : ''}><span class="chip-ic g-green">${ico(s.ic)}</span><span class="grow">${esc(s.t[L])}</span>${s.go ? `<button class="btn soft sm" data-go-r="${s.go}">${t('jm.open')}</button>` : ''}</label>`).join('');
     const sv = store.get('jum_sel', {}), k = WZ.dkey(new Date());
     $('#jmSelN').textContent = num(sv[k] || 0);
-    $('#jmRem').checked = !!settings.jumNotif; $('#jmRemBox').classList.toggle('hidden', !LN);
+    if (LN) $('#jmRem').checked = !!settings.jumNotif;
+    else if (WZ.ics && !$('#jmIcs')) {
+      $('#jmRemBox').innerHTML = `<div class="card-title">${ico('bell')} ${t('jm.remind')}</div><small class="muted">${t('jm.remindS')}</small><button class="btn soft block" id="jmIcs" style="margin-top:10px">${ico('calendar')}<span>${t('ics.add')}</span></button><small class="muted">${t('ics.webNote')}</small>`;
+      $('#jmIcs').onclick = () => { const z = zohorAt(fri()), at = new Date(z.getTime() - 60 * 60e3), f = fav();
+        WZ.ics.weekly([{ title: t('jm.nT'), desc: t('jm.nB', { t: fmtAt(z) }) + (f ? ` · ${f.n}` : ''), time: `${at.getHours()}:${String(at.getMinutes()).padStart(2, '0')}`, days: [5] }], 'wazlee-jumaat.ics'); };
+    }
     renderFav(); renderMasjid(store.get('jum_m', null));
   }
   $('#jmList').addEventListener('change', e => {
@@ -90,7 +95,7 @@
     const d = e.target.closest('[data-dir]'); if (d) return openExternal(`https://www.google.com/maps/dir/?api=1&destination=${d.dataset.dir}&travelmode=driving`);
     const f = e.target.closest('[data-fav]'); if (f) { const m = store.get('jum_m', {}).list[+f.dataset.fav]; store.set('jum_fav', fav() && fav().n === m.n ? null : m); renderFav(); renderMasjid(store.get('jum_m', null)); renderHome(); remind(false); toast(t('jm.favSet')); }
   });
-  $('#jmRem').onchange = e => { settings.jumNotif = e.target.checked; saveSettings(); remind(true); };
+  if ($('#jmRem')) $('#jmRem').onchange = e => { settings.jumNotif = e.target.checked; saveSettings(); remind(true); };
 
   /* ---------- Peringatan Jumaat (Android) ---------- */
   async function remind(fromToggle) {

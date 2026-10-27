@@ -50,13 +50,15 @@
         <div class="kh-bar"><span style="width:${c.todayPct}%"></span></div>
         <p class="muted small">${c.doneToday >= c.perDay ? '✅ ' + t('kh.doneToday') : t('kh.leftToday', { n: num(c.perDay - c.doneToday), j: (c.perDay / (TOTAL / 30)).toFixed(1) })}</p>
         <button class="btn block" id="khRead">${ico('book-open')}<span>${t('kh.read', { r: esc(ref(c.cur + 1)) })}</span></button></div>
-      <div class="card"><label class="switch-row"><span>${ico('bell')} ${t('kh.remind')}</span><input type="checkbox" id="khRem" ${p.remind ? 'checked' : ''}></label>
-        <div class="two" style="margin-top:6px"><span class="muted small">${t('kh.remTime')}</span><input type="time" id="khTime" value="${p.time || '21:00'}"></div></div>
+      <div class="card">${LN ? `<label class="switch-row"><span>${ico('bell')} ${t('kh.remind')}</span><input type="checkbox" id="khRem" ${p.remind ? 'checked' : ''}></label>` : `<div class="card-title">${ico('bell')} ${t('kh.remind')}</div>`}
+        <div class="two" style="margin-top:6px"><span class="muted small">${t('kh.remTime')}</span><input type="time" id="khTime" value="${p.time || '21:00'}"></div>
+        ${LN ? '' : `<button class="btn soft block" id="khIcs" style="margin-top:10px">${ico('calendar')}<span>${t('ics.add')}</span></button><small class="muted">${t('ics.webNote')}</small>`}</div>
       <button class="btn soft block" id="khReset">${ico('rotate-ccw')}<span>${t('kh.reset')}</span></button>
       <p class="note">${t('kh.note')}</p>`;
     WZ.ring($('#khRing'), c.pct / 100, `<b>${c.pct}%</b>`, { size: 92, stroke: 10 });
     $('#khRead').onclick = () => { const x = sa(c.cur + 1); WZ.quran.openSurah(x.s, x.a); };
-    $('#khRem').onchange = e => { p.remind = e.target.checked; savePlan(p); remind(true); };
+    if ($('#khRem')) $('#khRem').onchange = e => { p.remind = e.target.checked; savePlan(p); remind(true); };
+    if ($('#khIcs')) $('#khIcs').onclick = () => WZ.ics && WZ.ics.weekly([{ title: t('kh.nT'), desc: t('kh.nB', { n: num(c.perDay), j: (c.perDay / (TOTAL / 30)).toFixed(1) }), time: $('#khTime').value || '21:00', days: [0, 1, 2, 3, 4, 5, 6] }], 'wazlee-khatam.ics');
     $('#khTime').onchange = e => { p.time = e.target.value; savePlan(p); remind(true); };
     $('#khReset').onclick = () => { if (confirm(t('kh.resetAsk'))) { store.del('khatam'); remind(false); render(); } };
   }

@@ -13,7 +13,7 @@
     const today = atNoon(new Date()), tp = P(today); if (!tp) return [];
     const diff = (y * 12 + m) - (tp.y * 12 + tp.m);
     let d = addDays(today, -(tp.d - 1) + Math.round(diff * 29.53));
-    for (let k = 0; k < 8; k++) { const p = P(d); if (p.y === y && p.m === m && p.d === 1) break; const off = Math.round(((p.y * 12 + p.m) - (y * 12 + m)) * 29.5) + p.d - 1; d = addDays(d, -(off || 1)); }
+    for (let k = 0; k < 8; k++) { const p = P(d); if (p.y === y && p.m === m && p.d === 1) break; const off = ((p.y * 12 + p.m) - (y * 12 + m)) * 30 + p.d - 1; d = addDays(d, -(off || 1)); }
     const out = []; for (let i = 0; i < 31; i++) { const x = addDays(d, i), p = P(x); if (p.m !== m) break; out.push({ date: x, h: p }); }
     return out;
   }

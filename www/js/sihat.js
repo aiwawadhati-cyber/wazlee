@@ -125,7 +125,7 @@
     $('#wCount').textContent = n; $('#wGoal').textContent = g; $('#wMl').textContent = t('water.ml', { a: num(n * 250), b: num(g * 250) });
     $('#glasses').innerHTML = Array.from({ length: Math.max(g, n) }, (_, i) => `<button class="glass ${i < n ? 'full' : ''}" data-g="${i}" aria-label="${i + 1}"></button>`).join('');
     $('#hWater').textContent = `${n}/${g}`;
-    $('#wGoalSel').value = g; $('#waterNotif').checked = !!settings.waterNotif; $('#wEvery').value = String(+settings.waterEvery || 2); $('#wEvery').closest('.w-every').classList.toggle('hidden', !settings.waterNotif);
+    $('#wGoalSel').value = g; $('#waterNotif').checked = !!settings.waterNotif; $('#wEvery').value = String(+settings.waterEvery || 2); $('#wEvery').closest('.w-every').classList.toggle('hidden', !settings.waterNotif && !!P.LocalNotifications);
   }
   const wSet = n => { const g = +settings.waterGoal || 8; n = Math.max(0, Math.min(20, n)); const prev = wGet(); store.set(wKey(), n); store.set('water_t', Date.now()); emit('water'); if (n === g && prev < g) { vibrate([80, 40, 80]); toast(t('water.done')); } renderWater(); };
   $('#wPlus').onclick = () => { vibrate(20); wSet(wGet() + 1); };
@@ -162,6 +162,17 @@
   document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') waterLater(); });
   $('#wEvery').onchange = e => { settings.waterEvery = +e.target.value; saveSettings(); waterNotifs(true); };
   $('#waterNotif').onchange = e => { settings.waterNotif = e.target.checked; saveSettings(); waterNotifs(true); };
+  if (!P.LocalNotifications) on('show:air', () => {
+    if (!WZ.ics || $('#wIcs')) return;
+    const lab = $('#waterNotif').closest('label');
+    lab.classList.add('hidden'); lab.insertAdjacentHTML('afterend', `<div class="card-title" style="margin-top:12px">${ico('bell')} ${t('water.notif')}</div>`);
+    const box = $('#wEvery').closest('.w-every'); box.classList.remove('hidden');
+    box.insertAdjacentHTML('afterend', `<button class="btn soft block" id="wIcs" style="margin-top:10px">${ico('calendar')}<span>${t('ics.add')}</span></button><small class="muted">${t('ics.webNote')}</small>`);
+    $('#wEvery').onchange = e => { settings.waterEvery = +e.target.value; saveSettings(); };
+    $('#wIcs').onclick = () => { const ev = [], every = +settings.waterEvery || 2;
+      for (let h = 8; h <= 22; h += every) ev.push({ title: t('water.nTitle'), desc: t('water.nBody'), time: `${h}:00`, days: [0, 1, 2, 3, 4, 5, 6] });
+      WZ.ics.weekly(ev, 'wazlee-air.ics'); };
+  });
   on('show:air', renderWater);
 
   /* Langkah manual (versi web/iPhone: salin dari app Health) */
