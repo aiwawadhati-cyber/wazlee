@@ -72,7 +72,19 @@
   $('#ingCustom').addEventListener('click', e => { const b = e.target.closest('[data-del]'); if (!b) return; const s = st(); s.custom.splice(+b.dataset.del, 1); store.set('reminders', s); render(); schedule(); });
 
   async function schedule() {
-    if (!LN) { $('#ingStatus').textContent = t('notif.apkOnly'); return; }
+    if (!LN) {
+      if (!WZ.ics) { $('#ingStatus').textContent = t('notif.apkOnly'); return; }
+      const s = st(), ev = [];
+      PRESETS.forEach(p => {
+        const c = cfg(s, p); if (!c.on) return;
+        if (c.every) { const [a] = hm(c.time), [b] = hm(c.to); for (let h = a; h <= b; h += c.every) ev.push({ title: p.t[L], desc: p.b[L], time: `${h}:${c.time.split(':')[1]}`, days: c.days }); }
+        else ev.push({ title: p.t[L], desc: p.b[L], time: c.time, days: c.days });
+      });
+      s.custom.forEach(c => ev.push({ title: '🔔 ' + c.title, desc: t('ing.customBody'), time: c.time, days: c.days }));
+      $('#ingStatus').innerHTML = `<button class="btn block" id="ingIcs">${ico('calendar')}<span>${t('ics.ingBtn', { n: ev.length })}</span></button><span>${t('ics.ingNote')}</span>`;
+      $('#ingIcs').onclick = () => WZ.ics.weekly(ev, 'wazlee-peringatan.ics');
+      return;
+    }
     try {
       const pend = await LN.getPending();
       const old = pend.notifications.filter(n => n.id >= 4000 && n.id < 5000).map(n => ({ id: n.id }));

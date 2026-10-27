@@ -114,6 +114,11 @@
   const pad = n => String(n).padStart(2, '0');
   const hhmm = h => { const tot = Math.round(h * 60); const m = ((tot % 1440) + 1440) % 1440; return [Math.floor(m / 60), m % 60]; };
   async function setAlarm(hour, minute, label, days) {
+    if ((!AZ || !AZ.setAlarm) && WZ.ics) {
+      WZ.ics.alarm(hour, minute, label, days || []);
+      const h = alHist(); h.unshift({ hour, minute, label, days: days || [], at: Date.now() }); store.set('alarms', h.slice(0, 15)); renderHist();
+      return;
+    }
     if (!AZ || !AZ.setAlarm) return toast(t('al.apkOnly'));
     try {
       await AZ.setAlarm({ hour, minute, label, days: days || [] });
