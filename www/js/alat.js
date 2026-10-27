@@ -1,6 +1,6 @@
 /* Alat: penukaran matawang, peta & jarak, masjid berdekatan */
 (() => {
-  const { $, $$, store, on, toast, openExternal, esc, num, LOC } = WZ;
+  const { $, $$, store, on, emit, toast, openExternal, esc, num, LOC } = WZ;
 
   /* ---------- Matawang ---------- */
   const CUR_MS = { MYR: 'Ringgit Malaysia', USD: 'Dolar AS', SGD: 'Dolar Singapura', EUR: 'Euro', GBP: 'Paun British', SAR: 'Riyal Saudi', AED: 'Dirham UAE', JPY: 'Yen Jepun', CNY: 'Yuan China', KRW: 'Won Korea', THB: 'Baht Thai', IDR: 'Rupiah Indonesia', BND: 'Dolar Brunei', PHP: 'Peso Filipina', VND: 'Dong Vietnam', INR: 'Rupee India', PKR: 'Rupee Pakistan', BDT: 'Taka Bangladesh', AUD: 'Dolar Australia', NZD: 'Dolar NZ', CAD: 'Dolar Kanada', CHF: 'Franc Swiss', HKD: 'Dolar Hong Kong', TWD: 'Dolar Taiwan', TRY: 'Lira Turki', EGP: 'Paun Mesir', QAR: 'Riyal Qatar', KWD: 'Dinar Kuwait', JOD: 'Dinar Jordan', OMR: 'Rial Oman' };
@@ -70,6 +70,7 @@
     resultLayer = L.layerGroup().addTo(map);
     map.on('click', e => setPoint(mode, e.latlng));
     setTimeout(() => map.invalidateSize(), 120);
+    WZ.map = map; emit('mapready', map);
   }
   function setPoint(which, ll) {
     if (which === 'A') { if (mA) mA.setLatLng(ll); else mA = L.marker(ll, { icon: pin('A', '#1565D8'), draggable: true }).addTo(map).on('dragend', updateDist); setMode('B'); }

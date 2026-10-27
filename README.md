@@ -1,4 +1,4 @@
-# Wazlee v2.7 — App Harian Muslim (Android)
+# Wazlee v2.8 — App Harian Muslim (Android)
 
 **Ibadah · Sihat · Alat** dalam satu app bertema biru yang ceria. **Dwibahasa: Bahasa Melayu & English** (tukar di butang EN/BM atas atau Profil → Bahasa).
 
@@ -63,6 +63,10 @@ Profil → Waktu Solat → **Bunyi azan**: pilih fail MP3/M4A azan dari telefon 
 
 ## Peringatan (v2.4)
 Lagi/Sihat → **Peringatan**: tidur, rehat setiap 2 jam (waktu kerja), tahajjud, Dhuha, Al-Kahfi (Jumaat), puasa sunat Isnin/Khamis, zikir pagi/petang, senaman + sehingga 10 peringatan tersuai. Ketik notifikasi untuk terus ke halaman berkaitan.
+
+## Cuaca & Radar Pesawat (v2.8)
+- **Cuaca** (Lagi → Cuaca, kad di Utama): ramalan 7 hari, amaran cuaca aktif (notifikasi jika kawasan anda terlibat) & gempa bumi terkini — MET Malaysia melalui `api.data.gov.my/weather`.
+- **Radar Pesawat** (Peta → butang ✈️ atau Lagi → Radar Pesawat): pesawat langsung (ADS-B) dikemas kini setiap 10 saat — adsb.lol (ODbL), sandaran airplanes.live & adsb.fi (bukan komersial).
 
 ## Versi web / iPhone (PWA, v2.7)
 Workflow `pages.yml` membina `www/` dengan `scripts/build-web.sh` (manifest, service worker luar talian, bunyi azan) dan menerbitkannya ke GitHub Pages. iPhone: buka dalam Safari → Kongsi → **Tambah ke Skrin Utama**. Had versi web: tiada notifikasi berjadual, widget, penggera atau pengira langkah; azan berbunyi semasa app dibuka.

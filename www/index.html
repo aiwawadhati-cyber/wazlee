@@ -51,6 +51,8 @@
 
   <button class="mus-banner hidden" id="musBanner" data-go="musafir"><span class="chip-ic g-teal" data-ic="car"></span><span class="grow"><b data-i18n="mu.bannerT"></b><small id="musBannerS"></small></span><i data-ic="chevron-right"></i></button>
 
+  <button class="wx-home hidden" id="wxHome" data-go="cuaca"></button>
+
   <div class="duo">
     <button class="mini-card green" data-go="langkah">
       <div class="ring-sm" id="hStepRing"></div>
@@ -229,6 +231,19 @@
   <h3 class="sec" data-i18n="mu.guide"></h3>
   <div id="muGuide"></div>
   <p class="note" data-i18n="mu.disclaimer"></p>
+</section>
+
+<!-- ================= CUACA ================= -->
+<section class="page" id="pg-cuaca" data-title="tile.cuaca">
+  <div class="wx-hero" id="wxHero"></div>
+  <div class="row-flex"><div class="search-box grow"><i data-ic="map-pin"></i><input type="search" id="wxQ" data-i18n-ph="wx.locPh"></div>
+    <button class="icbtn solid" id="wxGo" aria-label="search"><i data-ic="search"></i></button><button class="icbtn" id="wxRefresh" aria-label="refresh"><i data-ic="refresh-cw"></i></button></div>
+  <div id="wxWarn"></div>
+  <h3 class="sec" data-i18n="wx.week"></h3>
+  <div class="card wx-days" id="wxDays"></div>
+  <h3 class="sec" data-i18n="wx.quake"></h3>
+  <div class="card" id="wxQuake"></div>
+  <p class="note" data-i18n="wx.src"></p>
 </section>
 
 <!-- ================= NOTA ================= -->
@@ -565,6 +580,8 @@
 <script src="js/ingat.js"></script>
 <script src="js/nota.js"></script>
 <script src="js/musafir.js"></script>
+<script src="js/cuaca.js"></script>
+<script src="js/radar.js"></script>
 <script src="js/app.js"></script>
 <script src="js/pwa.js"></script>
 </body>
