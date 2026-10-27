@@ -20,7 +20,15 @@
     const row = (k, v) => v ? `<tr><td>${t(k)}</td><td><b>${esc(String(v))}</b></td></tr>` : '';
     return `<div class="rd-pop"><b class="rd-cs">✈️ ${esc(cs || a.r || a.hex)}</b>${a.desc ? `<small>${esc(a.desc)}</small>` : ''}<table>
       ${row('rd.type', a.t)}${row('rd.reg', a.r)}${row('rd.alt', alt)}${row('rd.spd', a.gs != null ? `${num(Math.round(a.gs * 1.852))} km/j · ${Math.round(a.gs)} kt` : '')}${row('rd.hdg', a.track != null ? Math.round(a.track) + '°' : '')}</table>
-      ${cs ? `<a href="https://www.flightradar24.com/${encodeURIComponent(cs)}" target="_blank" rel="noopener">${t('rd.more')} ›</a>` : ''}</div>`;
+      ${cs ? `<a href="#" onclick="WZ.flight&&WZ.flight.search('${esc(cs)}');return false">${t('fl.details')} ›</a>` : ''}</div>`;
+  }
+  let follow = null;
+  async function enrich(hex) {
+    const m = marks[hex]; if (!m || !WZ.flight) return;
+    const a = m._ac, rt = await WZ.flight.route((a.flight || '').trim(), a.lat, a.lon); if (!rt || !marks[hex]) return;
+    const p = WZ.flight.progress(a, rt), el = m.getPopup().getElement(); if (!el) return;
+    const box = el.querySelector('.rd-route') || el.querySelector('.rd-pop').insertAdjacentElement('afterbegin', Object.assign(document.createElement('div'), { className: 'rd-route' }));
+    box.innerHTML = `<b>${esc(p.o.iata || p.o.icao)} → ${esc(p.d.iata || p.d.icao)}</b><small>${esc(p.o.location || '')} → ${esc(p.d.location || '')}</small>${p.eta ? `<small>${t('fl.eta')}: <b>${p.eta.toLocaleTimeString(LANG === 'en' ? 'en-GB' : 'ms-MY', { hour: '2-digit', minute: '2-digit' })}</b></small>` : ''}`;
   }
   const setStatus = s => { if (status) { status.innerHTML = s; status.style.display = active ? '' : 'none'; } };
 
@@ -46,8 +54,10 @@
     ac.filter(a => a.lat != null && a.lon != null).slice(0, 400).forEach(a => {
       seen.add(a.hex);
       const m = marks[a.hex];
-      if (m) { m.setLatLng([a.lat, a.lon]); m.setIcon(icon(a)); m.getPopup().setContent(popup(a)); }
-      else marks[a.hex] = L.marker([a.lat, a.lon], { icon: icon(a), zIndexOffset: 500 }).bindPopup(popup(a)).addTo(layer);
+      if (m) { m._ac = a; m.setLatLng([a.lat, a.lon]); m.setIcon(icon(a)); m.getPopup().setContent(popup(a)); if (m.isPopupOpen()) enrich(a.hex); }
+      else { const mk = marks[a.hex] = L.marker([a.lat, a.lon], { icon: icon(a), zIndexOffset: 500 }).bindPopup(popup(a)).addTo(layer); mk.on('popupopen', () => enrich(a.hex)); }
+      marks[a.hex]._ac = a;
+      if (a.hex === follow) map.panTo([a.lat, a.lon], { animate: true });
     });
     Object.keys(marks).forEach(h => { if (!seen.has(h)) { layer.removeLayer(marks[h]); delete marks[h]; } });
     setStatus(seen.size ? t('rd.count', { n: num(seen.size), s: SRC[src].n }) : t('rd.none'));
@@ -79,5 +89,10 @@
   on('show:map', () => { visible = true; loop(); });
   on('hide:map', () => { visible = false; loop(); });
   document.addEventListener('visibilitychange', () => { visible = document.visibilityState === 'visible' && document.getElementById('pg-map').classList.contains('active'); loop(); });
-  WZ.radar = { on: () => { if (map) setActive(true); else store.set('radarOn', true); }, off: () => setActive(false) };
+  function track(hex, lat, lon) {
+    follow = hex;
+    const doIt = () => { map.setView([lat, lon], 9); if (!active) setActive(true); else poll(); setTimeout(() => { const m = marks[hex]; if (m) { m.openPopup(); } }, 2500); };
+    if (map) doIt(); else { store.set('radarOn', true); on('mapready', () => setTimeout(doIt, 300)); }
+  }
+  WZ.radar = { track, on: () => { if (map) setActive(true); else store.set('radarOn', true); }, off: () => setActive(false) };
 })();

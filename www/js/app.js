@@ -7,7 +7,7 @@
     solat: { ic: 'clock', g: 'g-blue' }, kiblat: { ic: 'compass', g: 'g-indigo' }, doa: { ic: 'book-heart', g: 'g-purple' },
     zikir: { ic: 'sparkles', g: 'g-orange' }, tasbih: { ic: 'circle-dot', g: 'g-teal' }, langkah: { ic: 'footprints', g: 'g-green' },
     bmi: { ic: 'scale', g: 'g-teal' }, air: { ic: 'glass-water', g: 'g-cyan' }, fx: { ic: 'coins', g: 'g-orange' },
-    map: { ic: 'map', g: 'g-pink' }, quran: { ic: 'book-open', g: 'g-teal' }, ilmu: { ic: 'gamepad-2', g: 'g-purple' }, profil: { ic: 'user', g: 'g-blue' }, widgets: { ic: 'layout-grid', g: 'g-indigo' }, ingat: { ic: 'bell', g: 'g-orange' }, nota: { ic: 'notebook-pen', g: 'g-yellow' }, musafir: { ic: 'car', g: 'g-teal' }, cuaca: { ic: 'cloud-sun', g: 'g-cyan' }, radar: { ic: 'plane', g: 'g-indigo', go: 'map', act: () => setTimeout(() => WZ.radar && WZ.radar.on(), 300) }, alarm: { ic: 'alarm-clock', g: 'g-pink' }, masjid: { ic: 'moon-star', g: 'g-green', go: 'map', act: () => setTimeout(() => $('#btnMasjid').click(), 250) }
+    map: { ic: 'map', g: 'g-pink' }, quran: { ic: 'book-open', g: 'g-teal' }, ilmu: { ic: 'gamepad-2', g: 'g-purple' }, profil: { ic: 'user', g: 'g-blue' }, widgets: { ic: 'layout-grid', g: 'g-indigo' }, ingat: { ic: 'bell', g: 'g-orange' }, nota: { ic: 'notebook-pen', g: 'g-yellow' }, musafir: { ic: 'car', g: 'g-teal' }, cuaca: { ic: 'cloud-sun', g: 'g-cyan' }, flight: { ic: 'plane', g: 'g-blue' }, radar: { ic: 'plane', g: 'g-indigo', go: 'map', act: () => setTimeout(() => WZ.radar && WZ.radar.on(), 300) }, alarm: { ic: 'alarm-clock', g: 'g-pink' }, masjid: { ic: 'moon-star', g: 'g-green', go: 'map', act: () => setTimeout(() => $('#btnMasjid').click(), 250) }
   };
   const ttl = k => t('tile.' + k), sub = k => t('tile.' + k + '.s', { n: DOA.length });
   const HOME = ['quran', 'solat', 'kiblat', 'doa', 'zikir', 'ilmu', 'langkah', 'cuaca'];
@@ -15,7 +15,7 @@
   const lt = keys => keys.map(k => `<button class="lt" data-go="${T[k].go || k}" data-k="${k}"><span class="t-ic ${T[k].g}">${ico(T[k].ic)}</span><span><b>${ttl(k)}</b><small>${sub(k)}</small></span>${ico('chevron-right', 'chev')}</button>`).join('');
   $('#ibadahList').innerHTML = lt(['solat', 'quran', 'kiblat', 'musafir', 'doa', 'zikir', 'tasbih']);
   $('#sihatList').innerHTML = lt(['langkah', 'bmi', 'air', 'ingat']);
-  $('#alatList').innerHTML = lt(['cuaca', 'nota', 'alarm', 'ingat', 'fx', 'map', 'radar', 'masjid']);
+  $('#alatList').innerHTML = lt(['cuaca', 'flight', 'radar', 'nota', 'alarm', 'ingat', 'fx', 'map', 'masjid']);
   $('#lagiSet').innerHTML = lt(['widgets', 'profil']);
   $('#alatList').addEventListener('click', e => { const b = e.target.closest('[data-k]'); if (b && T[b.dataset.k].act) T[b.dataset.k].act(); });
 

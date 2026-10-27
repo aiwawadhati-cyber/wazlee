@@ -246,6 +246,21 @@
   <p class="note" data-i18n="wx.src"></p>
 </section>
 
+<!-- ================= PENERBANGAN ================= -->
+<section class="page" id="pg-flight" data-title="tile.flight">
+  <div class="hub-hero indigo"><div><h2 data-i18n="tile.flight"></h2><p data-i18n="fl.sub"></p></div><div class="hub-ic" data-ic="plane"></div></div>
+  <div class="row-flex"><div class="search-box grow"><i data-ic="search"></i><input type="search" id="flQ" autocapitalize="characters" data-i18n-ph="fl.ph"></div>
+    <button class="icbtn solid" id="flGo" aria-label="search"><i data-ic="search"></i></button></div>
+  <div class="nt-filter" id="flRecent"></div>
+  <div id="flRes"></div>
+  <details class="card fl-key"><summary><i data-ic="settings"></i> <span data-i18n="fl.keyT"></span></summary>
+    <p class="muted small" data-i18n="fl.keyNote"></p>
+    <div class="row-flex"><input type="text" id="flKey" autocomplete="off" spellcheck="false" placeholder="x-rapidapi-key"><button class="btn" id="flKeySave" data-i18n="pwa.save"></button></div>
+    <a class="btn soft block sm" href="https://rapidapi.com/aedbx-aedbx/api/aerodatabox/pricing" target="_blank" rel="noopener" data-i18n="fl.keyGet"></a>
+  </details>
+  <p class="note" data-i18n="fl.src"></p>
+</section>
+
 <!-- ================= NOTA ================= -->
 <section class="page" id="pg-nota" data-title="tile.nota">
   <div class="hub-hero yellow"><div><h2 data-i18n="tile.nota"></h2><p data-i18n="nt.sub"></p></div><div class="hub-ic" data-ic="notebook-pen"></div></div>
@@ -582,6 +597,7 @@
 <script src="js/musafir.js"></script>
 <script src="js/cuaca.js"></script>
 <script src="js/radar.js"></script>
+<script src="js/flight.js"></script>
 <script src="js/app.js"></script>
 <script src="js/pwa.js"></script>
 </body>

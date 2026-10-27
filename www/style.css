@@ -632,3 +632,28 @@ a.btn{text-decoration:none}
 .rd-ic{background:none;border:0}.rd-ic svg{width:28px;height:28px;filter:drop-shadow(0 1px 2px #0006)}
 .rd-pop{min-width:170px}.rd-cs{font-size:15px}.rd-pop small{display:block;color:#64748B}
 .rd-pop table{margin:6px 0;font-size:12.5px;border-collapse:collapse}.rd-pop td{padding:2px 8px 2px 0}
+
+/* v2.9 Penerbangan */
+.fl-live .fl-sh,.fl-sched .fl-sh{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:10px}
+.fl-sh b{font-size:19px;font-weight:900}.fl-sh small{color:var(--muted)}
+.fl-route{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center}
+.fl-route b{font-size:24px;font-weight:900;display:block}.fl-route small{color:var(--muted);font-size:12px;display:block;max-width:110px}
+.fl-route .r{text-align:right}
+.fl-line{position:relative;height:3px;background:repeating-linear-gradient(90deg,var(--line) 0 6px,transparent 6px 10px);border-radius:3px}
+.fl-line i{position:absolute;top:50%;transform:translate(-50%,-50%) rotate(45deg);color:var(--blue)}.fl-line i .ic{width:22px;height:22px}
+.fl-st-row{display:flex;justify-content:space-between;align-items:center;margin:12px 0 6px;font-size:13px;color:var(--muted)}
+.fl-st{border-radius:10px;padding:3px 10px;font-weight:800;font-size:12px;background:var(--soft);color:var(--blue)}
+.st-EnRoute,.st-Departed,.st-Approaching{background:#DBEAFE;color:#1D4ED8}.st-Arrived{background:#D1FAE5;color:#047857}
+.st-Delayed,.st-CanceledUncertain{background:#FEF3C7;color:#B45309}.st-Canceled,.st-Cancelled,.st-Diverted{background:#FEE2E2;color:#B91C1C}
+.fl-eta{background:linear-gradient(135deg,#3FA9FF,#1257C9);color:#fff;border-radius:16px;padding:10px 14px;margin:8px 0}
+.fl-eta b{display:block;font-size:26px;font-weight:900}.fl-eta small{opacity:.9;font-size:11.5px}
+.fl-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin:10px 0 12px}
+.fl-stats div{background:var(--soft2);border-radius:12px;padding:8px 6px;text-align:center}.fl-stats small{display:block;color:var(--muted);font-size:11px}.fl-stats b{font-size:12.5px}
+.fl-cols{display:grid;grid-template-columns:1fr 1fr;gap:12px}.fl-cols>div>small:first-child{color:var(--muted);font-weight:800;font-size:11.5px;text-transform:uppercase}
+.fl-ap{font-size:20px;font-weight:900;margin:2px 0 6px}.fl-ap small{font-size:12px;color:var(--muted);font-weight:700}
+.fl-t{display:flex;justify-content:space-between;font-size:13px;padding:2px 0}.fl-t span{color:var(--muted)}.fl-t.late b{color:#B45309}.fl-t.ok b{color:#047857}
+.fl-none{display:flex;gap:12px;align-items:center}.fl-none .ic{width:30px;height:30px;color:var(--muted);flex:0 0 auto}.fl-none p{margin:0;font-size:14px}
+.fl-key summary{cursor:pointer;font-weight:800;list-style:none}.fl-key summary .ic{width:16px;height:16px;vertical-align:-3px}
+.fl-key input{flex:1;min-width:0;padding:11px 12px;border-radius:14px;border:1.5px solid var(--line);background:var(--soft2);font-family:monospace}
+.rd-route{border-bottom:1px solid #E2EAF6;padding-bottom:6px;margin-bottom:6px}.rd-route b{font-size:15px;display:block}.rd-route small{display:block;color:#64748B}
+#flRecent button.active,#flRecent button{font-family:inherit}
