@@ -17,7 +17,13 @@
     'pwa.now': ['🕌 Telah masuk waktu {p}', '🕌 It is now time for {p}'],
     'notif.apkOnly': ['Notifikasi berjadual hanya dalam app Android. Versi web: azan berbunyi semasa Wazlee dibuka.', 'Scheduled notifications are only in the Android app. Web version: the adhan plays while Wazlee is open.'],
     'al.apkOnly': ['Penggera hanya dalam app Android. Di iPhone, guna app Jam.', 'Alarms are only in the Android app. On iPhone, use the Clock app.'],
-    'pwa.updated': ['Wazlee dikemas kini ✓', 'Wazlee updated ✓']
+    'pwa.updated': ['Wazlee dikemas kini ✓', 'Wazlee updated ✓'],
+    'steps.nWeb': ['Masukkan langkah hari ini dari app Kesihatan (Health) di bawah.', 'Enter today\'s steps from the Health app below.'],
+    'pwa.stT': ['Langkah dari app Kesihatan', 'Steps from the Health app'],
+    'pwa.stNote': ['iPhone tidak membenarkan laman web membaca sensor langkah atau Apple Health. Buka app <b>Kesihatan</b> → <b>Langkah</b>, kemudian masukkan jumlahnya di sini.', 'iPhone does not let websites read the step sensor or Apple Health. Open the <b>Health</b> app → <b>Steps</b>, then enter the total here.'],
+    'pwa.openHealth': ['Buka app Kesihatan', 'Open Health app'], 'pwa.save': ['Simpan', 'Save'], 'pwa.stSaved': ['Langkah disimpan ✓', 'Steps saved ✓'],
+    'pwa.today': ['Hari ini', 'Today'], 'pwa.yest': ['Semalam', 'Yesterday'], 'pwa.stPh': ['cth: 6500', 'e.g. 6500'],
+    'pwa.hcT': ['Kesihatan di iPhone', 'Health on iPhone'], 'pwa.hcS': ['Health Connect hanya untuk Android. Ketik untuk masukkan langkah dari app Kesihatan.', 'Health Connect is Android-only. Tap to enter steps from the Health app.']
   });
   const ua = navigator.userAgent, isIOS = /iPhone|iPad|iPod/.test(ua) || (/Macintosh/.test(ua) && navigator.maxTouchPoints > 1);
   const isSafari = isIOS && !/CriOS|FxiOS|EdgiOS|GSA\/|FBAN|FBAV|Instagram|Line\/|Telegram/.test(ua);
@@ -37,6 +43,28 @@
   /* ---------- Sembunyi ciri khusus Android ---------- */
   ['widgets', 'alarm', 'ingat'].forEach(k => $$(`[data-go="${k}"]`).forEach(el => el.remove()));
   ['#notifToggle', '#notifPre', '#btnExact'].forEach(s => { const el = $(s); if (el) (el.closest('label') || el).classList.add('hidden'); });
+
+
+  /* ---------- Langkah manual (iPhone/web) ---------- */
+  const hcCard = $('#hcCard');
+  if (hcCard) hcCard.outerHTML = `<button class="card hc-card pwa-hc" data-go="langkah"><span class="chip-ic g-pink">${ico('heart-pulse')}</span><span class="grow"><b>${t('pwa.hcT')}</b><small>${t('pwa.hcS')}</small></span>${ico('chevron-right', 'chev')}</button>`;
+  const stepMain = $('#pg-langkah .step-main');
+  if (stepMain) {
+    const c = document.createElement('div'); c.className = 'card'; c.id = 'pwaSteps';
+    c.innerHTML = `<div class="card-title">${ico('footprints')} ${t('pwa.stT')}</div><p class="muted small">${t('pwa.stNote')}</p>
+      <div class="pwa-st"><select id="pwaStDay"><option value="0">${t('pwa.today')}</option><option value="1">${t('pwa.yest')}</option></select>
+      <input type="number" inputmode="numeric" min="0" max="100000" id="pwaStN" placeholder="${t('pwa.stPh')}"><button class="btn" id="pwaStSave">${ico('check')}<span>${t('pwa.save')}</span></button></div>
+      ${isIOS ? `<a class="btn soft block" href="x-apple-health://" style="margin-top:10px">${ico('heart-pulse')}<span>${t('pwa.openHealth')}</span></a>` : ''}`;
+    stepMain.after(c);
+    const dk = off => { const d = new Date(); d.setDate(d.getDate() - off); return WZ.dkey(d); };
+    const fill = () => { const h = store.get('steps_hist', {}); const v = h[dk(+$('#pwaStDay').value)]; $('#pwaStN').value = v || ''; };
+    $('#pwaStDay').onchange = fill; fill();
+    $('#pwaStSave').onclick = () => {
+      const n = +$('#pwaStN').value; if (!(n >= 0) || n > 100000) return;
+      WZ.sihat.setManual(n, dk(+$('#pwaStDay').value)); toast(t('pwa.stSaved'));
+    };
+    on('show:langkah', fill);
+  }
 
   /* ---------- Gesaan pasang ---------- */
   const SHARE = '<svg class="ic" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="m8 7 4-4 4 4"/><path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-7"/></svg>';

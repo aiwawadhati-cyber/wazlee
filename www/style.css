@@ -587,3 +587,8 @@ input[type=datetime-local]{flex:1;min-width:0;padding:11px 12px;border-radius:14
 .pwa-azbar{position:fixed;left:12px;right:12px;top:calc(76px + var(--safe-top));z-index:61;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;border-radius:18px;color:#fff;background:linear-gradient(135deg,#3FA9FF,#1257C9);box-shadow:0 14px 30px -10px #1257C9aa;animation:pwaUp .35s ease}
 .pwa-azbar .btn{background:#fff;color:var(--blue)}
 @keyframes pwaUp{from{transform:translateY(16px);opacity:0}to{transform:none;opacity:1}}
+.pwa-st{display:grid;grid-template-columns:auto 1fr auto;gap:8px;align-items:center}
+.pwa-st select{width:auto}
+.pwa-hc{display:flex;align-items:center;gap:12px;width:100%;text-align:left;border:0}
+.pwa-hc b{display:block;font-size:15px}.pwa-hc small{color:var(--muted);font-size:12.5px}
+a.btn{text-decoration:none}

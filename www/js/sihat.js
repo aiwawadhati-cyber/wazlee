@@ -66,7 +66,7 @@
   const srcLabel = s => s === 'hc' ? t('steps.srcHc') : s === 'sensor' ? t('steps.srcSensor') : '';
 
   function renderStepsWidgets() {
-    const g = goal(), d = today(), p = d.n / g, none = stepStatus === 'web' && !WZ.hc.on;
+    const g = goal(), d = today(), p = d.n / g, none = stepStatus === 'web' && !WZ.hc.on && !d.n;
     WZ.ring($('#hStepRing'), p, ico('footprints'), { size: 52, stroke: 6, colors: ['#fff', '#fff'], track: '#ffffff40' });
     $('#hSteps').textContent = none ? '—' : num(d.n);
     $('#hStepGoal').textContent = ` / ${num(g)}`;
@@ -82,7 +82,7 @@
       web: t('steps.nWeb'), nosensor: t('steps.nNoSensor'), perm: t('steps.nPerm'), err: t('steps.nErr'), init: t('steps.nInit'),
       ok: d.n >= g ? t('steps.nDone') : t('steps.nLeft', { n: num(g - d.n) })
     }[stepStatus] || '';
-    if (WZ.hc.on && stepStatus !== 'ok') note = d.n >= g ? t('steps.nDone') : t('steps.nLeft', { n: num(g - d.n) });
+    if ((WZ.hc.on || (stepStatus === 'web' && d.n)) && stepStatus !== 'ok') note = d.n >= g ? t('steps.nDone') : t('steps.nLeft', { n: num(g - d.n) });
     $('#lNote').textContent = note + (d.src ? ` · ${srcLabel(d.src)}` : '');
     $('#btnStepPerm').classList.toggle('hidden', stepStatus !== 'perm');
     // carta 7 hari
@@ -146,5 +146,12 @@
   $('#waterNotif').onchange = e => { settings.waterNotif = e.target.checked; saveSettings(); waterNotifs(); };
   on('show:air', renderWater);
 
-  WZ.sihat = { readSteps, renderStepsWidgets, renderWater, get steps() { return today().n; } };
+  /* Langkah manual (versi web/iPhone: salin dari app Health) */
+  function setManual(n, dateKey) {
+    const k = dateKey || dkey(new Date()), hist = store.get('steps_hist', {});
+    hist[k] = Math.max(0, Math.round(n)); store.set('steps_hist', hist);
+    if (k === dkey(new Date())) { sensorSteps = hist[k]; store.set('steps_today', { date: k, n: sensorSteps }); }
+    emit('steps');
+  }
+  WZ.sihat = { readSteps, renderStepsWidgets, renderWater, setManual, get steps() { return today().n; } };
 })();
