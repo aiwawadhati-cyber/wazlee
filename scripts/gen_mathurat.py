@@ -9,7 +9,7 @@ def quran(name, nameEn, s, a1, a2, n=1, bism=False):
     a = ' '.join(f'{d["a"][i]} ﴿{str(i+1).translate(AR)}﴾' for i in idx)
     if bism: a = Q(1)['a'][0] + '\n' + a
     return dict(t=name, te=nameEn, q=f'{s}:{a1}-{a2}', n=n, w='both', a=a,
-                r=' '.join(d['tl'][i] for i in idx), m=' '.join(f'({i+1}) {d["ms"][i]}' for i in idx), me=' '.join(f'({i+1}) {d["en"][i]}' for i in idx))
+                r='', m=' '.join(f'({i+1}) {d["ms"][i]}' for i in idx), me=' '.join(f'({i+1}) {d["en"][i]}' for i in idx))
 def z(t, te, n, w, a, r, m, me): return dict(t=t, te=te, n=n, w=w, a=a, r=r, m=m, me=me)
 P, E = 'pagi', 'petang'
 items = [
