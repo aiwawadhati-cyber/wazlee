@@ -35,6 +35,17 @@
     const top = 210, bottom = H - 150, cw = W - PAD * 2;
     x.fillStyle = 'rgba(255,255,255,0.10)'; roundRect(x, PAD - 30, top, cw + 60, bottom - top, 44); x.fill();
     let y = top + 70;
+    if (!arab) { // mod petikan (motivasi)
+      x.fillStyle = '#FFD166'; x.font = '900 220px Georgia, serif'; x.textAlign = 'center'; x.textBaseline = 'alphabetic'; x.fillText('\u201C', W / 2, top + 210);
+      x.fillStyle = '#fff'; const avail = bottom - (top + 250) - (ref ? 120 : 60);
+      const Q = fit(x, text, sz => `800 ${sz}px Nunito, sans-serif`, cw - 40, avail, 64, 30, 1.4); x.font = `800 ${Q.s}px Nunito, sans-serif`;
+      let qy = top + 250 + Math.max(0, (avail - Q.ls.length * Q.s * 1.4) / 2);
+      Q.ls.forEach(l => { qy += Q.s * 1.4; x.fillText(l, W / 2, qy - Q.s * 0.3); });
+      if (ref) { x.font = '800 30px Nunito, sans-serif'; x.fillStyle = '#FFD166'; x.fillText(ref, W / 2, bottom - 60); }
+      x.font = '700 28px Nunito, sans-serif'; x.fillStyle = 'rgba(255,255,255,0.8)';
+      x.fillText(LANG === 'en' ? 'Wazlee · Daily Muslim Companion' : 'Wazlee · App Harian Muslim', W / 2, H - 70);
+      return c;
+    }
     const hasT = !!(text || rumi), arabH = hasT ? (bottom - top) * 0.52 : (bottom - top) - 140;
     // Arab
     x.direction = 'rtl'; x.textAlign = 'center'; x.textBaseline = 'alphabetic'; x.fillStyle = '#fff';

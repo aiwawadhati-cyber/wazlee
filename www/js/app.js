@@ -37,6 +37,7 @@
   const showQuote = () => $('#quoteText').textContent = Q[qIdx];
   $('#btnNextQuote').onclick = () => { qIdx = (qIdx + 1) % Q.length; showQuote(); };
   $('#btnShareQuote').onclick = () => WZ.shareText(`${Q[qIdx]}\n\n— via Wazlee`);
+  $('#btnImgQuote').onclick = () => { const q = Q[qIdx], m = q.match(/^(.*?)\s*\(([^()]+)\)\s*$/); WZ.shareImage({ title: t('home.quote'), text: m ? m[1] : q, ref: m ? m[2] : '' }); };
   on('show:home', renderHome);
   on('loc', renderHome);
 
