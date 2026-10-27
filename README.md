@@ -1,4 +1,4 @@
-# Wazlee v2.6.1 — App Harian Muslim (Android)
+# Wazlee v2.7 — App Harian Muslim (Android)
 
 **Ibadah · Sihat · Alat** dalam satu app bertema biru yang ceria. **Dwibahasa: Bahasa Melayu & English** (tukar di butang EN/BM atas atau Profil → Bahasa).
 
@@ -63,6 +63,10 @@ Profil → Waktu Solat → **Bunyi azan**: pilih fail MP3/M4A azan dari telefon 
 
 ## Peringatan (v2.4)
 Lagi/Sihat → **Peringatan**: tidur, rehat setiap 2 jam (waktu kerja), tahajjud, Dhuha, Al-Kahfi (Jumaat), puasa sunat Isnin/Khamis, zikir pagi/petang, senaman + sehingga 10 peringatan tersuai. Ketik notifikasi untuk terus ke halaman berkaitan.
+
+## Versi web / iPhone (PWA, v2.7)
+Workflow `pages.yml` membina `www/` dengan `scripts/build-web.sh` (manifest, service worker luar talian, bunyi azan) dan menerbitkannya ke GitHub Pages. iPhone: buka dalam Safari → Kongsi → **Tambah ke Skrin Utama**. Had versi web: tiada notifikasi berjadual, widget, penggera atau pengira langkah; azan berbunyi semasa app dibuka.
+Domain sendiri: rekod DNS `CNAME wazlee → aiwawadhati-cyber.github.io`, kemudian Settings → Pages → Custom domain.
 
 ## Musafir (v2.6)
 Ibadah → **Musafir**: tetapkan lokasi rumah, cari destinasi (jarak jalan raya OSRM + garis lurus), status jamak/qasar, kiraan hari perjalanan, waktu jamak taqdim/takhir hari ini, panduan syarat & lafaz niat (mazhab Syafi'i). Had dua marhalah: **91 km (lalai, paling berhati-hati)**, 89 km atau 81 km (Muzakarah Fatwa Kebangsaan 2021). Banner di Utama apabila anda musafir.

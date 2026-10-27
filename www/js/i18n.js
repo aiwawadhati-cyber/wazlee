@@ -136,7 +136,7 @@
     'pf.exact': ['Benarkan penggera tepat', 'Allow exact alarms'], 'pf.manualLoc': ['Lokasi manual', 'Manual location'],
     'pf.manualLocHint': ['Guna jika GPS tidak tersedia.', 'Use if GPS is unavailable.'], 'pf.lat': ['Latitud', 'Latitude'], 'pf.lng': ['Longitud', 'Longitude'],
     'pf.save': ['Simpan Tetapan', 'Save Settings'], 'pf.saved': ['Tetapan disimpan ✓', 'Settings saved ✓'], 'pf.about': ['Tentang Wazlee', 'About Wazlee'],
-    'pf.aboutText': ['Versi 2.6.1 · App harian Muslim — ibadah, kesihatan & alat harian.', 'Version 2.6.1 · A daily Muslim companion — worship, health & everyday tools.'],
+    'pf.aboutText': ['Versi 2.7 · App harian Muslim — ibadah, kesihatan & alat harian.', 'Version 2.7 · A daily Muslim companion — worship, health & everyday tools.'],
     'pf.credits': ['Waktu solat: e-Solat JAKIM (sandaran kiraan GPS) · Kesihatan: Health Connect · Matawang: open.er-api.com · Peta: © OpenStreetMap, © CARTO · Carian: Nominatim · Ikon: Lucide (ISC) · Fon: Amiri & Nunito (OFL)', 'Prayer times: JAKIM e-Solat (GPS fallback) · Health: Health Connect · Currency: open.er-api.com · Maps: © OpenStreetMap, © CARTO · Search: Nominatim · Icons: Lucide (ISC) · Fonts: Amiri & Nunito (OFL)'],
     'pf.privacy': ['Dasar privasi', 'Privacy policy'], 'pf.defaultName': ['Pengguna Wazlee', 'Wazlee User'], 'pf.complete': ['Lengkapkan profil anda', 'Complete your profile'],
     'pf.summary': ['{h} cm · {w} kg · sasaran {g} langkah', '{h} cm · {w} kg · goal {g} steps'],

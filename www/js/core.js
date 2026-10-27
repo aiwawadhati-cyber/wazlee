@@ -5,7 +5,7 @@
   const Cap = window.Capacitor;
   const isNative = !!(Cap && Cap.isNativePlatform && Cap.isNativePlatform());
   const P = (Cap && Cap.Plugins) || {};
-  window.WZ_HDR = { 'User-Agent': 'Wazlee/2.1 (Android; my.digitalsys.wazlee)' };
+  window.WZ_HDR = isNative ? { 'User-Agent': 'Wazlee/2.6 (Android; my.digitalsys.wazlee)' } : {}; // pelayar: elak preflight CORS
 
   const store = {
     get(k, d) { try { const v = localStorage.getItem('wz_' + k); return v == null ? d : JSON.parse(v); } catch { return d; } },

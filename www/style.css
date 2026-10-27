@@ -577,3 +577,13 @@ input[type=datetime-local]{flex:1;min-width:0;padding:11px 12px;border-radius:14
 .mus-g summary::-webkit-details-marker{display:none}.mus-g summary b{flex:1}
 .mus-g .chev{transition:transform .2s}.mus-g[open] .chev{transform:rotate(90deg)}
 .mus-g ol{margin:0;padding:0 16px 14px 36px;font-size:14px;line-height:1.55}.mus-g li{margin-bottom:6px}
+
+/* v2.7 PWA (web/iPhone) */
+.pwa-sheet{position:fixed;left:12px;right:12px;bottom:calc(84px + var(--safe-bot));z-index:60;display:flex;gap:12px;align-items:flex-start;background:var(--card);border:1.5px solid var(--line);border-radius:20px;padding:14px;box-shadow:0 18px 40px -12px #0A1F4D66;animation:pwaUp .35s ease}
+.pwa-sheet img{width:52px;height:52px;border-radius:14px;flex:0 0 auto}
+.pwa-sheet b{font-size:15.5px}.pwa-sheet p{margin:4px 0 10px;font-size:13.5px;line-height:1.45;color:var(--muted)}
+.pwa-sheet p .ic{width:17px;height:17px;vertical-align:-3px;color:var(--blue)}
+.pwa-btns{display:flex;gap:8px}
+.pwa-azbar{position:fixed;left:12px;right:12px;top:calc(76px + var(--safe-top));z-index:61;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:12px 14px;border-radius:18px;color:#fff;background:linear-gradient(135deg,#3FA9FF,#1257C9);box-shadow:0 14px 30px -10px #1257C9aa;animation:pwaUp .35s ease}
+.pwa-azbar .btn{background:#fff;color:var(--blue)}
+@keyframes pwaUp{from{transform:translateY(16px);opacity:0}to{transform:none;opacity:1}}

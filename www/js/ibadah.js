@@ -29,7 +29,7 @@
   }
   function startCompass() {
     if (compassOn) return;
-    try { if (typeof DeviceOrientationEvent !== 'undefined' && DeviceOrientationEvent.requestPermission) DeviceOrientationEvent.requestPermission(); } catch {}
+    try { if (typeof DeviceOrientationEvent !== 'undefined' && DeviceOrientationEvent.requestPermission) DeviceOrientationEvent.requestPermission().then(r => { if (r !== 'granted') $('#compassStatus').textContent = t('qibla.nosensor'); }).catch(() => {}); } catch {}
     window.addEventListener('ondeviceorientationabsolute' in window ? 'deviceorientationabsolute' : 'deviceorientation', onOrient);
     compassOn = true; $('#btnCompass').classList.add('hidden');
     setTimeout(() => { if (!gotReading) $('#compassStatus').textContent = t('qibla.nosensor'); }, 3000);
