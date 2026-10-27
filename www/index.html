@@ -237,6 +237,20 @@
   <p class="note" data-i18n="mu.disclaimer"></p>
 </section>
 
+<!-- ================= AL-MA'THURAT ================= -->
+<section class="page" id="pg-mathurat" data-title="tile.mathurat">
+  <div class="seg2 mth-seg" id="mthSeg"><button data-m="pagi"><i data-ic="sunrise"></i> <span data-i18n="mt.pagiB"></span></button><button data-m="petang"><i data-ic="sunset"></i> <span data-i18n="mt.petangB"></span></button></div>
+  <div class="mth-hero" id="mthHero"></div>
+  <div class="card mth-opt">
+    <label><input type="checkbox" id="mthRumi"> <span data-i18n="mt.rumi"></span></label>
+    <label><input type="checkbox" id="mthTr"> <span data-i18n="mt.tr"></span></label>
+    <span class="mth-fs" id="mthFs"><button data-fs="-2">A−</button><button data-fs="2">A+</button></span>
+  </div>
+  <div id="mthList"></div>
+  <button class="btn soft block" id="mthReset"><i data-ic="rotate-ccw"></i><span data-i18n="mt.reset"></span></button>
+  <p class="note" data-i18n="mt.note"></p>
+</section>
+
 <!-- ================= KALENDAR HIJRI ================= -->
 <section class="page" id="pg-hijri" data-title="tile.hijri">
   <div class="hj-today" id="hjToday"></div>
@@ -632,6 +646,7 @@
 <script src="data/quotes.js"></script>
 <script src="data/asma.js"></script>
 <script src="data/ilmu.js"></script>
+<script src="data/mathurat.js"></script>
 <script src="js/prayer.js"></script>
 <script src="js/core.js"></script>
 <script src="js/solat.js"></script>
@@ -651,6 +666,7 @@
 <script src="js/ramadan.js"></script>
 <script src="js/khatam.js"></script>
 <script src="js/jumaat.js"></script>
+<script src="js/mathurat.js"></script>
 <script src="js/app.js"></script>
 <script src="js/pwa.js"></script>
 </body>

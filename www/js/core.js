@@ -71,7 +71,7 @@
 
   /* ---------- Router ---------- */
   const ROOTS = ['home', 'quran', 'ibadah', 'sihat', 'lagi'];
-  const PARENT = { solat: 'ibadah', zon: 'ibadah', kiblat: 'ibadah', doa: 'ibadah', zikir: 'ibadah', tasbih: 'ibadah', musafir: 'ibadah', hijri: 'ibadah', ramadan: 'ibadah', jumaat: 'ibadah', khatam: 'quran', langkah: 'sihat', bmi: 'sihat', air: 'sihat',
+  const PARENT = { solat: 'ibadah', zon: 'ibadah', kiblat: 'ibadah', doa: 'ibadah', zikir: 'ibadah', tasbih: 'ibadah', musafir: 'ibadah', hijri: 'ibadah', mathurat: 'ibadah', ramadan: 'ibadah', jumaat: 'ibadah', khatam: 'quran', langkah: 'sihat', bmi: 'sihat', air: 'sihat',
     fx: 'lagi', map: 'lagi', profil: 'lagi', widgets: 'lagi', ingat: 'lagi', nota: 'lagi', cuaca: 'lagi', notaed: 'nota', alarm: 'lagi', ilmu: 'lagi', game: 'lagi', asmalist: 'lagi', surah: 'quran', qset: 'quran' };
   let stack = ['home'];
   const show = id => {
