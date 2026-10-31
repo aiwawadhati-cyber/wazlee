@@ -237,6 +237,34 @@
   <p class="note" data-i18n="mu.disclaimer"></p>
 </section>
 
+<!-- ================= HAFALAN ================= -->
+<section class="page" id="pg-hafalan" data-title="tile.hafalan">
+  <div class="hf-kids" id="hfKids"></div>
+  <div class="card hidden" id="hfForm"><div class="card-title" data-i18n="hf.newKid"></div>
+    <div class="row-flex"><input type="text" id="hfName" data-i18n-ph="hf.namePh"><button class="btn" id="hfSave" data-i18n="pwa.save"></button></div></div>
+  <div class="card hf-empty" id="hfEmpty"><span class="hf-big" data-ic="graduation-cap"></span><b data-i18n="hf.emptyT"></b><p class="muted small" data-i18n="hf.emptyS"></p></div>
+  <div id="hfMain" class="hidden">
+    <div class="hf-stats" id="hfStats"></div>
+    <div class="hf-tools"><button class="btn soft sm" id="hfHide"><i data-ic="eye"></i><span data-i18n="hf.test"></span></button><button class="btn soft sm" id="hfTr"><i data-ic="languages"></i><span data-i18n="mt.tr"></span></button>
+      <select id="hfRep" class="auto"><option value="1">×1</option><option value="3" selected>×3</option><option value="5">×5</option><option value="10">×10</option></select></div>
+    <div class="card hf-today" id="hfToday"></div>
+    <div class="card hf-review hidden" id="hfReview"></div>
+    <h3 class="sec" data-i18n="hf.progress"></h3>
+    <div class="card" id="hfProg"></div>
+    <h3 class="sec" data-i18n="hf.settings"></h3>
+    <div class="card hf-set">
+      <label class="lbl" data-i18n="hf.plan"></label><select id="hfPlan"></select>
+      <div class="two" style="margin-top:10px"><div><label class="lbl" data-i18n="hf.per"></label><select id="hfPer"><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="5">5</option></select></div>
+        <div><label class="lbl" data-i18n="hf.rec"></label><select id="hfRec"></select></div></div>
+      <div id="hfRemBox"><label class="switch-row hf-rem-n"><span data-i18n="hf.remind"></span><input type="checkbox" id="hfRem"></label>
+        <div class="two"><span class="muted small" data-i18n="kh.remTime"></span><input type="time" id="hfTime" value="07:00"></div>
+        <button class="btn soft block hf-rem-w" id="hfIcs" style="margin-top:10px"><i data-ic="calendar"></i><span data-i18n="ics.add"></span></button></div>
+      <button class="btn soft sm" id="hfDel" style="margin-top:12px"><i data-ic="trash-2"></i><span data-i18n="hf.del"></span></button>
+    </div>
+  </div>
+  <p class="note" data-i18n="hf.note"></p>
+</section>
+
 <!-- ================= PANDUAN IBADAH ================= -->
 <section class="page" id="pg-panduan" data-title="tile.panduan">
   <div class="pd-tabs" id="pdTabs"></div>
@@ -656,6 +684,7 @@
 <script src="data/ilmu.js"></script>
 <script src="data/mathurat.js"></script>
 <script src="data/panduan.js"></script>
+<script src="data/tahlil.js"></script>
 <script src="js/prayer.js"></script>
 <script src="js/core.js"></script>
 <script src="js/solat.js"></script>
@@ -677,6 +706,7 @@
 <script src="js/jumaat.js"></script>
 <script src="js/mathurat.js"></script>
 <script src="js/panduan.js"></script>
+<script src="js/hafalan.js"></script>
 <script src="js/app.js"></script>
 <script src="js/pwa.js"></script>
 </body>

@@ -1,4 +1,4 @@
-# Wazlee v3.2 — App Harian Muslim (Android)
+# Wazlee v3.3 — App Harian Muslim (Android)
 
 **Ibadah · Sihat · Alat** dalam satu app bertema biru yang ceria. **Dwibahasa: Bahasa Melayu & English** (tukar di butang EN/BM atas atau Profil → Bahasa).
 
@@ -63,6 +63,11 @@ Profil → Waktu Solat → **Bunyi azan**: pilih fail MP3/M4A azan dari telefon 
 
 ## Peringatan (v2.4)
 Lagi/Sihat → **Peringatan**: tidur, rehat setiap 2 jam (waktu kerja), tahajjud, Dhuha, Al-Kahfi (Jumaat), puasa sunat Isnin/Khamis, zikir pagi/petang, senaman + sehingga 10 peringatan tersuai. Ketik notifikasi untuk terus ke halaman berkaitan.
+
+## Baharu dalam v3.3
+- **Azan tepat pada minitnya**: azan dijadualkan sebagai penggera jam (`setAlarmClock`) + kebenaran `USE_EXACT_ALARM`, jadi tidak lagi ditangguhkan oleh mod jimat bateri (Doze) Android 14+.
+- **Hafalan Anak** (Ibadah): profil setiap anak, ayat hafalan harian (Juz 'Amma dari An-Nas atau mula dari mana-mana surah), dengar berulang ×1/3/5/10 (qari Muallim), mod uji (ayat dikaburkan), Lulus/Ulang, ulangkaji harian, kemajuan setiap surah, rekod hari berturut, peringatan pagi.
+- **Tahlil** (Ibadah, tab dalam Panduan Ibadah): susunan tahlil ringkas dengan pengira bacaan, doa arwah ikut jantina; data dijana oleh `scripts/gen_tahlil.py`.
 
 ## Panduan Ibadah (v3.2)
 Ibadah → **Panduan Ibadah**: Ziarah Kubur (adab, salam, bacaan, doa arwah), Solat Jenazah langkah demi langkah (niat & doa bertukar ikut jenazah lelaki/perempuan), Ayat Syifa' (6 ayat + doa untuk orang sakit). Ayat Al-Quran daripada teks mushaf yang disahkan; data dijana oleh `scripts/gen_panduan.py`.

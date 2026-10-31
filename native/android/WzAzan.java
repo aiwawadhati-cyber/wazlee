@@ -140,7 +140,14 @@ public final class WzAzan {
             i.putExtra("at", next.optLong("at"));
             PendingIntent pi = PendingIntent.getBroadcast(c, 300, i, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
             long at = next.optLong("at");
-            if (Build.VERSION.SDK_INT < 31 || am.canScheduleExactAlarms()) am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, at, pi);
+            String kind = next.optString("kind", "notif");
+            boolean exact = Build.VERSION.SDK_INT < 31 || am.canScheduleExactAlarms();
+            if (exact && ("azan".equals(kind) || "subuh".equals(kind))) {
+                // Penggera jam: dikecualikan daripada Doze & pengoptimuman bateri — azan tepat pada minitnya
+                Intent show = c.getPackageManager().getLaunchIntentForPackage(c.getPackageName());
+                PendingIntent sp = show == null ? null : PendingIntent.getActivity(c, 301, show, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE);
+                am.setAlarmClock(new AlarmManager.AlarmClockInfo(at, sp), pi);
+            } else if (exact) am.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, at, pi);
             else am.setAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, at, pi);
         } catch (Exception ignored) {}
     }
