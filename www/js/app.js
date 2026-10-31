@@ -13,7 +13,7 @@
   const HOME = ['quran', 'solat', 'kiblat', 'doa', 'zikir', 'ilmu', 'langkah', 'cuaca'];
   $('#homeTiles').innerHTML = HOME.map(k => `<button class="tile" data-go="${k}"><span class="t-ic ${T[k].g}">${ico(T[k].ic)}</span>${t('tile.' + k + '.short')}</button>`).join('');
   const lt = keys => keys.map(k => `<button class="lt" data-go="${T[k].go || k}" data-k="${k}"><span class="t-ic ${T[k].g}">${ico(T[k].ic)}</span><span><b>${ttl(k)}</b><small>${sub(k)}</small></span>${ico('chevron-right', 'chev')}</button>`).join('');
-  $('#ibadahList').innerHTML = lt(['solat', 'quran', 'khatam', 'jumaat', 'ramadan', 'hijri', 'kiblat', 'musafir', 'mathurat', 'tahlil', 'panduan', 'hafalan', 'doa', 'zikir', 'tasbih']);
+  $('#ibadahList').innerHTML = lt(['solat', 'quran', 'hafalan', 'khatam', 'mathurat', 'tahlil', 'jumaat', 'ramadan', 'hijri', 'kiblat', 'musafir', 'panduan', 'doa', 'zikir', 'tasbih']);
   $('#sihatList').innerHTML = lt(['langkah', 'bmi', 'air', 'ingat']);
   $('#alatList').innerHTML = lt(['cuaca', 'nota', 'alarm', 'ingat', 'fx', 'map', 'masjid']);
   $('#lagiSet').innerHTML = lt(['widgets', 'profil']);
