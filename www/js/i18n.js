@@ -172,7 +172,7 @@
     'ilmu.title': ['Sudut Ilmu', 'Learning Corner'], 'ilmu.sub': ['6 permainan Islamik untuk seisi keluarga', '6 Islamic games for the whole family'],
     'ilmu.badges': ['Lencana', 'Badges'],
     'ics.add': ['Tambah ke Kalendar telefon', 'Add to phone Calendar'], 'ics.webNote': ['Peringatan dimasukkan ke app Kalendar dengan amaran — berbunyi walaupun Wazlee ditutup.', 'Reminders are added to your Calendar app with alerts — they sound even when Wazlee is closed.'],
-    'th.title': ['Penampilan', 'Appearance'], 'th.gender': ['Jantina', 'Gender'], 'th.male': ['👨 Lelaki', '👨 Male'], 'th.female': ['👩 Perempuan', '👩 Female'],
+    'th.title': ['Penampilan', 'Appearance'], 'th.gender': ['Jantina', 'Gender'], 'th.male': ['Lelaki', 'Male'], 'th.female': ['Perempuan', 'Female'],
     'th.color': ['Tema warna', 'Colour theme'], 'th.widget': ['Widget skrin utama ikut warna tema', 'Home-screen widgets follow the theme colour'],
     'th.note': ['Perempuan → Pink, Lelaki → Biru secara automatik, atau pilih sendiri warna kegemaran. Widget dikemas kini dalam beberapa saat.', 'Female → Pink, Male → Blue automatically, or pick your favourite colour. Widgets update within seconds.'],
     'th.multi': ['Ikon & kad pelbagai warna (gaya asal)', 'Multi-colour icons & cards (original style)'],

@@ -806,3 +806,5 @@ em.d-ev,em.d-sn,em.d-hr{display:inline-block;width:6px;height:6px;border-radius:
 [data-tone="mono"] .switch-row input:checked{background:var(--blue)}
 [data-tone="mono"] .bar div{background:linear-gradient(90deg,var(--sky),var(--blue))}
 [data-tone="mono"] .q-num.juz{border-color:color-mix(in srgb,var(--blue-d) 35%,transparent)}
+
+#thGender button{gap:10px}#thGender .av{width:30px;height:30px;flex:0 0 auto;border-radius:50%;box-shadow:0 0 0 2px #fff}
