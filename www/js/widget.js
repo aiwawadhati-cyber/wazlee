@@ -46,7 +46,7 @@
     const tas = store.get('tasbih', {});
     const at = new Date();
     return {
-      lang: LANG, fmt: settings.fmt, zone, days, ayat,
+      lang: LANG, fmt: settings.fmt, zone, days, ayat, theme: WZ.themeOf(), wcol: settings.wcol || 'tema',
       names: KEYS.map(k => t('p.' + k)),
       steps: { date: dkey(now), n: WZ.sihat.steps || 0, goal: +settings.goal || 8000, at: fmtH(at.getHours() + at.getMinutes() / 60) },
       water: { date: dkey(now), n: store.get('water_' + dkey(now), 0), goal: +settings.waterGoal || 8, t: store.get('water_t', 0) },

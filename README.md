@@ -1,4 +1,4 @@
-# Wazlee v3.3 — App Harian Muslim (Android)
+# Wazlee v3.4 — App Harian Muslim (Android)
 
 **Ibadah · Sihat · Alat** dalam satu app bertema biru yang ceria. **Dwibahasa: Bahasa Melayu & English** (tukar di butang EN/BM atas atau Profil → Bahasa).
 
@@ -63,6 +63,9 @@ Profil → Waktu Solat → **Bunyi azan**: pilih fail MP3/M4A azan dari telefon 
 
 ## Peringatan (v2.4)
 Lagi/Sihat → **Peringatan**: tidur, rehat setiap 2 jam (waktu kerja), tahajjud, Dhuha, Al-Kahfi (Jumaat), puasa sunat Isnin/Khamis, zikir pagi/petang, senaman + sehingga 10 peringatan tersuai. Ketik notifikasi untuk terus ke halaman berkaitan.
+
+## Tema warna (v3.4)
+Profil → **Penampilan**: jantina (Perempuan → Pink, Lelaki → Biru secara automatik) atau pilih sendiri 6 tema (Biru, Pink, Ungu, Hijau, Teal, Jingga). Seluruh app, bar status dan **6 widget skrin utama** ikut warna tema (boleh dimatikan untuk widget).
 
 ## Baharu dalam v3.3
 - **Azan tepat pada minitnya**: azan dijadualkan sebagai penggera jam (`setAlarmClock`) + kebenaran `USE_EXACT_ALARM`, jadi tidak lagi ditangguhkan oleh mod jimat bateri (Doze) Android 14+.

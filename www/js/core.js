@@ -26,6 +26,17 @@
   /* ---------- Tetapan ---------- */
   const settings = Object.assign({ name: '', fmt: '12', height: '', weight: '', goal: 8000, zoneMode: 'auto', zone: '', notif: false, notifPre: false, waterGoal: 8, waterNotif: false, hc: false }, store.get('settings', {}));
   const saveSettings = () => store.set('settings', settings);
+  /* Tema warna: pilihan sendiri, atau ikut jantina (perempuan → pink, lelaki → biru) */
+  const THEMES = { biru: ['#2F9BFF', '#1565D8', '#0A3A9E'], pink: ['#FF8DB8', '#E83E8C', '#A3155A'], ungu: ['#B18CFF', '#7C3AED', '#4C1D95'],
+    hijau: ['#34D399', '#0E9F5A', '#065F46'], teal: ['#3EE0C8', '#0B9488', '#115E59'], jingga: ['#FFB547', '#F2700F', '#9A3412'] };
+  const themeOf = () => THEMES[settings.theme] ? settings.theme : settings.gender === 'f' ? 'pink' : 'biru';
+  function applyTheme() {
+    const th = themeOf(), c = THEMES[th];
+    if (th === 'biru') delete document.documentElement.dataset.theme; else document.documentElement.dataset.theme = th;
+    const m = document.querySelector('meta[name="theme-color"]'); if (m) m.content = c[1];
+    try { if (P.StatusBar) P.StatusBar.setBackgroundColor({ color: c[2] }); } catch {}
+  }
+  applyTheme();
 
   /* ---------- Masa, tarikh & nombor (ikut bahasa) ---------- */
   const LOC = LANG === 'en' ? 'en-MY' : 'ms-MY';
@@ -143,6 +154,6 @@
   window.WZ = {
     $, $$, P, isNative, store, on, emit, toast, vibrate, openExternal, icons, esc, settings, saveSettings, LOC, num,
     pad, dkey, fmtH, hToDate, hijriFromStr, hijriCalc, greg, tz, ring, go, back, refreshLocation, setLoc,
-    HMONTHS, get loc() { return loc; }, get stack() { return stack; }
+    HMONTHS, THEMES, themeOf, applyTheme, get loc() { return loc; }, get stack() { return stack; }
   };
 })();

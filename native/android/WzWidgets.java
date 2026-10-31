@@ -138,9 +138,34 @@ public final class WzWidgets {
         update(c, T_ALL);
     }
 
+    /* Tema warna dipilih dalam app (Profil → Penampilan) */
+    static String theme = "biru";
+    static boolean followTheme = true;
+    static int bgRes(String th) {
+        switch (th) {
+            case "pink": return R.drawable.wz_bg_pink;
+            case "ungu": return R.drawable.wz_bg_purple;
+            case "hijau": return R.drawable.wz_bg_green;
+            case "teal": return R.drawable.wz_bg_teal;
+            case "jingga": return R.drawable.wz_bg_orange;
+            default: return R.drawable.wz_bg_blue;
+        }
+    }
+    static int accent(String th) {
+        switch (th) {
+            case "pink": return 0xFFE83E8C;
+            case "ungu": return 0xFF6D4AE8;
+            case "hijau": return 0xFF0E9F5A;
+            case "teal": return 0xFF0B9488;
+            case "jingga": return 0xFFF2700F;
+            default: return BLUE;
+        }
+    }
+
     static void update(Context c, int mask) {
         AppWidgetManager m = AppWidgetManager.getInstance(c);
         JSONObject d = read(c, KEY_DATA), st = read(c, KEY_STATE);
+        theme = d.optString("theme", "biru"); followTheme = !"asal".equals(d.optString("wcol", "tema"));
         if ((mask & T_FULL) != 0) for (int id : ids(c, m, WzPrayerFullWidget.class)) safe(m, id, () -> prayerFull(c, d));
         if ((mask & T_NEXT) != 0) for (int id : ids(c, m, WzPrayerNextWidget.class)) safe(m, id, () -> prayerNext(c, d));
         if ((mask & T_AYAT) != 0) for (int id : ids(c, m, WzAyatWidget.class)) safe(m, id, () -> ayat(c, d, m.getAppWidgetOptions(id)));
@@ -154,7 +179,9 @@ public final class WzWidgets {
 
     private static void safe(AppWidgetManager m, int id, ViewsFactory f) {
         try {
-            m.updateAppWidget(id, f.make());
+            RemoteViews v = f.make();
+            if (followTheme) v.setInt(R.id.wz_root, "setBackgroundResource", bgRes(theme));
+            m.updateAppWidget(id, v);
         } catch (Exception ignored) {}
     }
 
@@ -246,7 +273,7 @@ public final class WzWidgets {
             v.setTextViewText(CELL_N[i], name(d, k));
             v.setImageViewResource(CELL_I[i], ICONS[k]);
             v.setInt(CELL[i], "setBackgroundResource", isNext ? R.drawable.wz_cell_hl : R.drawable.wz_cell);
-            int col = isNext ? BLUE : past ? DIM : WHITE;
+            int col = isNext ? accent(theme) : past ? DIM : WHITE;
             v.setTextColor(CELL_T[i], col);
             v.setTextColor(CELL_N[i], col);
             v.setInt(CELL_I[i], "setColorFilter", col);

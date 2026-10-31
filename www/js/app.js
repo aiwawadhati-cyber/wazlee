@@ -70,6 +70,21 @@
     toast(t('pf.saved'));
   };
   on('show:profil', fillProfile);
+
+  /* ---------- Penampilan: jantina & tema warna ---------- */
+  const TH_N = { biru: ['Biru', 'Blue'], pink: ['Pink', 'Pink'], ungu: ['Ungu', 'Purple'], hijau: ['Hijau', 'Green'], teal: ['Teal', 'Teal'], jingga: ['Jingga', 'Orange'] };
+  function renderTheme() {
+    const cur = WZ.themeOf();
+    $$('#thGender [data-g]').forEach(b => b.classList.toggle('active', (settings.gender || 'm') === b.dataset.g));
+    $('#thSw').innerHTML = Object.entries(WZ.THEMES).map(([k, c]) => `<button data-th="${k}" class="${k === cur ? 'active' : ''}" style="background:linear-gradient(135deg,${c[0]},${c[1]} 55%,${c[2]})" aria-label="${k}"></button>`).join('');
+    $('#thNames').innerHTML = Object.keys(WZ.THEMES).map(k => `<span>${TH_N[k][LANG === 'en' ? 1 : 0]}</span>`).join('');
+    $('#thWidget').checked = (settings.wcol || 'tema') !== 'asal';
+  }
+  const themeChanged = () => { saveSettings(); WZ.applyTheme(); renderTheme(); emit('settings'); };
+  $('#thGender').onclick = e => { const b = e.target.closest('[data-g]'); if (!b) return; settings.gender = b.dataset.g; if (!settings.themeSet) delete settings.theme; themeChanged(); };
+  $('#thSw').onclick = e => { const b = e.target.closest('[data-th]'); if (!b) return; settings.theme = b.dataset.th; settings.themeSet = true; themeChanged(); toast(t('th.saved')); };
+  $('#thWidget').onchange = e => { settings.wcol = e.target.checked ? 'tema' : 'asal'; themeChanged(); };
+  on('show:profil', renderTheme);
   const WL = [['prayer_full', 'clock', 'g-blue', '4×2'], ['prayer_next', 'timer', 'g-blue', '2×1'], ['ayat', 'book-open', 'g-teal', '4×2'],
     ['activity', 'footprints', 'g-green', '2×2'], ['tasbih', 'circle-dot', 'g-purple', '2×2'], ['zikir', 'sparkles', 'g-orange', '4×1']];
   $('#widgetList').innerHTML = WL.map(([k, ic, g, sz]) => `<div class="lt"><span class="t-ic ${g}">${ico(ic)}</span><span><b>${t('w.n.' + k)} <em class="w-size">${sz}</em></b><small>${t('w.d.' + k)}</small></span></div>`).join('');
@@ -92,5 +107,5 @@
     P.App.addListener('backButton', () => { if (!WZ.back()) P.App.exitApp(); });
     P.App.addListener('resume', () => { if (Date.now() - (WZ.lastLocAt || 0) > 20 * 60000) { WZ.lastLocAt = Date.now(); WZ.refreshLocation(false); } WZ.widget.sync().then(() => WZ.widget.push(1500)); WZ.sihat.readSteps(); WZ.hc.refresh(); WZ.solat.tick(); WZ.solat.ensureData(); renderHome(); });
   }
-  if (P.StatusBar) { try { P.StatusBar.setBackgroundColor({ color: '#0A3A9E' }); } catch {} }
+  WZ.applyTheme();
 })();
