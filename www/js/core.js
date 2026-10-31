@@ -33,6 +33,7 @@
   function applyTheme() {
     const th = themeOf(), c = THEMES[th];
     if (th === 'biru') delete document.documentElement.dataset.theme; else document.documentElement.dataset.theme = th;
+    if (settings.tstyle === 'warna') delete document.documentElement.dataset.tone; else document.documentElement.dataset.tone = 'mono';
     const m = document.querySelector('meta[name="theme-color"]'); if (m) m.content = c[1];
     try { if (P.StatusBar) P.StatusBar.setBackgroundColor({ color: c[2] }); } catch {}
   }
@@ -72,9 +73,9 @@
   function ring(el, pct, inner, opt = {}) {
     const size = el.clientWidth || opt.size || 100, sw = opt.stroke || Math.max(6, size * 0.1), r = (size - sw) / 2, c = 2 * Math.PI * r;
     const p = Math.max(0, Math.min(1, pct || 0)), id = 'rg' + (++ringN);
-    const [c1, c2] = opt.colors || ['#34D399', '#0E9F5A'];
+    const [c1, c2] = opt.colors || (settings.tstyle === 'warna' ? ['#34D399', '#0E9F5A'] : ['var(--sky)', 'var(--blue)']);
     el.classList.add('ring');
-    el.innerHTML = `<svg width="${size}" height="${size}"><defs><linearGradient id="${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="${c1}"/><stop offset="1" stop-color="${c2}"/></linearGradient></defs>
+    el.innerHTML = `<svg width="${size}" height="${size}"><defs><linearGradient id="${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" style="stop-color:${c1}"/><stop offset="1" style="stop-color:${c2}"/></linearGradient></defs>
       <circle cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" stroke="${opt.track || 'var(--soft)'}" stroke-width="${sw}"/>
       <circle cx="${size / 2}" cy="${size / 2}" r="${r}" fill="none" stroke="url(#${id})" stroke-width="${sw}" stroke-linecap="round" stroke-dasharray="${c}" stroke-dashoffset="${c * (1 - p)}" style="transition:stroke-dashoffset .6s"/></svg>
       <div class="ring-in">${inner || ''}</div>`;

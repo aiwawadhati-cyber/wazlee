@@ -20,7 +20,7 @@
     await Promise.all([document.fonts.load('60px Amiri'), document.fonts.load('900 40px Nunito'), document.fonts.load('600 30px Nunito')]).catch(() => {});
     const c = document.createElement('canvas'); c.width = W; c.height = H; const x = c.getContext('2d');
     // latar
-    const g = x.createLinearGradient(0, 0, W, H); g.addColorStop(0, '#2F9BFF'); g.addColorStop(0.55, '#1565D8'); g.addColorStop(1, '#0A2F86');
+    const g = x.createLinearGradient(0, 0, W, H); const TC = (WZ.THEMES && WZ.THEMES[WZ.themeOf()]) || ['#2F9BFF', '#1565D8', '#0A2F86']; g.addColorStop(0, TC[0]); g.addColorStop(0.55, TC[1]); g.addColorStop(1, TC[2]);
     x.fillStyle = g; x.fillRect(0, 0, W, H);
     x.globalAlpha = 0.08; x.fillStyle = '#fff';
     [[W - 120, 160, 260], [120, H - 140, 220], [W - 60, H - 380, 120]].forEach(([cx, cy, r]) => { x.beginPath(); x.arc(cx, cy, r, 0, 7); x.fill(); });

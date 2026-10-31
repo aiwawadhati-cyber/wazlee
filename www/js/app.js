@@ -78,11 +78,12 @@
     $$('#thGender [data-g]').forEach(b => b.classList.toggle('active', (settings.gender || 'm') === b.dataset.g));
     $('#thSw').innerHTML = Object.entries(WZ.THEMES).map(([k, c]) => `<button data-th="${k}" class="${k === cur ? 'active' : ''}" style="background:linear-gradient(135deg,${c[0]},${c[1]} 55%,${c[2]})" aria-label="${k}"></button>`).join('');
     $('#thNames').innerHTML = Object.keys(WZ.THEMES).map(k => `<span>${TH_N[k][LANG === 'en' ? 1 : 0]}</span>`).join('');
-    $('#thWidget').checked = (settings.wcol || 'tema') !== 'asal';
+    $('#thWidget').checked = (settings.wcol || 'tema') !== 'asal'; $('#thMulti').checked = settings.tstyle === 'warna';
   }
   const themeChanged = () => { saveSettings(); WZ.applyTheme(); renderTheme(); emit('settings'); };
   $('#thGender').onclick = e => { const b = e.target.closest('[data-g]'); if (!b) return; settings.gender = b.dataset.g; if (!settings.themeSet) delete settings.theme; themeChanged(); };
   $('#thSw').onclick = e => { const b = e.target.closest('[data-th]'); if (!b) return; settings.theme = b.dataset.th; settings.themeSet = true; themeChanged(); toast(t('th.saved')); };
+  $('#thMulti').onchange = e => { settings.tstyle = e.target.checked ? 'warna' : 'tema'; themeChanged(); WZ.sihat && WZ.sihat.renderStepsWidgets(); };
   $('#thWidget').onchange = e => { settings.wcol = e.target.checked ? 'tema' : 'asal'; themeChanged(); };
   on('show:profil', renderTheme);
   const WL = [['prayer_full', 'clock', 'g-blue', '4×2'], ['prayer_next', 'timer', 'g-blue', '2×1'], ['ayat', 'book-open', 'g-teal', '4×2'],

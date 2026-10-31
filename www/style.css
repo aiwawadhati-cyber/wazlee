@@ -757,3 +757,52 @@ em.d-ev,em.d-sn,em.d-hr{display:inline-block;width:6px;height:6px;border-radius:
 .th-names{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;font-size:10.5px;text-align:center;color:var(--muted);margin-top:4px}
 .th-prev{display:flex;gap:6px;margin-top:10px}.th-prev span{flex:1;height:8px;border-radius:8px}
 #thGender button.active{background:linear-gradient(135deg,var(--sky),var(--blue));color:#fff}
+
+/* ============ v3.5 Semua warna ikut tema (data-tone="mono") ============
+   Warna hiasan → tona tema. Warna bermakna (berjaya/amaran/bahaya, cuaca, skala BMI, bintang emas) dikekalkan. */
+:root[data-tone="mono"]{
+  --t-a:linear-gradient(135deg,var(--sky),var(--blue));
+  --t-b:linear-gradient(135deg,var(--blue),var(--blue-d));
+  --t-c:linear-gradient(135deg,color-mix(in srgb,var(--sky) 70%,#fff),var(--blue));
+  --t-d:linear-gradient(135deg,var(--sky),var(--blue-d));
+  --t-hero:linear-gradient(135deg,var(--sky),var(--blue) 50%,var(--blue-d));
+  --t-soft:color-mix(in srgb,var(--blue) 12%,var(--card));
+  --t-ink:color-mix(in srgb,var(--blue-d) 85%,#000)
+}
+[data-tone="mono"] .blue,[data-tone="mono"] .g-blue,[data-tone="mono"] .cyan,[data-tone="mono"] .g-cyan{background:var(--t-a)}
+[data-tone="mono"] .indigo,[data-tone="mono"] .g-indigo,[data-tone="mono"] .purple,[data-tone="mono"] .g-purple{background:var(--t-b)}
+[data-tone="mono"] .teal,[data-tone="mono"] .g-teal,[data-tone="mono"] .green,[data-tone="mono"] .g-green{background:var(--t-c)}
+[data-tone="mono"] .orange,[data-tone="mono"] .g-orange,[data-tone="mono"] .pink,[data-tone="mono"] .g-pink,[data-tone="mono"] .yellow,[data-tone="mono"] .g-yellow{background:var(--t-d)}
+/* kepala halaman & kad ciri */
+[data-tone="mono"] .ram-home,[data-tone="mono"] .jum-home,[data-tone="mono"] .rm-hero,[data-tone="mono"] .jm-hero,[data-tone="mono"] .hj-today,
+[data-tone="mono"] .kh-hero,[data-tone="mono"] .mth-hero,[data-tone="mono"] .ilmu-banner,[data-tone="mono"] .qplayer{background:var(--t-hero)}
+[data-tone="mono"] .hf-stats div{background:var(--t-a)}
+[data-tone="mono"] .mus-banner{background:var(--t-soft);color:var(--ink)}[data-tone="mono"] .mus-banner>.ic{color:var(--blue)}
+/* butang & segmen aktif */
+[data-tone="mono"] .seg2 button.active,[data-tone="mono"] .seg2 button[data-z=petang].active,[data-tone="mono"] .chips button.active,
+[data-tone="mono"] .q-seg button.active,[data-tone="mono"] .g-chips button.active,[data-tone="mono"] .g-seg button.active,
+[data-tone="mono"] .ing-days button.active,[data-tone="mono"] #alDays button.active,[data-tone="mono"] .nt-filter button.active,
+[data-tone="mono"] .nt-cats button.active,[data-tone="mono"] .mth-cnt,[data-tone="mono"] .jm-selbtn,[data-tone="mono"] .hj-c.today,
+[data-tone="mono"] .mem{background:var(--t-a);color:#fff;border-color:transparent}
+[data-tone="mono"] .pd-cnt{background:var(--t-b)}
+/* bar kemajuan & cincin */
+[data-tone="mono"] .kh-bar span,[data-tone="mono"] .mus-bar span,[data-tone="mono"] .hf-p i b,[data-tone="mono"] .week-chart .wbar i,
+[data-tone="mono"] .glass:after{background:var(--t-a)}
+[data-tone="mono"] .glass{border-color:color-mix(in srgb,var(--sky) 60%,#fff)}
+/* Al-Quran */
+[data-tone="mono"] .s-head{background:var(--t-hero)}
+[data-tone="mono"] .q-num{background:var(--t-soft);color:var(--blue)}[data-tone="mono"] .q-num.juz{background:color-mix(in srgb,var(--blue-d) 15%,var(--card));color:var(--blue-d)}
+[data-tone="mono"] .ayah.playing{border-color:var(--sky);background:var(--t-soft)}
+[data-tone="mono"] .qp-btn.main{background:#fff;color:var(--blue)}
+/* tanda kecil */
+[data-tone="mono"] .mth-x,[data-tone="mono"] .mus-win .tag{background:var(--t-soft);color:var(--blue)}
+[data-tone="mono"] .mus-win .tag.alt{background:color-mix(in srgb,var(--blue-d) 15%,var(--card));color:var(--blue-d)}
+[data-tone="mono"] .mus-r .ic,[data-tone="mono"] .nt-ck .ic,[data-tone="mono"] .nt-pin,[data-tone="mono"] .hf-big .ic{color:var(--blue)}
+[data-tone="mono"] .hj-c.fri{background:var(--t-soft)}
+[data-tone="mono"] .kh-count{color:var(--blue)}
+@media (prefers-color-scheme:dark){[data-tone="mono"] .rumi{color:color-mix(in srgb,var(--sky) 75%,#fff)}[data-tone="mono"] .btn.soft{color:color-mix(in srgb,var(--sky) 70%,#fff)}}
+:root[data-tone="mono"]{--teal:var(--blue);--cyan:var(--sky);--indigo:var(--blue-d)}
+[data-tone="mono"] .ss-row .ic,[data-tone="mono"] .step-stats .ic,[data-tone="mono"] .q-dl{color:var(--blue)}
+[data-tone="mono"] .switch-row input:checked{background:var(--blue)}
+[data-tone="mono"] .bar div{background:linear-gradient(90deg,var(--sky),var(--blue))}
+[data-tone="mono"] .q-num.juz{border-color:color-mix(in srgb,var(--blue-d) 35%,transparent)}

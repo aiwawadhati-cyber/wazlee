@@ -66,14 +66,14 @@
     if (map) { setTimeout(() => map.invalidateSize(), 80); return; }
     map = L.map('map').setView([WZ.loc.lat, WZ.loc.lng], 13);
     addBase();
-    meMarker = L.circleMarker([WZ.loc.lat, WZ.loc.lng], { radius: 9, color: '#fff', weight: 3, fillColor: '#1565D8', fillOpacity: 1 }).addTo(map).bindPopup(t('map.you'));
+    meMarker = L.circleMarker([WZ.loc.lat, WZ.loc.lng], { radius: 9, color: '#fff', weight: 3, fillColor: (getComputedStyle(document.documentElement).getPropertyValue('--blue').trim() || '#1565D8'), fillOpacity: 1 }).addTo(map).bindPopup(t('map.you'));
     resultLayer = L.layerGroup().addTo(map);
     map.on('click', e => setPoint(mode, e.latlng));
     setTimeout(() => map.invalidateSize(), 120);
     WZ.map = map; emit('mapready', map);
   }
   function setPoint(which, ll) {
-    if (which === 'A') { if (mA) mA.setLatLng(ll); else mA = L.marker(ll, { icon: pin('A', '#1565D8'), draggable: true }).addTo(map).on('dragend', updateDist); setMode('B'); }
+    if (which === 'A') { if (mA) mA.setLatLng(ll); else mA = L.marker(ll, { icon: pin('A', (getComputedStyle(document.documentElement).getPropertyValue('--blue').trim() || '#1565D8')), draggable: true }).addTo(map).on('dragend', updateDist); setMode('B'); }
     else { if (mB) mB.setLatLng(ll); else mB = L.marker(ll, { icon: pin('B', '#FF7A00'), draggable: true }).addTo(map).on('dragend', updateDist); }
     updateDist();
   }
@@ -82,7 +82,7 @@
     const a = mA.getLatLng(), b = mB.getLatLng(), km = Prayer.haversine(a.lat, a.lng, b.lat, b.lng), br = Prayer.bearing(a.lat, a.lng, b.lat, b.lng);
     $('#distKm').textContent = km < 1 ? `${Math.round(km * 1000)} m` : `${num(km, 2)} km`;
     $('#distBearing').textContent = `${Math.round(br)}° ${t('dir.8').split(',')[Math.round(br / 45) % 8]}`;
-    if (line) line.setLatLngs([a, b]); else line = L.polyline([a, b], { color: '#1565D8', weight: 4, dashArray: '8 8' }).addTo(map);
+    if (line) line.setLatLngs([a, b]); else line = L.polyline([a, b], { color: (getComputedStyle(document.documentElement).getPropertyValue('--blue').trim() || '#1565D8'), weight: 4, dashArray: '8 8' }).addTo(map);
     map.fitBounds(L.latLngBounds([a, b]).pad(0.3));
   }
   function setMode(m) { mode = m; $$('.seg-btn[data-mode]').forEach(b => b.classList.toggle('active', b.dataset.mode === m)); }
