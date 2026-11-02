@@ -241,8 +241,9 @@
 <!-- ================= HAFALAN ================= -->
 <section class="page" id="pg-hafalan" data-title="tile.hafalan">
   <div class="hf-kids" id="hfKids"></div>
-  <div class="card hidden" id="hfForm"><div class="card-title" data-i18n="hf.newKid"></div>
-    <div class="row-flex"><input type="text" id="hfName" data-i18n-ph="hf.namePh"><button class="btn" id="hfSave" data-i18n="pwa.save"></button></div></div>
+  <div class="card hidden" id="hfForm"><div class="hf-fh"><div class="card-title" id="hfFormT" data-i18n="hf.newKid"></div><button class="icbtn" id="hfFormX" aria-label="close"><i data-ic="x"></i></button></div>
+    <div class="row-flex"><input type="text" id="hfName" data-i18n-ph="hf.namePh"><button class="btn" id="hfSave" data-i18n="pwa.save"></button></div>
+    <button class="btn soft sm hidden" id="hfFormDel"><i data-ic="trash-2"></i><span data-i18n="hf.del"></span></button></div>
   <div class="card hf-empty" id="hfEmpty"><span class="hf-big" data-ic="graduation-cap"></span><b data-i18n="hf.emptyT"></b><p class="muted small" data-i18n="hf.emptyS"></p></div>
   <div id="hfMain" class="hidden">
     <div class="hf-stats" id="hfStats"></div>

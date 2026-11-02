@@ -57,7 +57,8 @@
   async function render() {
     if (!IDX) IDX = await WZ.quran.index();
     const s = st();
-    $('#hfKids').innerHTML = s.kids.map(k => `<button class="hf-kid ${k.id === (kid(s) || {}).id ? 'active' : ''}" data-kid="${k.id}"><span class="chip-ic ${k.color}">${esc(k.name.slice(0, 1).toUpperCase())}</span>${esc(k.name)}</button>`).join('')
+    $('#hfKids').innerHTML = s.kids.map(k => { const on = k.id === (kid(s) || {}).id;
+      return `<span class="hf-kidw ${on ? 'active' : ''}"><button class="hf-kid ${on ? 'active' : ''}" data-kid="${k.id}"><span class="chip-ic ${k.color}">${esc(k.name.slice(0, 1).toUpperCase())}</span>${esc(k.name)}</button>${on ? `<button class="hf-edit" data-edit="${k.id}" aria-label="edit">${ico('pencil')}</button>` : ''}</span>`; }).join('')
       + `<button class="hf-kid add" id="hfAdd">${ico('plus')}${t('hf.addKid')}</button>`;
     const k = kid(s);
     $('#hfEmpty').classList.toggle('hidden', !!k); $('#hfMain').classList.toggle('hidden', !k);
@@ -102,7 +103,11 @@
   /* ---------- Tindakan ---------- */
   $('#pg-hafalan').addEventListener('click', e => {
     const kb = e.target.closest('[data-kid]'); if (kb) { const s = st(); s.cur = kb.dataset.kid; save(s); stopAudio(); render(); return; }
-    if (e.target.closest('#hfAdd')) { $('#hfForm').classList.remove('hidden'); $('#hfName').focus(); return; }
+    if (e.target.closest('#hfAdd')) { editId = null; $('#hfFormT').textContent = t('hf.newKid'); $('#hfName').value = ''; $('#hfFormDel').classList.add('hidden'); $('#hfForm').classList.remove('hidden'); $('#hfName').focus(); return; }
+    const ed = e.target.closest('[data-edit]');
+    if (ed) { const k = st().kids.find(x => x.id === ed.dataset.edit); if (!k) return; editId = k.id; $('#hfFormT').textContent = t('hf.editKid'); $('#hfName').value = k.name; $('#hfFormDel').classList.remove('hidden'); $('#hfForm').classList.remove('hidden'); $('#hfName').focus(); return; }
+    if (e.target.closest('#hfFormX')) { $('#hfForm').classList.add('hidden'); return; }
+    if (e.target.closest('#hfFormDel')) { const s = st(), k = s.kids.find(x => x.id === editId); if (k && confirm(t('hf.delAsk', { n: k.name }))) { s.kids = s.kids.filter(x => x.id !== k.id); s.cur = s.kids[0] && s.kids[0].id; save(s); $('#hfForm').classList.add('hidden'); render(); } return; }
     const pb = e.target.closest('[data-play]'); if (pb) { if (playingKey === pb.dataset.play) return stopAudio(); playList(pb.dataset.play.split(',').map(x => { const [s, a] = x.split(':').map(Number); return { s, a }; }), +$('#hfRep').value || 3); return; }
     const rv = e.target.closest('[data-reveal]'); if (rv && rv.classList.contains('hide')) { rv.classList.remove('hide'); return; }
     if (e.target.closest('#hfPass')) {
@@ -118,8 +123,10 @@
     if (e.target.closest('#hfDel')) { const s = st(), k = kid(s); if (k && confirm(t('hf.delAsk', { n: k.name }))) { s.kids = s.kids.filter(x => x.id !== k.id); s.cur = s.kids[0] && s.kids[0].id; save(s); render(); } return; }
     if (e.target.closest('#hfIcs')) { const s = st(); WZ.ics && WZ.ics.weekly([{ title: t('hf.nT'), desc: t('hf.nB'), time: s.time, days: [0, 1, 2, 3, 4, 5, 6] }], 'wazlee-hafalan.ics'); }
   });
+  let editId = null;
   $('#hfSave').onclick = () => {
     const name = $('#hfName').value.trim(); if (!name) return;
+    if (editId) { const s = st(), k = s.kids.find(x => x.id === editId); if (k) { k.name = name; save(s); } editId = null; $('#hfForm').classList.add('hidden'); toast(t('hf.renamed')); render(); return; }
     const s = st(), id = 'k' + Date.now().toString(36);
     s.kids.push({ id, name, color: COLORS[s.kids.length % COLORS.length], plan: { type: 'juzamma', per: 1 }, mem: {}, log: {} });
     s.cur = id; save(s); $('#hfName').value = ''; $('#hfForm').classList.add('hidden'); render();

@@ -86,11 +86,14 @@
   function vevent(e, i) {
     const end = new Date(e.start.getTime() + (e.dur || 5) * 60000);
     const al = (e.alarms || [0]).map(m => `BEGIN:VALARM\r\nACTION:DISPLAY\r\nDESCRIPTION:${esc2(e.title)}\r\nTRIGGER:-PT${m}M\r\nEND:VALARM`).join('\r\n');
-    return ['BEGIN:VEVENT', `UID:wz-${Date.now()}-${i}@wazlee.digitalsys.my`, `DTSTAMP:${dt(new Date())}`, `DTSTART:${dt(e.start)}`, `DTEND:${dt(end)}`,
-      `SUMMARY:${esc2(e.title)}`, e.desc ? `DESCRIPTION:${esc2(e.desc)}` : '', e.rrule ? `RRULE:${e.rrule}` : '', 'TRANSP:TRANSPARENT', al, 'END:VEVENT'].filter(Boolean).join('\r\n');
+    const uid = 'wz-' + [...(e.title + '|' + e.start.getHours() + ':' + e.start.getMinutes() + '|' + (e.rrule || e.start.toISOString()))].reduce((h, c) => (h * 31 + c.charCodeAt(0)) >>> 0, 7).toString(36);
+    return ['BEGIN:VEVENT', `UID:${uid}@wazlee.digitalsys.my`, `DTSTAMP:${dt(new Date())}`, `DTSTART:${dt(e.start)}`, `DTEND:${dt(end)}`,
+      `SUMMARY:${esc2(e.title)}`, `DESCRIPTION:${esc2((e.desc ? e.desc + '\n\n' : '') + t('ics.howDel'))}`, e.rrule ? `RRULE:${e.rrule}` : '', 'TRANSP:TRANSPARENT', al, 'END:VEVENT'].filter(Boolean).join('\r\n');
   }
   function download(events, name) {
     if (!events.length) return;
+    const rep = events.filter(e => e.rrule).length;
+    if (!confirm(t(rep ? 'ics.confirmR' : 'ics.confirm', { n: events.length }))) return;
     const body = ['BEGIN:VCALENDAR', 'VERSION:2.0', 'PRODID:-//Wazlee//MY', 'CALSCALE:GREGORIAN', 'METHOD:PUBLISH', 'X-WR-CALNAME:Wazlee', ...events.map(vevent), 'END:VCALENDAR'].join('\r\n');
     const url = URL.createObjectURL(new Blob([body], { type: 'text/calendar;charset=utf-8' }));
     const a = document.createElement('a'); a.href = url; a.download = name; document.body.appendChild(a); a.click(); a.remove();
