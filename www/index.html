@@ -345,8 +345,22 @@
   <div class="card"><div class="card-title" data-i18n="jm.sunnah"></div><div id="jmList"></div></div>
   <div class="card jm-sel"><div><div class="card-title" data-i18n="jm.selawat"></div><small class="muted" data-i18n="jm.selawatS"></small></div><button class="jm-selbtn" id="jmSel"><b id="jmSelN">0</b><small>صلوات</small></button></div>
   <h3 class="sec" data-i18n="jm.masjid"></h3>
-  <div class="card"><div id="jmFav"></div><div id="jmMasjid"></div></div>
+  <div class="card"><div id="jmFav"></div><div id="jmMasjid"></div><button class="btn block mq-all" data-go="masjid"><i data-ic="moon-star"></i><span data-i18n="mq.seeAll"></span></button></div>
   <div class="card" id="jmRemBox"><label class="switch-row"><span data-i18n="jm.remind"></span><input type="checkbox" id="jmRem"></label><small class="muted" data-i18n="jm.remindS"></small></div>
+</section>
+
+<!-- ================= MASJID BERDEKATAN ================= -->
+<section class="page" id="pg-masjid" data-title="tile.masjid">
+  <div class="mq-head"><div id="mqHead" class="grow"></div><button class="icbtn" id="mqRefresh" aria-label="refresh"><i data-ic="refresh-cw"></i></button></div>
+  <div class="seg3" id="mqSeg"><button data-f="all" class="active" data-i18n="mq.all"></button><button data-f="masjid" data-i18n="mq.masjid"></button><button data-f="surau" data-i18n="mq.surau"></button></div>
+  <div id="mqList"></div>
+</section>
+<section class="page" id="pg-masjidd" data-title="tile.masjid">
+  <div class="mqd-hero" id="mqdHero"></div>
+  <div class="mqd-map" id="mqdMap"></div>
+  <div class="mqd-info" id="mqdInfo"></div>
+  <div id="mqdNear"></div>
+  <small class="muted center-txt" id="mqdNote"></small>
 </section>
 
 <!-- ================= CUACA ================= -->
@@ -719,6 +733,7 @@
 <script src="js/mathurat.js"></script>
 <script src="js/panduan.js"></script>
 <script src="js/hafalan.js"></script>
+<script src="js/masjid.js"></script>
 <script src="js/app.js"></script>
 <script src="js/pwa.js"></script>
 </body>

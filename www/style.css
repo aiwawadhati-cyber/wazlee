@@ -812,3 +812,28 @@ em.d-ev,em.d-sn,em.d-hr{display:inline-block;width:6px;height:6px;border-radius:
 .hf-kidw{display:flex;align-items:center;flex:0 0 auto;gap:2px}.hf-kidw.active .hf-kid{border-top-right-radius:6px;border-bottom-right-radius:6px}
 .hf-edit{border:1.5px solid var(--blue);background:var(--card);color:var(--blue);border-radius:6px 16px 16px 6px;height:44px;width:40px;display:grid;place-items:center}.hf-edit .ic{width:17px;height:17px}
 .hf-fh{display:flex;align-items:center;justify-content:space-between}.hf-fh .icbtn{width:34px;height:34px}
+
+/* ---------- Masjid berdekatan ---------- */
+.seg3{display:grid;grid-template-columns:repeat(3,1fr);background:var(--card);border:1px solid var(--line);border-radius:16px;padding:4px;margin-bottom:12px}
+.seg3 button{border:0;background:none;border-radius:12px;padding:10px;font-weight:800;color:var(--ink)}
+.seg3 button.active{background:linear-gradient(135deg,var(--sky),var(--blue));color:#fff}
+.mq-head{display:flex;align-items:center;gap:10px;margin-bottom:12px}.mq-head #mqHead span{display:flex;align-items:center;gap:6px;font-weight:900}.mq-head #mqHead .ic{width:16px;height:16px;color:var(--blue)}.mq-head small{color:var(--muted);font-size:12.5px}
+.mq-load{display:flex;flex-direction:column;align-items:center;gap:10px;padding:40px 0;color:var(--muted);font-weight:700}.mq-load .ic{width:34px;height:34px;color:var(--blue);animation:spin 1.6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.mq-c{width:100%;display:flex;align-items:center;gap:12px;text-align:left;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:12px 14px;margin-bottom:10px;box-shadow:var(--shadow);color:var(--ink)}
+.mq-c:active{transform:scale(.98)}.mq-c b{display:block;font-size:15.5px;font-weight:900}.mq-c small{color:var(--muted);font-size:12.5px}.mq-c em{font-style:normal;font-weight:900;color:var(--blue)}.mq-c .chev{margin-left:auto;color:var(--muted);flex:0 0 auto}
+.mq-ic{width:48px;height:48px;border-radius:15px;display:grid;place-items:center;flex:0 0 auto;background:color-mix(in srgb,var(--blue) 12%,var(--card));color:var(--blue)}.mq-ic .ic{width:24px;height:24px}
+.mq-ic.surau{background:color-mix(in srgb,var(--teal) 14%,var(--card));color:var(--teal)}
+.mq-fav{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--muted);margin:0 2px 10px}.mq-fav .ic{width:15px;height:15px;color:var(--orange)}
+.mq-all{margin-top:10px}
+.mqd-hero{border-radius:24px;padding:20px;color:#fff;margin-bottom:12px;background:linear-gradient(135deg,var(--blue),var(--blue-d));box-shadow:var(--shadow);position:relative;overflow:hidden}
+.mqd-hero::after{content:"";position:absolute;right:-40px;top:-40px;width:160px;height:160px;border-radius:50%;background:#ffffff14}
+.mqd-hero h2{margin:8px 0 6px;font-size:24px;font-weight:900;line-height:1.2}.mqd-hero p{margin:0;opacity:.92;font-size:13.5px;display:flex;gap:6px;align-items:flex-start}.mqd-hero p .ic{width:16px;height:16px;flex:0 0 auto;margin-top:2px}
+.mq-tag{display:inline-block;background:#ffffff26;border-radius:999px;padding:3px 10px;font-size:12px;font-weight:800}
+.mqd-stats{display:flex;gap:10px;margin:14px 0}.mqd-stats span{flex:1;background:#ffffff1f;border-radius:14px;padding:8px 12px}.mqd-stats b{display:block;font-size:18px;font-weight:900}.mqd-stats small{opacity:.85;font-size:12px}
+.mqd-btns{display:grid;grid-template-columns:1fr 1fr;gap:8px;position:relative;z-index:1}
+.mqb{display:flex;align-items:center;justify-content:center;gap:8px;border:1px solid #ffffff40;background:#ffffff1a;color:#fff;border-radius:14px;padding:12px 10px;font-weight:800;font-size:14.5px}
+.mqb .ic{width:18px;height:18px}.mqb.waze{background:#FFC93C;color:#10223F;border-color:#FFC93C}.mqb:active{transform:scale(.97)}
+.mqd-map{height:200px;border-radius:20px;overflow:hidden;margin-bottom:12px;border:1px solid var(--line);box-shadow:var(--shadow);z-index:0}
+.mq-pin{width:36px;height:36px;border-radius:12px;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,var(--sky),var(--blue));border:3px solid #fff;box-shadow:0 4px 10px #0005}.mq-pin .ic{width:18px;height:18px}
+.mqd-info{display:flex;flex-direction:column;gap:8px;margin-bottom:6px}.mqd-row{width:100%}

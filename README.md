@@ -72,6 +72,7 @@ Profil → **Penampilan**: jantina (Perempuan → Pink, Lelaki → Biru secara a
 ## Baharu dalam v3.3
 - **Azan tepat pada minitnya**: azan dijadualkan sebagai penggera jam (`setAlarmClock`) + kebenaran `USE_EXACT_ALARM`, jadi tidak lagi ditangguhkan oleh mod jimat bateri (Doze) Android 14+.
 - **Hafalan Anak** (Ibadah): profil setiap anak, ayat hafalan harian (Juz 'Amma dari An-Nas atau mula dari mana-mana surah), dengar berulang ×1/3/5/10 (qari Muallim), mod uji (ayat dikaburkan), Lulus/Ulang, ulangkaji harian, kemajuan setiap surah, rekod hari berturut, peringatan pagi. Butang pensel pada nama anak untuk ubah nama atau padam.
+- **Masjid Berdekatan** (Ibadah): masjid & surau sekitar ikut jarak (OpenStreetMap), tapis Masjid/Surau; halaman butiran dengan peta kecil, jarak & anggaran masa, butang Waze, Google Maps, Apple Maps (iPhone), WhatsApp, Kongsi, telefon/laman web jika ada, salin lokasi, jadikan kegemaran (untuk peringatan Jumaat) dan senarai masjid berdekatan.
 - **Tahlil** (Ibadah, tab dalam Panduan Ibadah): susunan tahlil ringkas dengan pengira bacaan, doa arwah ikut jantina; data dijana oleh `scripts/gen_tahlil.py`.
 
 ## Panduan Ibadah (v3.2)
