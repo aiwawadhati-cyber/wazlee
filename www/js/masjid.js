@@ -25,7 +25,7 @@
   async function opFetch(q) {
     let err;
     for (const url of OP) {
-      const ctl = new AbortController(), tm = setTimeout(() => ctl.abort(), 18000);
+      const ctl = new AbortController(), tm = setTimeout(() => ctl.abort(), 9000);
       try {
         const res = await fetch(url, { method: 'POST', body: 'data=' + encodeURIComponent(q), headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, signal: ctl.signal });
         if (!res.ok) throw new Error('overpass ' + res.status);
@@ -44,6 +44,15 @@
     const one = q => fetch(`https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=40&bounded=1&viewbox=${vb}&accept-language=${LANG}&q=${q}`, { headers: WZ_HDR }).then(r => r.json());
     const [a, b] = await Promise.all([one('masjid'), one('surau')]);
     return [...a, ...b].filter(okPlace).map(fromNomi);
+  }
+  async function photon(lat, lng) {
+    const one = q => fetch(`https://photon.komoot.io/api/?q=${q}&lat=${lat}&lon=${lng}&limit=50&location_bias_scale=0.1&zoom=13&osm_tag=amenity:place_of_worship`).then(r => r.json())
+      .then(j => (j.features || []).map(f => { const g = f.properties || {}, n = (g.name || '').trim();
+        return { id: (g.osm_type || 'x')[0].toLowerCase() + g.osm_id, n, lat: f.geometry.coordinates[1], lon: f.geometry.coordinates[0], k: kindOf(n), addr: [g.housenumber, g.street, g.locality || g.district, g.postcode, g.city || g.county].filter(Boolean).join(', '), ph: '', web: '', note: '' }; })
+      .filter(m => m.n && !/church|gereja|kuil|temple|tokong|wat |gurdwara/i.test(m.n)));
+    const r = await Promise.allSettled([one('masjid'), one('surau'), one('mosque')]);
+    if (r.every(x => x.status === 'rejected')) throw new Error('photon');
+    return r.filter(x => x.status === 'fulfilled').flatMap(x => x.value);
   }
   /* Carian nama di seluruh Malaysia (Nominatim + Overpass ikut nama berhampiran) */
   async function remote(text) {
@@ -69,18 +78,29 @@
   }
   async function load(force) {
     const { lat, lng } = WZ.loc;
-    if (!force && data && Date.now() - data.at < 3 * 864e5 && km(lat, lng, data.lat, data.lng) < 1) return render();
+    if (!force && data && data.list.some(m => !m.own && !m.s) && Date.now() - data.at < 3 * 864e5 && km(lat, lng, data.lat, data.lng) < 1) return render();
+    if (loading) return; loading = true; try { await load2(lat, lng); } finally { loading = false; }
+  }
+  let loading = false;
+  async function load2(lat, lng) {
     $('#mqList').innerHTML = `<div class="mq-load">${ico('locate-fixed')}<span>${t('mq.searching')}</span></div>`;
-    let list = [];
-    try {
-      list = await overpass(lat, lng, 6000);
-      if (list.filter(m => m.k === 'masjid').length < 4) list = await overpass(lat, lng, 20000);
-    } catch { try { list = await nomi(lat, lng); } catch { list = null; } }
-    if (!list) { if (data) return render(); $('#mqList').innerHTML = `<p class="muted center">${t('mq.fail')}</p>`; return; }
+    // Tiga sumber serentak (OpenStreetMap melalui Overpass, Photon & Nominatim) — gabung & buang pendua
+    const op = overpass(lat, lng, 8000).then(l => l.filter(m => m.k === 'masjid').length < 4 ? overpass(lat, lng, 20000).catch(() => l) : l);
+    const rs = await Promise.allSettled([op, photon(lat, lng), nomi(lat, lng)]);
+    let list = rs.filter(r => r.status === 'fulfilled').flatMap(r => r.value);
+    if (!list.length) { if (data && data.list.some(m => !m.own && !m.s)) return render(); $('#mqList').innerHTML = `<p class="muted center">${t(rs.every(r => r.status === 'rejected') ? 'mq.fail' : 'mq.none')}</p><button class="btn soft block" id="mqRetry">${ico('refresh-cw')}<span>${t('mq.retry')}</span></button>` + missBox(); return; }
+    list = list.filter(m => km(lat, lng, m.lat, m.lon) <= 25);
+    // pendua: nama sama dalam 300 m → kekalkan yang paling lengkap
+    const uniq = [];
+    list.sort((a, b) => (b.addr ? 1 : 0) + (b.ph ? 1 : 0) - (a.addr ? 1 : 0) - (a.ph ? 1 : 0)).forEach(m => {
+      const nm = (m.n || '').toLowerCase().replace(/[^a-z0-9]/g, '');
+      if (!uniq.some(u => km(u.lat, u.lon, m.lat, m.lon) < (nm && (u.n || '').toLowerCase().replace(/[^a-z0-9]/g, '') === nm ? 0.3 : 0.03))) uniq.push(m);
+    });
+    list = uniq;
     const seen = new Set();
     list = list.map(m => ({ ...m, n: m.n || (m.k === 'surau' ? t('mq.surau') : t('mq.masjid')), noName: !m.n, d: km(lat, lng, m.lat, m.lon) }))
       .sort((a, b) => a.d - b.d).filter(m => { const key = m.n.toLowerCase() + '|' + m.lat.toFixed(3) + m.lon.toFixed(3); return !seen.has(key) && seen.add(key); }).slice(0, 80);
-    data = { at: Date.now(), lat, lng, list: withOwn(list) }; store.set('masjid_c2', data); render();
+    data = { at: Date.now(), lat, lng, list: withOwn(list) }; if (list.length) store.set('masjid_c2', data); render();
   }
 
   /* ---------- Masjid ditambah sendiri (simpan dalam telefon) ---------- */
@@ -112,6 +132,7 @@
   const gmSearch = () => { const q = $('#mqQ').value.trim(); const kw = /masjid|surau|mosque/i.test(q);
     openExternal(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((q ? (kw ? q : 'masjid ' + q) : 'masjid') + (q ? '' : ' near ' + WZ.loc.lat.toFixed(4) + ',' + WZ.loc.lng.toFixed(4)))}`); };
 
+  const missBox = () => `<div class="mq-miss"><b>${t('mq.missT')}</b><small>${t('mq.missS')}</small><div class="mq-miss-b"><button class="btn soft sm" id="mqGm">${ico('map')}<span>${t('mq.gm')}</span></button><button class="btn soft sm" id="mqAddBtn">${ico('plus')}<span>${t('mq.add')}</span></button></div></div>`;
   /* ---------- Senarai ---------- */
   const card = (m, i, d) => `<button class="mq-c" data-mq="${i}"><span class="mq-ic ${m.k}">${ico(m.k === 'surau' ? 'house' : 'moon-star')}</span>
     <span class="grow"><b>${esc(m.n)}</b><small>${m.own ? `<i class="mq-own">${t('mq.ownTag')}</i> ` : ''}${typeLbl(m)}${m.addr ? ' · ' + esc(m.addr.split(', ').slice(-2).join(', ')) : ''} · <em>${fmtD(d)}</em></small></span>${ico('chevron-right', 'chev')}</button>`;
@@ -129,7 +150,7 @@
     const more = q && !remoteDone && query !== $('#mqQ').value.trim() ? `<button class="btn soft block mq-more" id="mqMore">${ico('search')}<span>${t('mq.searchAll', { q: esc($('#mqQ').value.trim()) })}</span></button>` : '';
     $('#mqList').innerHTML = (fav && filter === 'all' && !q ? `<div class="mq-fav">${ico('star')} ${t('jm.fav')}: <b>${esc(fav.n)}</b></div>` : '')
       + (L.length ? L.slice(0, 60).map(x => card(x.m, x.i, x.d)).join('') : `<p class="muted center">${q ? t('mq.noneQ') : t('mq.none')}</p>`) + more
-      + `<div class="mq-miss"><b>${t('mq.missT')}</b><small>${t('mq.missS')}</small><div class="mq-miss-b"><button class="btn soft sm" id="mqGm">${ico('map')}<span>${t('mq.gm')}</span></button><button class="btn soft sm" id="mqAddBtn">${ico('plus')}<span>${t('mq.add')}</span></button></div></div>`;
+      + missBox();
   }
   $('#mqQ').addEventListener('input', () => { $('#mqX').classList.toggle('hidden', !$('#mqQ').value); render(); });
   $('#mqQ').addEventListener('keydown', e => { if (e.key === 'Enter') { e.target.blur(); doSearch(); } });
@@ -137,7 +158,7 @@
   $('#mqX').onclick = () => { $('#mqQ').value = ''; query = ''; $('#mqX').classList.add('hidden'); render(); };
   $('#mqSeg').onclick = e => { const b = e.target.closest('[data-f]'); if (!b) return; filter = b.dataset.f; $('#mqSeg').querySelectorAll('button').forEach(x => x.classList.toggle('active', x === b)); render(); };
   $('#mqRefresh').onclick = () => load(true);
-  $('#mqList').onclick = e => { if (e.target.closest('#mqMore')) return doSearch(); if (e.target.closest('#mqGm')) return gmSearch(); if (e.target.closest('#mqAddBtn')) return addForm(true); const b = e.target.closest('[data-mq]'); if (b) open(data.list[+b.dataset.mq]); };
+  $('#mqList').onclick = e => { if (e.target.closest('#mqMore')) return doSearch(); if (e.target.closest('#mqRetry')) return load(true); if (e.target.closest('#mqGm')) return gmSearch(); if (e.target.closest('#mqAddBtn')) return addForm(true); const b = e.target.closest('[data-mq]'); if (b) open(data.list[+b.dataset.mq]); };
 
   /* ---------- Butiran ---------- */
   const links = m => ({
@@ -218,8 +239,18 @@
     }
   });
 
-  on('show:masjid', () => { render(); load(false); });
+  const onPage = () => { const st = WZ.stack || []; return st[st.length - 1] === 'masjid'; };
+  let gpsAt = 0;
+  on('show:masjid', () => {
+    render(); load(false);
+    // kesan lokasi terkini secara automatik (sekali setiap 10 minit); senarai dimuat semula jika anda berpindah
+    if (Date.now() - gpsAt > 6e5) { gpsAt = Date.now(); WZ.refreshLocation(false); }
+  });
   on('show:masjidd', detail);
-  on('loc', () => { if (data && km(WZ.loc.lat, WZ.loc.lng, data.lat, data.lng) > 1) data = null; });
+  on('loc', () => {
+    if (!data || km(WZ.loc.lat, WZ.loc.lng, data.lat, data.lng) <= 1) { if (onPage()) { if (!data) load(false); else render(); } return; }
+    const own_ = data.list.filter(m => m.own); data = { at: 0, lat: WZ.loc.lat, lng: WZ.loc.lng, list: own_ };
+    if (onPage()) load(true); else if (WZ.stack && WZ.stack.includes('masjid')) data = null;
+  });
   WZ.masjid = { open, load, get data() { return data; } };
 })();
