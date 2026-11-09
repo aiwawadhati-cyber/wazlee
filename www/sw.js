@@ -2,7 +2,7 @@
 const V = 'wz-__BUILD__';
 const SHELL = __SHELL__;
 self.addEventListener('install', e => {
-  e.waitUntil(caches.open(V).then(c => c.addAll(SHELL)).then(() => self.skipWaiting()));
+  e.waitUntil(caches.open(V).then(c => c.addAll(SHELL.map(u => new Request(u, { cache: 'reload' })))).then(() => self.skipWaiting()));
 });
 self.addEventListener('activate', e => {
   e.waitUntil(caches.keys().then(ks => Promise.all(ks.filter(k => k !== V && k !== 'wz-rt').map(k => caches.delete(k)))).then(() => self.clients.claim()));
@@ -10,6 +10,11 @@ self.addEventListener('activate', e => {
 self.addEventListener('fetch', e => {
   const r = e.request; if (r.method !== 'GET') return;
   const u = new URL(r.url);
+  if (u.origin === location.origin && r.mode === 'navigate') {
+    // halaman utama: rangkaian dahulu (supaya versi baharu dikesan), sandaran cache bila luar talian
+    e.respondWith(fetch(r, { cache: 'no-store' }).catch(() => caches.match('index.html')));
+    return;
+  }
   if (u.origin === location.origin) {
     // fail app: cache dahulu, kemudian rangkaian (simpan surah/bunyi yang dibuka)
     e.respondWith(caches.match(r, { ignoreSearch: true }).then(hit => hit || fetch(r).then(res => {

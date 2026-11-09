@@ -41,11 +41,17 @@
 
   /* ---------- Service worker ---------- */
   if ('serviceWorker' in navigator && (location.protocol === 'https:' || location.hostname === 'localhost')) {
-    navigator.serviceWorker.register('sw.js').then(reg => {
-      reg.addEventListener('updatefound', () => {
-        const nw = reg.installing;
-        nw && nw.addEventListener('statechange', () => { if (nw.state === 'activated' && navigator.serviceWorker.controller) toast(t('pwa.updated')); });
-      });
+    const hadCtl = !!navigator.serviceWorker.controller; let reloaded = false;
+    // Versi baharu diaktifkan → muat semula sekali secara automatik
+    navigator.serviceWorker.addEventListener('controllerchange', () => {
+      if (!hadCtl || reloaded) return; reloaded = true;
+      try { sessionStorage.setItem('wz_upd', '1'); } catch {}
+      location.reload();
+    });
+    try { if (sessionStorage.getItem('wz_upd')) { sessionStorage.removeItem('wz_upd'); setTimeout(() => toast(t('pwa.updated')), 900); } } catch {}
+    navigator.serviceWorker.register('sw.js', { updateViaCache: 'none' }).then(reg => {
+      reg.update().catch(() => {});
+      document.addEventListener('visibilitychange', () => { if (document.visibilityState === 'visible') reg.update().catch(() => {}); });
     }).catch(() => {});
   }
 
