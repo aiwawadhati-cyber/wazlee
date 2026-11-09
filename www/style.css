@@ -841,3 +841,8 @@ em.d-ev,em.d-sn,em.d-hr{display:inline-block;width:6px;height:6px;border-radius:
 .mq-search{margin-bottom:10px;gap:8px}.mq-search .search-box{position:relative;margin:0}.mq-search input{padding-right:36px}
 .mq-x{position:absolute;right:8px;top:50%;transform:translateY(-50%);border:0;background:var(--soft);color:var(--muted);width:26px;height:26px;border-radius:50%;display:grid;place-items:center}.mq-x .ic{width:14px;height:14px}
 .mq-more{margin-top:4px}
+
+.mq-miss{margin:6px 0 4px;padding:14px;border:1.5px dashed var(--line);border-radius:18px;text-align:center}.mq-miss b{display:block;font-weight:900}.mq-miss small{display:block;color:var(--muted);font-size:12.5px;margin:4px 0 10px}
+.mq-miss-b{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.mq-own{font-style:normal;background:color-mix(in srgb,var(--orange) 16%,var(--card));color:var(--orange);border-radius:6px;padding:0 6px;font-weight:800;font-size:11px}
+.mq-lbl{display:block;font-weight:800;font-size:13px;margin:10px 0 6px}#mqAdd input{width:100%}#mqAddHere{margin-top:8px}.mq-addinfo{display:block;margin:8px 0}#mqAddSave{margin-top:6px}

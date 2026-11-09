@@ -12,7 +12,7 @@
 
   /* ---------- Data ---------- */
   async function overpass(lat, lng, r) {
-    const q = `[out:json][timeout:20];nwr["amenity"="place_of_worship"]["religion"="muslim"](around:${r},${lat},${lng});out center tags 120;`;
+    const A = `(around:${r},${lat},${lng})`, q = `[out:json][timeout:25];(nwr["amenity"="place_of_worship"]["religion"="muslim"]${A};nwr["amenity"="place_of_worship"]["name"~"masjid|surau|mosque|musolla|musalla",i]${A};nwr["building"="mosque"]${A};);out center tags 200;`;
     const j = await opFetch(q);
       return j.elements.map(e => {
         const g = e.tags || {}, la = e.lat ?? (e.center && e.center.lat), lo = e.lon ?? (e.center && e.center.lon);
@@ -80,12 +80,41 @@
     const seen = new Set();
     list = list.map(m => ({ ...m, n: m.n || (m.k === 'surau' ? t('mq.surau') : t('mq.masjid')), noName: !m.n, d: km(lat, lng, m.lat, m.lon) }))
       .sort((a, b) => a.d - b.d).filter(m => { const key = m.n.toLowerCase() + '|' + m.lat.toFixed(3) + m.lon.toFixed(3); return !seen.has(key) && seen.add(key); }).slice(0, 80);
-    data = { at: Date.now(), lat, lng, list }; store.set('masjid_c2', data); render();
+    data = { at: Date.now(), lat, lng, list: withOwn(list) }; store.set('masjid_c2', data); render();
   }
+
+  /* ---------- Masjid ditambah sendiri (simpan dalam telefon) ---------- */
+  const own = () => store.get('mq_own', []);
+  const withOwn = list => [...list.filter(m => !m.own), ...own().map(m => ({ ...m, own: 1 }))];
+  function parseLoc(txt) {
+    let s2 = String(txt || ''); try { s2 = decodeURIComponent(s2); } catch {}
+    const m = s2.match(/@(-?\d{1,2}\.\d+),\s*(-?\d{1,3}\.\d+)/) || s2.match(/[?&](?:q|query|ll|destination|daddr)=(-?\d{1,2}\.\d+),\s*(-?\d{1,3}\.\d+)/) || s2.match(/!3d(-?\d+\.\d+)!4d(-?\d+\.\d+)/) || s2.match(/(-?\d{1,2}\.\d{3,})\s*,\s*(-?\d{1,3}\.\d{3,})/);
+    return m ? { lat: +m[1], lon: +m[2] } : null;
+  }
+  let addAt = null;
+  function addForm(show) {
+    $('#mqAdd').classList.toggle('hidden', !show); if (!show) return;
+    addAt = null; $('#mqAddName').value = $('#mqQ').value.trim(); $('#mqAddLoc').value = ''; $('#mqAddInfo').textContent = '';
+    $('#mqAdd').scrollIntoView({ behavior: 'smooth', block: 'center' }); $('#mqAddName').focus();
+  }
+  $('#mqAddHere').onclick = () => { addAt = { lat: WZ.loc.lat, lon: WZ.loc.lng }; $('#mqAddLoc').value = `${addAt.lat.toFixed(6)}, ${addAt.lon.toFixed(6)}`; $('#mqAddInfo').textContent = t('mq.addHereS'); };
+  $('#mqAddX').onclick = () => addForm(false);
+  $('#mqAddSave').onclick = () => {
+    const n = $('#mqAddName').value.trim(), at = parseLoc($('#mqAddLoc').value) || addAt;
+    if (!n) return $('#mqAddName').focus();
+    if (!at) { $('#mqAddInfo').textContent = t('mq.addNoLoc'); return; }
+    const m = { id: 'u' + Date.now().toString(36), n, lat: at.lat, lon: at.lon, k: kindOf(n), addr: '', ph: '', web: '', note: '' };
+    store.set('mq_own', [...own(), m]);
+    if (!data) data = { at: 0, lat: WZ.loc.lat, lng: WZ.loc.lng, list: [] };
+    data.list = withOwn(data.list); store.set('masjid_c2', data);
+    addForm(false); toast(t('mq.added')); $('#mqQ').value = ''; render();
+  };
+  const gmSearch = () => { const q = $('#mqQ').value.trim(); const kw = /masjid|surau|mosque/i.test(q);
+    openExternal(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent((q ? (kw ? q : 'masjid ' + q) : 'masjid') + (q ? '' : ' near ' + WZ.loc.lat.toFixed(4) + ',' + WZ.loc.lng.toFixed(4)))}`); };
 
   /* ---------- Senarai ---------- */
   const card = (m, i, d) => `<button class="mq-c" data-mq="${i}"><span class="mq-ic ${m.k}">${ico(m.k === 'surau' ? 'house' : 'moon-star')}</span>
-    <span class="grow"><b>${esc(m.n)}</b><small>${typeLbl(m)}${m.addr ? ' · ' + esc(m.addr.split(', ').slice(-2).join(', ')) : ''} · <em>${fmtD(d)}</em></small></span>${ico('chevron-right', 'chev')}</button>`;
+    <span class="grow"><b>${esc(m.n)}</b><small>${m.own ? `<i class="mq-own">${t('mq.ownTag')}</i> ` : ''}${typeLbl(m)}${m.addr ? ' · ' + esc(m.addr.split(', ').slice(-2).join(', ')) : ''} · <em>${fmtD(d)}</em></small></span>${ico('chevron-right', 'chev')}</button>`;
   const norm = x => String(x || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f'’\-]/g, '').replace(/\s+/g, ' ');
   function render(remoteDone) {
     if (!data) return;
@@ -99,7 +128,8 @@
     $('#mqHead').innerHTML = `<span>${ico('map-pin')} ${esc(WZ.loc.name || '')}</span><small>${q ? t('mq.found', { n: L.length }) : t('mq.count', { n: L.length })}</small>`;
     const more = q && !remoteDone && query !== $('#mqQ').value.trim() ? `<button class="btn soft block mq-more" id="mqMore">${ico('search')}<span>${t('mq.searchAll', { q: esc($('#mqQ').value.trim()) })}</span></button>` : '';
     $('#mqList').innerHTML = (fav && filter === 'all' && !q ? `<div class="mq-fav">${ico('star')} ${t('jm.fav')}: <b>${esc(fav.n)}</b></div>` : '')
-      + (L.length ? L.slice(0, 60).map(x => card(x.m, x.i, x.d)).join('') : `<p class="muted center">${q ? t('mq.noneQ') : t('mq.none')}</p>`) + more;
+      + (L.length ? L.slice(0, 60).map(x => card(x.m, x.i, x.d)).join('') : `<p class="muted center">${q ? t('mq.noneQ') : t('mq.none')}</p>`) + more
+      + `<div class="mq-miss"><b>${t('mq.missT')}</b><small>${t('mq.missS')}</small><div class="mq-miss-b"><button class="btn soft sm" id="mqGm">${ico('map')}<span>${t('mq.gm')}</span></button><button class="btn soft sm" id="mqAddBtn">${ico('plus')}<span>${t('mq.add')}</span></button></div></div>`;
   }
   $('#mqQ').addEventListener('input', () => { $('#mqX').classList.toggle('hidden', !$('#mqQ').value); render(); });
   $('#mqQ').addEventListener('keydown', e => { if (e.key === 'Enter') { e.target.blur(); doSearch(); } });
@@ -107,7 +137,7 @@
   $('#mqX').onclick = () => { $('#mqQ').value = ''; query = ''; $('#mqX').classList.add('hidden'); render(); };
   $('#mqSeg').onclick = e => { const b = e.target.closest('[data-f]'); if (!b) return; filter = b.dataset.f; $('#mqSeg').querySelectorAll('button').forEach(x => x.classList.toggle('active', x === b)); render(); };
   $('#mqRefresh').onclick = () => load(true);
-  $('#mqList').onclick = e => { if (e.target.closest('#mqMore')) return doSearch(); const b = e.target.closest('[data-mq]'); if (b) open(data.list[+b.dataset.mq]); };
+  $('#mqList').onclick = e => { if (e.target.closest('#mqMore')) return doSearch(); if (e.target.closest('#mqGm')) return gmSearch(); if (e.target.closest('#mqAddBtn')) return addForm(true); const b = e.target.closest('[data-mq]'); if (b) open(data.list[+b.dataset.mq]); };
 
   /* ---------- Butiran ---------- */
   const links = m => ({
@@ -127,7 +157,7 @@
       <div class="mqd-stats"><span><b>${fmtD(d)}</b><small>${t('mq.fromYou')}</small></span><span><b>~${Math.max(1, Math.round(d * 1.3 / 40 * 60))} ${t('mq.min')}</b><small>${t('mq.drive')}</small></span></div>
       <div class="mqd-btns"><button class="mqb waze" data-a="waze">${ico('navigation')}Waze</button><button class="mqb" data-a="gmaps">${ico('map')}Google Maps</button>
       ${isIOS ? `<button class="mqb" data-a="apple">${ico('map-pin')}Apple Maps</button>` : ''}<button class="mqb" data-a="wa">${ico('message-circle')}WhatsApp</button><button class="mqb" data-a="share">${ico('share-2')}${t('btn.share')}</button></div>`;
-    $('#mqdInfo').innerHTML = `<button class="lt mqd-row" data-a="fav"><span class="t-ic g-orange">${ico('star')}</span><span><b>${isFav ? t('mq.favOn') : t('mq.favSet')}</b><small>${t('mq.favS')}</small></span></button>
+    $('#mqdInfo').innerHTML = (m.own ? `<button class="lt mqd-row" data-a="delown"><span class="t-ic g-pink">${ico('trash-2')}</span><span><b>${t('mq.delOwn')}</b><small>${t('mq.ownS')}</small></span></button>` : '') + `<button class="lt mqd-row" data-a="fav"><span class="t-ic g-orange">${ico('star')}</span><span><b>${isFav ? t('mq.favOn') : t('mq.favSet')}</b><small>${t('mq.favS')}</small></span></button>
       ${m.ph ? `<button class="lt mqd-row" data-a="tel"><span class="t-ic g-green">${ico('phone')}</span><span><b>${esc(m.ph)}</b><small>${t('mq.call')}</small></span></button>` : ''}
       ${m.web ? `<button class="lt mqd-row" data-a="web"><span class="t-ic g-blue">${ico('globe')}</span><span><b>${esc(m.web.replace(/^https?:\/\//, '').replace(/\/$/, ''))}</b><small>${t('mq.web')}</small></span></button>` : ''}
       <button class="lt mqd-row" data-a="copy"><span class="t-ic g-purple">${ico('copy')}</span><span><b>${t('mq.copy')}</b><small>${m.lat.toFixed(5)}, ${m.lon.toFixed(5)}</small></span></button>`;
@@ -175,6 +205,11 @@
       case 'tel': return openExternal('tel:' + m.ph.replace(/[^\d+]/g, ''));
       case 'web': return openExternal(/^https?:/.test(m.web) ? m.web : 'https://' + m.web);
       case 'copy': try { await navigator.clipboard.writeText(`${m.n}\n${m.lat.toFixed(6)}, ${m.lon.toFixed(6)}\n${L2.view}`); toast(t('mq.copied')); } catch { toast(`${m.lat.toFixed(6)}, ${m.lon.toFixed(6)}`); } return;
+      case 'delown': {
+        if (!confirm(t('mq.delAsk', { n: m.n }))) return;
+        store.set('mq_own', own().filter(x => x.id !== m.id)); if (data) { data.list = data.list.filter(x => x.id !== m.id); store.set('masjid_c2', data); }
+        cur = null; WZ.back(); return render();
+      }
       case 'fav': {
         const f = store.get('jum_fav', null), on_ = f && f.n === m.n;
         store.set('jum_fav', on_ ? null : { n: m.n, lat: m.lat, lon: m.lon, km: km(WZ.loc.lat, WZ.loc.lng, m.lat, m.lon) });
