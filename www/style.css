@@ -837,3 +837,7 @@ em.d-ev,em.d-sn,em.d-hr{display:inline-block;width:6px;height:6px;border-radius:
 .mqd-map{height:200px;border-radius:20px;overflow:hidden;margin-bottom:12px;border:1px solid var(--line);box-shadow:var(--shadow);z-index:0}
 .mq-pin{width:36px;height:36px;border-radius:12px;display:grid;place-items:center;color:#fff;background:linear-gradient(135deg,var(--sky),var(--blue));border:3px solid #fff;box-shadow:0 4px 10px #0005}.mq-pin .ic{width:18px;height:18px}
 .mqd-info{display:flex;flex-direction:column;gap:8px;margin-bottom:6px}.mqd-row{width:100%}
+
+.mq-search{margin-bottom:10px;gap:8px}.mq-search .search-box{position:relative;margin:0}.mq-search input{padding-right:36px}
+.mq-x{position:absolute;right:8px;top:50%;transform:translateY(-50%);border:0;background:var(--soft);color:var(--muted);width:26px;height:26px;border-radius:50%;display:grid;place-items:center}.mq-x .ic{width:14px;height:14px}
+.mq-more{margin-top:4px}

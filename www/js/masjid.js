@@ -3,7 +3,7 @@
   const { $, P, store, on, esc, toast, openExternal, isNative, num } = WZ;
   const L_ = LANG === 'en' ? 1 : 0;
   const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent) || (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1);
-  let data = store.get('masjid_c', null), filter = 'all', cur = null, dmap = null, dmark = null;
+  let data = store.get('masjid_c2', null), filter = 'all', cur = null, dmap = null, dmark = null;
 
   const km = (a, b, c, d) => Prayer.haversine(a, b, c, d);
   const fmtD = k => k < 1 ? `${Math.round(k * 1000)} m` : `${num(k, k < 10 ? 1 : 0)} km`;
@@ -13,25 +13,59 @@
   /* ---------- Data ---------- */
   async function overpass(lat, lng, r) {
     const q = `[out:json][timeout:20];nwr["amenity"="place_of_worship"]["religion"="muslim"](around:${r},${lat},${lng});out center tags 120;`;
-    const ctl = new AbortController(), tm = setTimeout(() => ctl.abort(), 20000);
-    try {
-      const res = await fetch('https://overpass-api.de/api/interpreter', { method: 'POST', body: 'data=' + encodeURIComponent(q), headers: { 'Content-Type': 'application/x-www-form-urlencoded', ...WZ_HDR }, signal: ctl.signal });
-      if (!res.ok) throw new Error('overpass ' + res.status);
-      const j = await res.json();
+    const j = await opFetch(q);
       return j.elements.map(e => {
         const g = e.tags || {}, la = e.lat ?? (e.center && e.center.lat), lo = e.lon ?? (e.center && e.center.lon);
         const n = (g['name:ms'] || g.name || g['name:en'] || '').trim();
         const addr = [g['addr:housenumber'], g['addr:street'], g['addr:place'] || g['addr:suburb'], g['addr:postcode'], g['addr:city']].filter(Boolean).join(', ');
         return { id: e.type[0] + e.id, n, lat: la, lon: lo, k: kindOf(n, g), addr, ph: g.phone || g['contact:phone'] || '', web: g.website || g['contact:website'] || '', note: g.description || '', den: g.denomination || '' };
       }).filter(m => m.lat && m.lon);
-    } finally { clearTimeout(tm); }
   }
+  const OP = ['https://overpass-api.de/api/interpreter', 'https://overpass.kumi.systems/api/interpreter', 'https://maps.mail.ru/osm/tools/overpass/api/interpreter'];
+  async function opFetch(q) {
+    let err;
+    for (const url of OP) {
+      const ctl = new AbortController(), tm = setTimeout(() => ctl.abort(), 18000);
+      try {
+        const res = await fetch(url, { method: 'POST', body: 'data=' + encodeURIComponent(q), headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, signal: ctl.signal });
+        if (!res.ok) throw new Error('overpass ' + res.status);
+        const j = await res.json(); if (j && j.elements) return j;
+      } catch (e) { err = e; } finally { clearTimeout(tm); }
+    }
+    throw err || new Error('overpass');
+  }
+  /* Hasil Nominatim: hanya tempat ibadat (bukan kampung/jalan bernama "Surau") */
+  const okPlace = p => (p.class === 'amenity' && p.type === 'place_of_worship') || (p.class === 'building' && /mosque|religious/.test(p.type))
+    || (!/^(place|boundary|highway|landuse|natural|waterway|railway|leisure|shop|office|tourism)$/.test(p.class) && /masjid|surau|mosque|musolla|musalla/i.test(p.name || ''));
+  const fromNomi = p => { const n = (p.name || p.display_name.split(',')[0]).trim(), ad = p.address || {};
+    return { id: 'n' + p.osm_type?.[0] + p.osm_id, n, lat: +p.lat, lon: +p.lon, k: kindOf(n), addr: [ad.road, ad.village || ad.suburb || ad.hamlet || ad.town, ad.postcode, ad.city || ad.county || ad.state].filter(Boolean).join(', '), ph: '', web: '', note: '' }; };
   async function nomi(lat, lng) {
     const dd = 0.08, vb = `${lng - dd},${lat + dd},${lng + dd},${lat - dd}`;
     const one = q => fetch(`https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=40&bounded=1&viewbox=${vb}&accept-language=${LANG}&q=${q}`, { headers: WZ_HDR }).then(r => r.json());
     const [a, b] = await Promise.all([one('masjid'), one('surau')]);
-    return [...a, ...b].map(p => { const n = (p.name || p.display_name.split(',')[0]).trim(), ad = p.address || {};
-      return { id: 'n' + p.place_id, n, lat: +p.lat, lon: +p.lon, k: kindOf(n), addr: [ad.road, ad.village || ad.suburb || ad.town, ad.postcode, ad.city || ad.county].filter(Boolean).join(', '), ph: '', web: '', note: '' }; });
+    return [...a, ...b].filter(okPlace).map(fromNomi);
+  }
+  /* Carian nama di seluruh Malaysia (Nominatim + Overpass ikut nama berhampiran) */
+  async function remote(text) {
+    const { lat, lng } = WZ.loc, dd = 0.5, vb = `${lng - dd},${lat + dd},${lng + dd},${lat - dd}`;
+    const kw = /masjid|surau|mosque|musolla|musalla/i.test(text), qs = kw ? [text] : ['masjid ' + text, 'surau ' + text];
+    const nm = qs.map(q => fetch(`https://nominatim.openstreetmap.org/search?format=json&addressdetails=1&limit=25&countrycodes=my&viewbox=${vb}&accept-language=${LANG}&q=${encodeURIComponent(q)}`, { headers: WZ_HDR }).then(r => r.json()).then(a => a.filter(okPlace).map(fromNomi)).catch(() => []));
+    const rx = text.replace(/[\\^$.*+?()[\]{}|"]/g, ' ').trim();
+    const op = rx.length >= 3 ? opFetch(`[out:json][timeout:20];nwr["amenity"="place_of_worship"]["religion"="muslim"]["name"~"${rx}",i](around:60000,${lat},${lng});out center tags 60;`)
+      .then(j => j.elements.map(e => { const g = e.tags || {}, n = (g['name:ms'] || g.name || '').trim(); return { id: e.type[0] + e.id, n, lat: e.lat ?? e.center.lat, lon: e.lon ?? e.center.lon, k: kindOf(n, g), addr: [g['addr:street'], g['addr:place'] || g['addr:suburb'], g['addr:postcode'], g['addr:city']].filter(Boolean).join(', '), ph: g.phone || g['contact:phone'] || '', web: g.website || g['contact:website'] || '', note: '' }; })).catch(() => []) : Promise.resolve([]);
+    return (await Promise.all([...nm, op])).flat();
+  }
+  let query = '', searching = false;
+  async function doSearch() {
+    const text = $('#mqQ').value.trim(); if (text.length < 2 || searching) return;
+    searching = true; $('#mqGo').disabled = true;
+    $('#mqList').innerHTML = `<div class="mq-load">${ico('search')}<span>${t('mq.searchingQ', { q: esc(text) })}</span></div>`;
+    try {
+      const res = await remote(text), have = new Set(data ? data.list.map(m => m.id) : []), { lat, lng } = WZ.loc;
+      if (!data) data = { at: Date.now(), lat, lng, list: [] };
+      res.forEach(m => { if (m.n && !have.has(m.id)) { have.add(m.id); data.list.push({ ...m, s: 1 }); } });
+      query = text; render(true);
+    } finally { searching = false; $('#mqGo').disabled = false; }
   }
   async function load(force) {
     const { lat, lng } = WZ.loc;
@@ -46,24 +80,34 @@
     const seen = new Set();
     list = list.map(m => ({ ...m, n: m.n || (m.k === 'surau' ? t('mq.surau') : t('mq.masjid')), noName: !m.n, d: km(lat, lng, m.lat, m.lon) }))
       .sort((a, b) => a.d - b.d).filter(m => { const key = m.n.toLowerCase() + '|' + m.lat.toFixed(3) + m.lon.toFixed(3); return !seen.has(key) && seen.add(key); }).slice(0, 80);
-    data = { at: Date.now(), lat, lng, list }; store.set('masjid_c', data); render();
+    data = { at: Date.now(), lat, lng, list }; store.set('masjid_c2', data); render();
   }
 
   /* ---------- Senarai ---------- */
   const card = (m, i, d) => `<button class="mq-c" data-mq="${i}"><span class="mq-ic ${m.k}">${ico(m.k === 'surau' ? 'house' : 'moon-star')}</span>
     <span class="grow"><b>${esc(m.n)}</b><small>${typeLbl(m)}${m.addr ? ' · ' + esc(m.addr.split(', ').slice(-2).join(', ')) : ''} · <em>${fmtD(d)}</em></small></span>${ico('chevron-right', 'chev')}</button>`;
-  function render() {
+  const norm = x => String(x || '').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f'’\-]/g, '').replace(/\s+/g, ' ');
+  function render(remoteDone) {
     if (!data) return;
-    const { lat, lng } = WZ.loc;
+    const { lat, lng } = WZ.loc, q = norm($('#mqQ').value.trim());
     const fav = store.get('jum_fav', null);
-    const L = data.list.map((m, i) => ({ m, i, d: km(lat, lng, m.lat, m.lon) })).filter(x => filter === 'all' || x.m.k === filter).filter(x => !x.m.noName || filter === 'surau').sort((a, b) => a.d - b.d);
-    $('#mqHead').innerHTML = `<span>${ico('map-pin')} ${esc(WZ.loc.name || '')}</span><small>${t('mq.count', { n: L.length })}</small>`;
-    $('#mqList').innerHTML = (fav && filter === 'all' ? `<div class="mq-fav">${ico('star')} ${t('jm.fav')}: <b>${esc(fav.n)}</b></div>` : '')
-      + (L.length ? L.slice(0, 40).map(x => card(x.m, x.i, x.d)).join('') : `<p class="muted center">${t('mq.none')}</p>`);
+    const words = q.split(' ').filter(w => w && !/^(masjid|surau|mosque)$/.test(w));
+    const L = data.list.map((m, i) => ({ m, i, d: km(lat, lng, m.lat, m.lon) }))
+      .filter(x => filter === 'all' || x.m.k === filter)
+      .filter(x => q ? words.every(w => norm(x.m.n + ' ' + x.m.addr).includes(w)) && (words.length || norm(x.m.n).includes(q)) : !x.m.s && (!x.m.noName || filter === 'surau'))
+      .sort((a, b) => a.d - b.d);
+    $('#mqHead').innerHTML = `<span>${ico('map-pin')} ${esc(WZ.loc.name || '')}</span><small>${q ? t('mq.found', { n: L.length }) : t('mq.count', { n: L.length })}</small>`;
+    const more = q && !remoteDone && query !== $('#mqQ').value.trim() ? `<button class="btn soft block mq-more" id="mqMore">${ico('search')}<span>${t('mq.searchAll', { q: esc($('#mqQ').value.trim()) })}</span></button>` : '';
+    $('#mqList').innerHTML = (fav && filter === 'all' && !q ? `<div class="mq-fav">${ico('star')} ${t('jm.fav')}: <b>${esc(fav.n)}</b></div>` : '')
+      + (L.length ? L.slice(0, 60).map(x => card(x.m, x.i, x.d)).join('') : `<p class="muted center">${q ? t('mq.noneQ') : t('mq.none')}</p>`) + more;
   }
+  $('#mqQ').addEventListener('input', () => { $('#mqX').classList.toggle('hidden', !$('#mqQ').value); render(); });
+  $('#mqQ').addEventListener('keydown', e => { if (e.key === 'Enter') { e.target.blur(); doSearch(); } });
+  $('#mqGo').onclick = doSearch;
+  $('#mqX').onclick = () => { $('#mqQ').value = ''; query = ''; $('#mqX').classList.add('hidden'); render(); };
   $('#mqSeg').onclick = e => { const b = e.target.closest('[data-f]'); if (!b) return; filter = b.dataset.f; $('#mqSeg').querySelectorAll('button').forEach(x => x.classList.toggle('active', x === b)); render(); };
   $('#mqRefresh').onclick = () => load(true);
-  $('#mqList').onclick = e => { const b = e.target.closest('[data-mq]'); if (b) open(data.list[+b.dataset.mq]); };
+  $('#mqList').onclick = e => { if (e.target.closest('#mqMore')) return doSearch(); const b = e.target.closest('[data-mq]'); if (b) open(data.list[+b.dataset.mq]); };
 
   /* ---------- Butiran ---------- */
   const links = m => ({
@@ -93,7 +137,7 @@
     if (!m.addr && !m.rev) { m.rev = 1;
       fetch(`https://nominatim.openstreetmap.org/reverse?format=json&zoom=17&addressdetails=1&accept-language=${LANG}&lat=${m.lat}&lon=${m.lon}`, { headers: WZ_HDR }).then(r => r.json()).then(j => {
         const a = j.address || {}; m.addr = [a.road, a.village || a.suburb || a.hamlet || a.town, a.postcode, a.city || a.county || a.state_district].filter(Boolean).join(', ');
-        if (m.addr) { if (data) store.set('masjid_c', data); if (cur === m) detail(); }
+        if (m.addr) { if (data) store.set('masjid_c2', data); if (cur === m) detail(); }
       }).catch(() => {}); }
   }
   function miniMap(m) {
